@@ -4,7 +4,10 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "test": "tsdx test --watch --verbose"
+    "test": "tsdx test --watch --verbose",
+    "barrel": "barrelsby -c barrelsby.json",
+    "postbarrel": "prettier --write \"**/index.ts\" --loglevel warn",
+    "build": "yarn barrel"
   },
   "jest": {
     "testMatch": [
@@ -19,6 +22,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.13",
+    "barrelsby": "^2.1.1",
     "prettier": "^1.17.1",
     "tsdx": "^0.5.9",
     "tslib": "^1.9.3",
