@@ -1,12 +1,18 @@
-import fs from 'fs'
 import { answers } from './answers'
+import * as _solutions from '../problems'
 
-let files = fs.readdirSync(`${__dirname}/../problems`)
+const solutions: { [k: string]: () => number } = _solutions
 
-for (let i = 1; i <= files.length; i++) {
-  test(`Problem ${i}`, async () => {
-    let filename = i.toString().padStart(3, '0')
-    const { answer } = await import(`../problems/${filename}`)
-    expect(answer).toEqual(answers[i - 1])
-  })
-}
+describe('answers', () => {
+  Object.keys(solutions)
+    .sort()
+    .forEach((k: string, i) => {
+      const solution = solutions[k]
+      const start = new Date().getTime()
+      const result = solution()
+      const end = new Date().getTime()
+      test(`Problem ${i + 1}: ${start - end}ms`, () => {
+        expect(result).toEqual(answers[i])
+      })
+    })
+})

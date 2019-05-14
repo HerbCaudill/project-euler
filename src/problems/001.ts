@@ -1,5 +1,4 @@
-import { range } from '../util/range'
-import { sum } from '../util/sum'
+import { range, sum, merge } from '../util'
 
 // Problem 1
 // =========
@@ -10,8 +9,11 @@ import { sum } from '../util/sum'
 // Find the sum of all the multiples of 3 or 5 below 1000.
 
 // TODO: deduplicate
-console.log(range({ step: 3, stop: 10, start: 3 }))
-const specialSum = (stop: number) =>
-  sum(range({ step: 3, stop })) + sum(range({ step: 5, stop }))
+const specialSum = (N: number) => {
+  const stop = N - 1
+  const multiples3 = range({ step: 3, stop })
+  const multiples5 = range({ step: 5, stop })
+  return sum(merge(multiples3, multiples5))
+}
 
-export const answer = specialSum(1000)
+export const solution001 = () => specialSum(1000)

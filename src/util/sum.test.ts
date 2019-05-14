@@ -1,4 +1,4 @@
-import { sum } from './sum'
+import { sum } from '.'
 
 describe('sum', () => {
   test('empty array ', () => {
