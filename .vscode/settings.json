@@ -1,0 +1,4 @@
+{
+  "jest.autoEnable": false,
+  "jest.pathToJest": "yarn test "
+}

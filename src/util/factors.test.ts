@@ -1,17 +1,24 @@
 import { factors } from './factors'
 
-describe.only('factors', () => {
-  const makeTest = (n: number, expected: number[]) =>
-    test(`${n}`, () => expect(factors(n)).toEqual(expected))
+describe('factors', () => {
+  const testError = (n: number) =>
+    test(`Can't factor ${n}`, () =>
+      expect(() => factors(n)).toThrow(/no prime factorization/))
 
-  makeTest(0, [])
-  makeTest(1, [])
-  makeTest(2, [])
-  makeTest(3, [])
-  makeTest(4, [2, 2])
-  makeTest(12, [2, 2, 3])
-  makeTest(83, [])
-  makeTest(100, [2, 2, 5, 5])
-  makeTest(13195, [5, 7, 13, 29])
-  makeTest(429672, [2, 2, 2, 3, 17903])
+  testError(-12)
+  testError(1)
+  testError(0)
+
+  const testCase = (n: number, expected: number[]) =>
+    test(`${n}: ${JSON.stringify(expected)}`, () =>
+      expect(factors(n)).toEqual(expected))
+  testCase(2, [])
+  testCase(3, [])
+  testCase(4, [2, 2])
+  testCase(12, [2, 2, 3])
+  testCase(83, [])
+  testCase(100, [2, 2, 5, 5])
+  testCase(13195, [5, 7, 13, 29])
+  testCase(429672, [2, 2, 2, 3, 17903])
+  testCase(600851475143, [71, 839, 1471, 6857])
 })

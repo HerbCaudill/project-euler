@@ -1,3 +1,5 @@
+import { factors } from '../util'
+
 // Problem 3
 // =========
 
@@ -5,9 +7,7 @@
 
 // What is the largest prime factor of the number 600851475143?
 
-
-
-
-
-
-export const solution003 = () => 0
+export const solution003 = () => {
+  const primeFactors = factors(600851475143)
+  return primeFactors.pop()
+}

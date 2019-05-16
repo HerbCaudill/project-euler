@@ -1,15 +1,27 @@
-import { primes } from './primes'
+import { highestKnownPrime, nextPrime, isPrime } from './primes'
 
 export const factors = (n: number): number[] => {
-  if (n < 2) return []
-  let candidates = primes(n / 2 + 1)
-  const visit = (n: number, acc: number[] = []): number[] => {
-    const factor = candidates.find((f: number) => n % f === 0)
-    if (factor === undefined) {
-      return acc
+  if (n <= 0)
+    throw new RangeError(`Negative numbers have no prime factorization.`)
+  if (n === 0) throw new RangeError(`Zero has no prime factorization.`)
+  if (n === 1) throw new RangeError(`One has no prime factorization.`)
+
+  if (isPrime(n)) return []
+
+  // n is known to be composite, let's get to work
+  let factor = 1
+  do {
+    if (factor < highestKnownPrime) {
+      // as long as we have precomputed prime numbers, just run through them
+      factor = nextPrime(factor)
     } else {
-      return visit(n / factor, acc.concat(factor))
+      // at this point it's faster just to try all the odd numbers
+      // than to make sure they're prime
+      factor += 2 // factor is guaranteed to be odd, so factor + 2 is too
     }
-  }
-  return visit(n)
+  } while (n % factor != 0)
+
+  const rest = n / factor
+
+  return [factor].concat(isPrime(rest) ? rest : factors(rest))
 }

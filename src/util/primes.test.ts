@@ -1,4 +1,4 @@
-import { primes, isPrime, nextPrime } from './primes'
+import { primes, isPrime, nextPrime, knownPrimes } from './primes'
 
 describe('primes', () => {
   test('1', () => {
@@ -15,41 +15,50 @@ describe('primes', () => {
   })
 
   test('10,000', () => {
-    expect(primes(10 ** 4)).toHaveLength(1229)
+    const p = knownPrimes.filter(p => p < 10 ** 4)
+    expect(primes(10 ** 4)).toEqual(p)
   })
 
-  test('100,000 (for performance only)', () => {
-    expect(primes(10 ** 5)).toHaveLength(9592)
+  test('100,000', () => {
+    const p = knownPrimes.filter(p => p < 10 ** 5)
+    expect(primes(10 ** 5)).toEqual(p)
   })
 })
 
 describe('nextPrime', () => {
-  const makeTest = (n: number, expected: number) =>
+  const testCase = (n: number, expected: number) =>
     test(`${n}:  ${expected}`, () => expect(nextPrime(n)).toEqual(expected))
 
-  makeTest(4, 5)
-  makeTest(10, 11)
-  makeTest(7920, 7927)
-  makeTest(62710573, 62710589)
-  makeTest(10 ** 8, 10 ** 8 + 7)
+  testCase(0, 2)
+  testCase(1, 2)
+  testCase(2, 3)
+  testCase(4, 5)
+  testCase(5, 7)
+  testCase(10, 11)
+  testCase(7920, 7927)
+  testCase(62710573, 62710589)
+  testCase(10 ** 8, 10 ** 8 + 7)
+  testCase(10 ** 9, 10 ** 9 + 7)
+  testCase(10 ** 10, 10 ** 10 + 19)
+  // testCase(10 ** 11, 10 ** 11 + 19)
 })
 
 describe('isPrime', () => {
-  const makeTest = (n: number, expected: boolean) =>
+  const testCase = (n: number, expected: boolean) =>
     test(`${n} is ${expected ? '' : 'not '}prime`, () =>
       expect(isPrime(n)).toEqual(expected))
 
-  makeTest(0, false)
-  makeTest(1, false)
-  makeTest(2, true)
-  makeTest(3, true)
-  makeTest(4, false)
-  makeTest(83, true)
-  makeTest(7919, true) // highest known prime
-  makeTest(7920, false)
-  makeTest(62710559, true)
-  makeTest(62710561, false) // square of highest known prime
-  makeTest(62710573, true)
-  makeTest(71234567, true)
-  makeTest(71234569, false)
+  testCase(0, false)
+  testCase(1, false)
+  testCase(2, true)
+  testCase(3, true)
+  testCase(4, false)
+  testCase(83, true)
+  testCase(7919, true) // highest known prime
+  testCase(7920, false)
+  testCase(62710559, true)
+  testCase(62710561, false) // square of highest known prime
+  testCase(62710573, true)
+  testCase(71234567, true)
+  testCase(71234569, false)
 })
