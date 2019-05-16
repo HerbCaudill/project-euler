@@ -8,7 +8,7 @@ export const factors = (n: number): number[] => {
 
   if (isPrime(n)) return []
 
-  // n is known to be composite, let's get to work
+  // we now know n is composite, let's get to work
   let factor = 1
   do {
     if (factor < highestKnownPrime) {
