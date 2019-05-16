@@ -1,4 +1,5 @@
-import { primes, isPrime, nextPrime, knownPrimes } from './primes'
+import { primes, isPrime, nextPrime } from './primes'
+import { primes_10000 as knownPrimes } from './precomputed/primes_10000'
 
 describe('primes', () => {
   test('1', () => {
@@ -14,14 +15,13 @@ describe('primes', () => {
     expect(primes(30)).toEqual(primesUnder30)
   })
 
-  test('10,000', () => {
-    const p = knownPrimes.filter(p => p < 10 ** 4)
-    expect(primes(10 ** 4)).toEqual(p)
+  test('1,000', () => {
+    const p = knownPrimes.filter(p => p < 10 ** 3)
+    expect(primes(10 ** 3)).toEqual(p)
   })
 
   test('100,000', () => {
-    const p = knownPrimes.filter(p => p < 10 ** 5)
-    expect(primes(10 ** 5)).toEqual(p)
+    expect(primes(10 ** 5)).toHaveLength(9592)
   })
 })
 
@@ -40,7 +40,14 @@ describe('nextPrime', () => {
   testCase(10 ** 8, 10 ** 8 + 7)
   testCase(10 ** 9, 10 ** 9 + 7)
   testCase(10 ** 10, 10 ** 10 + 19)
-  // testCase(10 ** 11, 10 ** 11 + 19)
+  testCase(10 ** 11, 10 ** 11 + 3)
+  testCase(10 ** 12, 10 ** 12 + 39)
+  testCase(10 ** 13, 10 ** 13 + 37)
+  testCase(10 ** 14, 10 ** 14 + 31)
+
+  // slower cases
+  // testCase(10 ** 15, 10 ** 15 + 37) // 6 secs
+  // testCase(9007199254740880, 9007199254740881) // largest prime in js integer space: 12 secs
 })
 
 describe('isPrime', () => {
@@ -61,4 +68,10 @@ describe('isPrime', () => {
   testCase(62710573, true)
   testCase(71234567, true)
   testCase(71234569, false)
+  testCase(10000000019, true)
+  testCase(100000000000, false)
+
+  // slower cases
+  // testCase(100000000019, true) // 2 secs
+  // testCase(9007199254740881, true) // largest prime in js integer space: 12 secs
 })

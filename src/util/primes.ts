@@ -1,6 +1,4 @@
-import { primes_10000 } from './precomputed/primes_10000'
-
-export const knownPrimes = primes_10000
+export const knownPrimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 export let highestKnownPrime = knownPrimes[knownPrimes.length - 1]
 
 // returns an array of primes lower than `max`
@@ -20,9 +18,8 @@ export const nextPrime = (n: number): number => {
 
   // brute-force it
   let candidate = Math.ceil(n / 2) * 2 + 1 // next odd number
-  while (!isPrime(candidate)) {
-    candidate = candidate + 2
-  }
+  while (!isPrime(candidate)) candidate += 2
+
   return candidate
 }
 
@@ -44,7 +41,8 @@ export const isPrime = (n: number) => {
   do {
     if (n % i === 0) return false
     i = i + 2 // we know it's not divisible by an even number
-  } while (i < n)
+  } while (i < Math.sqrt(n))
+
   // must be prime
   return true
 }
