@@ -1,7 +1,4 @@
-// let hits = 0
-
 export const isPalindrome = (n: number): boolean => {
-  // console.log(hits++)
   const s = n.toString()
 
   if (s.length <= 1) return true
