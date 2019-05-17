@@ -4,7 +4,7 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "test": "tsdx test --verbose",
+    "test": "tsdx test --verbose --watch",
     "barrel": "barrelsby -c barrelsby.json",
     "postbarrel": "prettier --write \"**/index.ts\" --loglevel warn",
     "build": "yarn barrel",
@@ -30,8 +30,5 @@
     "tslib": "^1.9.3",
     "typescript": "^3.4.5"
   },
-  "dependencies": {
-    "@types/ramda": "^0.26.8",
-    "ramda": "^0.26.1"
-  }
+  "dependencies": {}
 }
