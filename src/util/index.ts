@@ -4,6 +4,7 @@
 
 export * from './factors'
 export * from './fibonacci'
+export * from './least-common-multiple'
 export * from './merge'
 export * from './palindrome'
 export * from './primes'
