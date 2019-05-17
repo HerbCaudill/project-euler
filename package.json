@@ -7,7 +7,9 @@
     "test": "tsdx test --verbose",
     "barrel": "barrelsby -c barrelsby.json",
     "postbarrel": "prettier --write \"**/index.ts\" --loglevel warn",
-    "build": "yarn barrel"
+    "build": "yarn barrel",
+    "next": "node next.js",
+    "postnext": "yarn barrel"
   },
   "jest": {
     "testMatch": [
