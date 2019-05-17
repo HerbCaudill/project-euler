@@ -11,7 +11,7 @@ describe('answers', () => {
       const start = new Date().getTime()
       const result = solution()
       const end = new Date().getTime()
-      test(`Problem ${i + 1}: ${start - end}ms`, () => {
+      test(`Problem ${i + 1}: ${end - start}ms`, () => {
         if (result === -1) {
           /// skip
         } else {
