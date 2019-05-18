@@ -1,7 +1,7 @@
 import { answers } from './answers'
 import * as _solutions from '../problems'
 
-const solutions: { [k: string]: () => number } = _solutions
+const solutions: { [k: string]: () => number | undefined } = _solutions
 
 describe('answers', () => {
   Object.keys(solutions)

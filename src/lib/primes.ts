@@ -23,6 +23,17 @@ export const nextPrime = (n: number): number => {
   return candidate
 }
 
+export const nthPrime = (n: number): number => {
+  if (n < knownPrimes.length) return knownPrimes[n - 1]
+  let i = knownPrimes.length - 1
+  let p = knownPrimes[i]
+  while (i < n) {
+    p = nextPrime(p)
+    i += 1
+  }
+  return p
+}
+
 // returns true if a number is prime, false if it is composite
 export const isPrime = (n: number) => {
   // if it's in the range of the list,

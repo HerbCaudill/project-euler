@@ -1,4 +1,4 @@
-import { primes, isPrime, nextPrime } from './primes'
+import { primes, isPrime, nextPrime, nthPrime } from './primes'
 import { primes_10000 as knownPrimes } from './precomputed/primes_10000'
 
 describe('primes', () => {
@@ -48,6 +48,14 @@ describe('nextPrime', () => {
   // slower cases
   // testCase(10 ** 15, 10 ** 15 + 37) // 6 secs
   // testCase(9007199254740880, 9007199254740881) // largest prime in js integer space: 12 secs
+})
+
+describe('nthPrime', () => {
+  test('1', () => expect(nthPrime(1)).toEqual(2))
+  test('2', () => expect(nthPrime(2)).toEqual(3))
+  test('6', () => expect(nthPrime(6)).toEqual(13))
+  test('10', () => expect(nthPrime(10)).toEqual(29))
+  test('1000', () => expect(nthPrime(1000)).toEqual(7919))
 })
 
 describe('isPrime', () => {

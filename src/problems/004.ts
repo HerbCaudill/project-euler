@@ -1,4 +1,4 @@
-import { isPalindrome, range } from '../util'
+import { isPalindrome, range } from '../lib'
 
 // Problem 4
 // =========

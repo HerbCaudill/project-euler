@@ -1,4 +1,4 @@
-import { range, sum } from '../util'
+import { range, sum } from '../lib'
 
 // Sum square difference
 // =====================

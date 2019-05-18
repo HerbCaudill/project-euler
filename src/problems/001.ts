@@ -1,4 +1,4 @@
-import { range, sum, merge } from '../util'
+import { range, sum, merge } from '../lib'
 
 // Problem 1
 // =========
