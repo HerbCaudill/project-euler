@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const problems = require('./problems.json')
+const problems = require('./src/problems/problems.json')
 
 const nextId =
   +fs
