@@ -12,11 +12,11 @@ describe('answers', () => {
       const result = solution()
       const end = new Date().getTime()
       const id = i + 1
-      test(`Problem ${id}: ${end - start}ms`, () => {
+      const correctAnswer = problems.find(p => p.id === id)!.answer
+      test(`Problem ${id}: ${correctAnswer} (${end - start}ms)`, () => {
         if (result === -1) {
           /// skip
         } else {
-          const correctAnswer = problems.find(p => p.id === id)!.answer
           expect(result.toString()).toEqual(correctAnswer)
         }
       })
