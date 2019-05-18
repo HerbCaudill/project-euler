@@ -9,4 +9,4 @@ import { leastCommonMultiple, range } from '../util'
 // from 1 to 20?
 
 export const solution005 = () =>
-  leastCommonMultiple(...range({ start: 2, stop: 20 }))
+  leastCommonMultiple(range({ start: 2, stop: 20 }))
