@@ -1,27 +1,66 @@
 import { factors, isPrime } from '.'
 
-type CountMap = {
+// A FactorMap expresses a number's factors by mapping its unique factors with the exponent for each.
+type FactorMap = {
   [f: number]: number
 }
 
-export const leastCommonMultiple = (...n: number[]) => {
-  const factorCounts: CountMap = n
-    .map(d => (isPrime(d) ? [d] : factors(d)))
-    .reduce((countMaps: CountMap[], arr: number[]) => {
-      const c = arr.reduce((countMap: CountMap, f: number) => {
-        countMap[f] = (countMap[f] || 0) + 1
-        return countMap
-      }, {})
-      return countMaps.concat(c)
-    }, [])
-    .reduce((countMap: CountMap, current: CountMap) => {
-      for (const key in current) {
-        countMap[key] = Math.max(current[key] || 0, countMap[key] || 0)
-      }
-      return countMap
-    }, {})
+// Takes an array of numbers, and returns an array of arrays of factors.
+// For prime numbers, returns an array just containing that number.
+// Example:
+// ```js
+// getFactors([8, 12]) = [[2,2,2], [2,2,3]]
+// getFactors([5, 14]) = [[5], [2,7]]
+// ```
+const getFactors = (n: number[]) => n.map(d => (isPrime(d) ? [d] : factors(d)))
 
-  return Object.keys(factorCounts).reduce((result: number, key: string) => {
-    return result * (+key) ** factorCounts[+key]
-  }, 1)
+// Takes an array of factors, and summarizes as a FactorMap.
+// Example:
+// ```
+// factors(360) = [2,2,2,3,3,5]
+// factorArrayToFactorMap([2,2,2,3,3,5]) = {2:3, 3:2, 5:1}
+// ```
+const factorArrayToFactorMap = (f: number[]) =>
+  f.reduce((FactorMap: FactorMap, f: number) => {
+    FactorMap[f] = (FactorMap[f] || 0) + 1
+    return FactorMap
+  }, {})
+
+// Takes an array of numbers, and returns an array of `FactorMap` objects.
+const getFactorMaps = (n: number[]) => getFactors(n).map(factorArrayToFactorMap)
+
+// Takes an array of FactorMaps, and returns a single FactorMap
+// that contains the *highest* exponent for each factor in all of the maps.
+// Example:
+// ```js
+// mergeFactorMaps([
+//   {2:3, 3:2, 5:1},
+//   {2:2, 3:4},
+// ]) = {2:3, 3:4, 5:1}
+// ```
+const mergeFactorMaps = (factorMaps: FactorMap[]) =>
+  factorMaps.reduce((FactorMap: FactorMap, current: FactorMap) => {
+    for (const key in current)
+      FactorMap[key] = FactorMap[key]
+        ? Math.max(current[key], FactorMap[key])
+        : current[key]
+    return FactorMap
+  }, {})
+
+// Multiplies all the factors in a FactorMap, each raised to the corresponding exponent.
+// Example:
+// ```js
+// multiplyFactors({2:3, 3:2, 5:1}) = 2^3 * 3^2 * 5^1 = 360
+// ```
+const multiplyFactors = (factorMaps: FactorMap) =>
+  Object.keys(factorMaps)
+    .map(key => +key) // convert keys to numbers
+    .reduce((result, key) => result * key ** factorMaps[key], 1)
+
+export const leastCommonMultiple = (n: number[]) => {
+  // edge cases
+  if (n.length === 0) return undefined
+  if (n.length === 1) return n[0]
+
+  return multiplyFactors(mergeFactorMaps(getFactorMaps(n)))
 }
