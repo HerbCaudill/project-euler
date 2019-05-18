@@ -4,7 +4,7 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "test": "tsdx test --verbose --watch",
+    "test": "tsdx test --watch",
     "barrel": "barrelsby -c barrelsby.json",
     "postbarrel": "prettier --write \"**/index.ts\" --loglevel warn",
     "build": "yarn barrel",

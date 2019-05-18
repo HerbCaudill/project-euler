@@ -1,4 +1,4 @@
-// import { primes } from '../lib'
+import { nthPrime } from '../lib'
 
 // 10001st prime
 // =============
@@ -7,4 +7,4 @@
 //
 // What is the 10001st prime number?
 
-export const solution007 = () => -1
+export const solution007 = () => nthPrime(10001)

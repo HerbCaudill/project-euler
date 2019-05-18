@@ -59,7 +59,7 @@ const multiplyFactors = (factorMaps: FactorMap) =>
 
 export const leastCommonMultiple = (n: number[]) => {
   // edge cases
-  if (n.length === 0) return undefined
+  if (n.length === 0) return 0
   if (n.length === 1) return n[0]
 
   return multiplyFactors(mergeFactorMaps(getFactorMaps(n)))

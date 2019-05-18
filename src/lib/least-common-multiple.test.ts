@@ -6,7 +6,7 @@ describe('leastCommonMultiple', () => {
     test(`${JSON.stringify(n)}: ${expected}`, () =>
       expect(leastCommonMultiple(n)).toEqual(expected))
 
-  testCase([], undefined)
+  testCase([], 0)
   testCase([2], 2)
   testCase([2, 3], 6)
   testCase([4, 6], 12)

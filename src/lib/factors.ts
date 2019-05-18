@@ -11,7 +11,7 @@ export const factors = (n: number): number[] => {
   // we now know n is composite, let's get to work
   let factor = 1
   do {
-    if (factor < highestKnownPrime) {
+    if (factor < highestKnownPrime()) {
       // as long as we have precomputed prime numbers, just run through them
       factor = nextPrime(factor)
     } else {
