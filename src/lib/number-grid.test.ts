@@ -46,7 +46,7 @@ describe('NumberGrid', () => {
   })
 
   test('wordsFromSeries', () => {
-    expect(wordsFromSeries([1, 2, 3, 4, 5, 6], 3)).toEqual([
+    expect(wordsFromSeries(3)([1, 2, 3, 4, 5, 6])).toEqual([
       [1, 2, 3],
       [2, 3, 4],
       [3, 4, 5],
