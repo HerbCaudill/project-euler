@@ -1,4 +1,4 @@
-import { range, sum } from '../lib'
+import { range, sum } from './lib'
 
 // Sum square difference
 // =====================

@@ -1,4 +1,4 @@
-import { factors } from '../lib'
+import { factors } from './lib'
 
 // Problem 3
 // =========

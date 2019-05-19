@@ -1,11 +1,11 @@
 {
   "directory": "src",
   "delete": true,
-  "location": "below",
+  "location": "replace",
   "structure": "flat",
   "verbose": false,
   "singleQuotes": true,
   "include": ["\\.ts$"],
-  "exclude": ["test", "node_modules"]
-
+  "exclude": ["test", "node_modules"],
+  "local": true
 }
