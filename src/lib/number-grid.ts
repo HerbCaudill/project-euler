@@ -34,29 +34,31 @@ export class NumberGrid {
 
     // Diagonals
 
-    const flipIf = (rev: boolean) => (arr: any[]) =>
-      rev ? [...arr].reverse() : [...arr]
+    const flipIf = (f: boolean) => (a: any[]) => (f ? [...a].reverse() : a)
 
     const getDiagonals = (flipV: boolean, flipH: boolean) =>
-      // return every other set reversed so it goes in the right sequence
+      // return every other set reversed so diagonals are
+      // listed in a logical sequence (small -> big -> small)
       flipIf(flipH)(
-        // flip vertically if needed
-        flipIf(flipV)(this.rows)
-          // flip horizontally if needed
-          .map(flipIf(flipH))
-          // get diagonals going from upper right-hand corner to largest diagonal
+        flipIf(flipV)(this.rows) // maybe flip vertically (reverse rows)
+          .map(flipIf(flipH)) // maybe flip horizontally (reverse contents of each row)
+          // get diagonals
           .map((series, i, _grid) =>
             series
               .slice(0, this.size - i) //
               .map((_, j) => _grid[i + j][j])
           )
-      ).slice(flipH ? 0 : 1) // largest diagonal is duplicated, so trim it in one of each pair
+      )
 
+    // Define one set of diagonals as going from upper right-hand corner to main diagonal.
+    // Defined this way, there are 4 sets of diagonals. We can obtain them by flipping the grid
+    // around four different ways and using the same logic on each to get one set of diagonals each.
+    // This is easiest to understand by looking at the tests.
     this.diagonals = [
       ...getDiagonals(true, true),
-      ...getDiagonals(false, false),
+      ...getDiagonals(false, false).slice(1), // main diagonal is duplicated, so trim it in one of each pair,
       ...getDiagonals(false, true),
-      ...getDiagonals(true, false),
+      ...getDiagonals(true, false).slice(1),
     ]
   }
 
