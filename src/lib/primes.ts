@@ -16,10 +16,11 @@ export const nextPrime = (n: number): number => {
   // if it's in the range of the list, just look it up
   if (n < highestKnownPrime()) return knownPrimes.find(p => p > n) as number
 
-  // brute-force it
-  let candidate = Math.ceil(n / 2) * 2 + 1 // next odd number
-  let candidates = candidateGenerator(candidate)
-  while (!isPrime(candidate)) candidate = candidates.next().value
+  // brute-force time
+  let candidates = candidateGenerator(n)
+  let candidate
+  do candidate = candidates.next().value
+  while (!isPrime(candidate))
 
   return candidate
 }
@@ -34,11 +35,14 @@ export const nthPrime = (n: number): number => {
   return p
 }
 
+// uses the fact that every prime over 30 is in one of the forms
+// 30k ± 1, 30k ± 7, 30k ± 11, 30k ± 13
+// This allows us to eliminate 11/15 of the search space
 const candidateGenerator = function*(n: number) {
   const B = 30
-  const D = [17, 19, 23, 29, 31, 37, 41, 43]
+  const D = [-13, -11, -7, -1, 1, 7, 11, 13]
   let i = 0
-  let base = Math.trunc((n - D[0]) / B) * B
+  let base = Math.trunc(n / B) * B
   while (true) {
     let candidate = base + D[i]
     if (candidate > n) yield candidate
@@ -56,20 +60,21 @@ export const isPrime = (n: number) => {
   // then it's only prime if it's on the list
   if (n <= highestKnownPrime()) return knownPrimes.includes(n)
 
+  const sqrt = Math.sqrt(n)
+
   // if it's divisible by a number on the list, it's not prime
   if (knownPrimes.some(p => n % p === 0)) return false
   // if it's not divisible by a number on the list and it's
   // smaller than the square of the largest known prime, then it's prime
-  else if (Math.sqrt(n) < highestKnownPrime()) return true
+  else if (sqrt < highestKnownPrime()) return true
 
-  // I see that you're going to make this difficult.
-  // We're just going to try every odd number from here on
+  // Brute-force time
   let candidate = highestKnownPrime()
   let candidates = candidateGenerator(candidate)
   do {
     if (n % candidate === 0) return false
     candidate = candidates.next().value
-  } while (candidate <= Math.sqrt(n))
+  } while (candidate <= sqrt)
 
   // must be prime
   return true
