@@ -18,7 +18,8 @@ export const nextPrime = (n: number): number => {
 
   // brute-force it
   let candidate = Math.ceil(n / 2) * 2 + 1 // next odd number
-  while (!isPrime(candidate)) candidate += 2
+  let candidates = candidateGenerator(candidate)
+  while (!isPrime(candidate)) candidate = candidates.next().value
 
   return candidate
 }
@@ -31,6 +32,22 @@ export const nthPrime = (n: number): number => {
     if (p > highestKnownPrime()) knownPrimes.push(p)
   }
   return p
+}
+
+const candidateGenerator = function*(n: number) {
+  const B = 30
+  const D = [17, 19, 23, 29, 31, 37, 41, 43]
+  let i = 0
+  let base = Math.trunc((n - D[0]) / B) * B
+  while (true) {
+    let candidate = base + D[i]
+    if (candidate > n) yield candidate
+    i += 1
+    if (i >= D.length) {
+      base += B
+      i = 0
+    }
+  }
 }
 
 // returns true if a number is prime, false if it is composite
@@ -47,11 +64,12 @@ export const isPrime = (n: number) => {
 
   // I see that you're going to make this difficult.
   // We're just going to try every odd number from here on
-  let i = highestKnownPrime()
+  let candidate = highestKnownPrime()
+  let candidates = candidateGenerator(candidate)
   do {
-    if (n % i === 0) return false
-    i = i + 2 // we know it's not divisible by an even number
-  } while (i <= Math.sqrt(n))
+    if (n % candidate === 0) return false
+    candidate = candidates.next().value
+  } while (candidate <= Math.sqrt(n))
 
   // must be prime
   return true

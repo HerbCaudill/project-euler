@@ -10,7 +10,7 @@ describe('primes', () => {
 
   test('1,000', () => expect(primes(10 ** 3)).toHaveLength(168))
 
-  // test('100,000', () => expect(primes(10 ** 5)).toHaveLength(9592))
+  test('100,000', () => expect(primes(10 ** 5)).toHaveLength(9592))
 })
 
 describe('nextPrime', () => {
@@ -69,8 +69,7 @@ describe('isPrime', () => {
   testCase(71234569, false)
   testCase(10000000019, true)
   testCase(100000000000, false)
-
+  testCase(100000000019, true)
   // slower cases
-  // testCase(100000000019, true) // 2 secs
-  // testCase(9007199254740881, true) // largest prime in js integer space: 12 secs
+  //testCase(9007199254740881, true) // largest prime in js integer space: 12 secs
 })
