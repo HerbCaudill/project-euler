@@ -1,10 +1,10 @@
 const path = require('path')
 const fs = require('fs')
-const problems = require('./src/problems/problems.json')
+const problems = require('./src/problems.json')
 
 const nextId =
   +fs
-    .readdirSync('./src/problems')
+    .readdirSync('./src')
     .map(f => path.parse(f).name)
     .filter(f => Number.isInteger(+f))
     .pop() + 1
@@ -22,4 +22,4 @@ const fileText = `${problemText}
 
 export const solution${nextFileName} = () => -1`
 
-fs.writeFileSync(`./src/problems/${nextFileName}.ts`, fileText)
+fs.writeFileSync(`./src/${nextFileName}.ts`, fileText)

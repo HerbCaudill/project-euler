@@ -4,6 +4,7 @@
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
     "baseUrl": "./",
+    "downlevelIteration": true,
     "esModuleInterop": true,
     "importHelpers": true,
     "jsx": "react",
