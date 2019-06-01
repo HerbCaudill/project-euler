@@ -24,7 +24,7 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "es5"
+    "target": "esnext"
   },
   "include": ["src", "types", "lib", "src/answers.ts"]
 }
