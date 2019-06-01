@@ -5,5 +5,9 @@ export const divisors = (n: number): number[] => {
   const uniqueFactors = factors(n)
   const factorCombinations = combinations(uniqueFactors)
   const nonOneDivisors = factorCombinations.map(s => [...s]).map(product)
-  return [1].concat(nonOneDivisors)
+  const allDivisors = [1, n].concat(nonOneDivisors)
+  return deduplicate(sortNumeric(allDivisors))
 }
+
+const sortNumeric = (arr: number[]) => arr.sort((a, b) => a - b)
+const deduplicate = (arr: number[]) => Array.from(new Set(arr))
