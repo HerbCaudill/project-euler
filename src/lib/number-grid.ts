@@ -34,7 +34,7 @@ export class NumberGrid {
     const flipIf = (flip: boolean) => (arr: any[]) =>
       flip ? [...arr].reverse() : arr
 
-    const getDiagonalSet = (flipV: boolean, flipH: boolean) =>
+    const getDiagonals = (flipV: boolean, flipH: boolean) =>
       // return every other set reversed so diagonals are
       // listed in a logical sequence (small -> big -> small)
       flipIf(flipH)(
@@ -60,10 +60,10 @@ export class NumberGrid {
     // using the same logic on each to get one set of diagonals each.
     // (This is easiest to understand by looking at the tests.)
     this.diagonals = [
-      ...getDiagonalSet(true, true),
-      ...getDiagonalSet(false, false).slice(1), // main diagonal is duplicated, so trim it in one of each pair,
-      ...getDiagonalSet(false, true),
-      ...getDiagonalSet(true, false).slice(1),
+      ...getDiagonals(true, true),
+      ...getDiagonals(false, false).slice(1), // 👈 main diagonal is duplicated, so trim it in one of each pair,
+      ...getDiagonals(false, true),
+      ...getDiagonals(true, false).slice(1), // 👈
     ]
   }
 

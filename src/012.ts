@@ -33,7 +33,6 @@ const firstTriangleNumberWithNDivisors = (maxDivisors: number) => {
     t = t = triangleNumber(i)
     i++
   }
-  console.log(i)
   return t
 }
 
