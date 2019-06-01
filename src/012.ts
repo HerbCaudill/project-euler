@@ -1,4 +1,4 @@
-// import { divisors } from './lib'
+import { divisorCount } from './lib'
 
 // Highly divisible triangular number
 // ==================================
@@ -24,22 +24,17 @@
 // What is the value of the first triangle number to have over five hundred
 // divisors?
 
-// const triangleNumber = (n: number) => (n * (n + 1)) / 2
+const triangleNumber = (n: number) => (n * (n + 1)) / 2
 
-// const divisorCount = (n: number) => divisors(n).length
+const firstTriangleNumberWithNDivisors = (maxDivisors: number) => {
+  let i = 2
+  let t = 3 // 2nd triangle number
+  while (divisorCount(t) < maxDivisors) {
+    t = t = triangleNumber(i)
+    i++
+  }
+  console.log(i)
+  return t
+}
 
-// const firstTriangleNumberWithNDivisors = (maxDivisors: number) => {
-//   let i = 1
-//   let t
-//   let c = 0
-//   while (c < maxDivisors) {
-//     t = t = triangleNumber(i)
-//     c = divisorCount(t)
-//     i++
-//   }
-//   return t
-// }
-
-// console.log(divisorCount(76576500))
-
-export const solution012 = () => -1 //firstTriangleNumberWithNDivisors(500)
+export const solution012 = () => firstTriangleNumberWithNDivisors(500)
