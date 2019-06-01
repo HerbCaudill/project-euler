@@ -1,33 +1,4 @@
-import { factors, isPrime } from '.'
-
-// A FactorMap expresses a number's factors by mapping its unique factors with the exponent for each.
-type FactorMap = {
-  [f: number]: number
-}
-
-// Takes an array of numbers, and returns an array of arrays of factors.
-// For prime numbers, returns an array just containing that number.
-// Example:
-// ```js
-// getFactors([8, 12]) = [[2,2,2], [2,2,3]]
-// getFactors([5, 14]) = [[5], [2,7]]
-// ```
-const getFactors = (n: number[]) => n.map(d => (isPrime(d) ? [d] : factors(d)))
-
-// Takes an array of factors, and summarizes as a FactorMap.
-// Example:
-// ```
-// factors(360) = [2,2,2,3,3,5]
-// factorArrayToFactorMap([2,2,2,3,3,5]) = {2:3, 3:2, 5:1}
-// ```
-const factorArrayToFactorMap = (f: number[]) =>
-  f.reduce((FactorMap: FactorMap, f: number) => {
-    FactorMap[f] = (FactorMap[f] || 0) + 1
-    return FactorMap
-  }, {})
-
-// Takes an array of numbers, and returns an array of `FactorMap` objects.
-const getFactorMaps = (n: number[]) => getFactors(n).map(factorArrayToFactorMap)
+import { factorMap, FactorMap } from '.'
 
 // Takes an array of FactorMaps, and returns a single FactorMap
 // that contains the *highest* exponent for each factor in all of the maps.
@@ -62,5 +33,5 @@ export const leastCommonMultiple = (n: number[]) => {
   if (n.length === 0) return 0
   if (n.length === 1) return n[0]
 
-  return multiplyFactors(mergeFactorMaps(getFactorMaps(n)))
+  return multiplyFactors(mergeFactorMaps(n.map(factorMap)))
 }

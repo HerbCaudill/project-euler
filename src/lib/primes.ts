@@ -37,8 +37,8 @@ export const nthPrime = (n: number): number => {
 
 // uses the fact that every prime over 30 is in one of the forms
 // 30k ± 1, 30k ± 7, 30k ± 11, 30k ± 13
-// This allows us to eliminate 11/15 of the search space
-const candidateGenerator = function*(n: number) {
+// This allows us to eliminate more than half (11/15 = 73%) of the search space
+export const candidateGenerator = function*(n: number) {
   const B = 30
   const D = [-13, -11, -7, -1, 1, 7, 11, 13]
   let i = 0
