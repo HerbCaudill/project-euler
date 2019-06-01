@@ -22,6 +22,6 @@
 // What is the value of the first triangle number to have over five hundred
 // divisors?
 
-const triangleNumber = (n: number) => (n * (n + 1)) / 2
+// const triangleNumber = (n: number) => (n * (n + 1)) / 2
 
 export const solution012 = () => -1
