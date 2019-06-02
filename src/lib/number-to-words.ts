@@ -29,11 +29,14 @@ const name: Lookup = {
   70: 'seventy',
   80: 'eighty',
   90: 'ninety',
-  100: 'hundred',
-  1000: 'thousand',
-  1000000: 'million',
-  1000000000: 'billion',
-  1000000000000: 'trillion',
+}
+
+const power: Lookup = {
+  2: 'hundred',
+  3: 'thousand',
+  6: 'million',
+  9: 'billion',
+  12: 'trillion',
 }
 
 const split = (
@@ -47,22 +50,24 @@ const split = (
 }
 
 export const numberToWords = (n: number): string => {
-  if (n < 100 && n in name) {
-    return name[n]
-  }
-
   if (n < 100) {
-    const { bigPart, littlePart } = split(n, 10)
+    if (n in name) return name[n]
+    const { bigPart, littlePart } = split(n, 10 ** 1)
     return `${name[bigPart]}-${name[littlePart]}`
   }
 
-  if (n < 1000) {
-    const { littlePart, count } = split(n, 100)
-    return (
-      `${name[count]} ${name[100]}` +
-      (littlePart ? ` and ${numberToWords(littlePart)}` : '')
-    )
-  }
+  const magnitude = Math.floor(Math.log10(n))
 
-  throw new Error('not implemented')
+  const powerIndex = magnitude === 2 ? 2 : Math.floor(magnitude / 3) * 3
+  const maxPowerIndex = Math.max(...Object.keys(power).map(d => +d)) + 2
+  if (powerIndex > maxPowerIndex) throw new RangeError()
+
+  const { littlePart, count } = split(n, 10 ** powerIndex)
+
+  return (
+    `${numberToWords(count)} ${power[powerIndex]}` +
+    (littlePart
+      ? ` ${littlePart < 100 ? 'and ' : ''}${numberToWords(littlePart)}`
+      : '')
+  )
 }
