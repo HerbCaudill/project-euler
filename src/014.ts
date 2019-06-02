@@ -1,4 +1,4 @@
-import { collatz, range } from './lib'
+import { range, collatzLength } from './lib'
 
 // Longest Collatz sequence
 // ========================
@@ -24,11 +24,11 @@ const largestChain = (n: number) => {
   const r = range({ start: n, stop: 1, step: -1 })
   return r.reduce(
     (max, n) => {
-      const candidate = { n, length: collatz(n).length }
+      const candidate = { n, length: collatzLength(n) }
       return candidate.length > max.length ? candidate : max
     },
     { n: 0, length: 0 }
   ).n
 }
 
-export const solution014 = () => largestChain(1000000)
+export const solution014 = () => largestChain(10 ** 6)
