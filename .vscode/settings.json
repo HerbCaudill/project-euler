@@ -1,4 +1,7 @@
 {
   "jest.autoEnable": false,
-  "jest.pathToJest": "yarn test "
+  "jest.pathToJest": "yarn test ",
+  "cSpell.ignoreWords": [
+    "threehundredandfortytwo"
+  ]
 }
