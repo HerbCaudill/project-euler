@@ -1,8 +1,8 @@
-import { numberToWords } from '.'
+import { transcribe } from '.'
 
 describe('numberToWords', () => {
   const testCase = (n: number, s: string) =>
-    test(`${n}: ${s}`, () => expect(numberToWords(n)).toEqual(s))
+    test(`${n}: ${s}`, () => expect(transcribe(n)).toEqual(s))
 
   testCase(0, 'zero')
   testCase(1, 'one')
@@ -29,11 +29,19 @@ describe('numberToWords', () => {
     'nine hundred and ninety-nine thousand nine hundred and ninety-nine'
   )
 
-  testCase(10 ** 6, 'one million')
-  testCase(10 ** 6 + 1, 'one million and one')
+  testCase(1_000_000, 'one million')
+  testCase(1_000_001, 'one million and one')
+  testCase(1_200_000, 'one million two hundred thousand')
 
   testCase(
-    12_345_678_901_234,
-    'twelve trillion three hundred and forty-five billion six hundred and seventy-eight million nine hundred and one thousand two hundred and thirty-four'
+    912_345_678_901_234,
+    'nine hundred and twelve trillion three hundred and forty-five billion six hundred and seventy-eight million nine hundred and one thousand two hundred and thirty-four'
   )
+
+  test('too large number throws error', () => {
+    expect(() => transcribe(10 ** 15)).toThrowError(/numbers larger than/)
+  })
+  test('negative number throws error', () => {
+    expect(() => transcribe(-42)).toThrowError(/negative numbers/)
+  })
 })
