@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "tsdx test --watch",
+    "pretest": "yarn barrel",
     "barrel": "barrelsby -c barrelsby.json",
     "postbarrel": "prettier --write \"**/index.ts\" --loglevel warn",
     "build": "yarn barrel",

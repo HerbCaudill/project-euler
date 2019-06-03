@@ -1,5 +1,3 @@
-import { range, sum, merge } from './lib'
-
 // Problem 1
 // =========
 // If we list all the natural numbers below 10 that are multiples of 3 or 5,
@@ -7,10 +5,9 @@ import { range, sum, merge } from './lib'
 // Find the sum of all the multiples of 3 or 5 below 1000.
 
 const specialSum = (N: number) => {
-  const stop = N - 1
-  const multiples3 = range({ step: 3, stop })
-  const multiples5 = range({ step: 5, stop })
-  return sum(merge(multiples3, multiples5))
+  // replace this with your solution
+  console.log(N)
+  return -1
 }
 
 export const solution001 = () => specialSum(1000)
