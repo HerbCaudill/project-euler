@@ -121,5 +121,5 @@ export const solution018 = () => {
   expect(_node.child_L!.child_R!.value).toEqual(47)
   expect(_node.child_L!.child_L!.child_R!.value).toEqual(35)
 
-  return _node.maxSum
+  return _node.maxSum!
 }
