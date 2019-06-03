@@ -1,4 +1,4 @@
-import { properDivisors, sum, range } from './lib'
+import { sum, allAmicables } from './lib'
 
 // Amicable numbers
 // ================
@@ -13,4 +13,4 @@ import { properDivisors, sum, range } from './lib'
 //
 // Evaluate the sum of all the amicable numbers under 10000.
 
-export const solution021 = () => -1 //sum(allAmicables(10000))
+export const solution021 = () => sum(allAmicables(10000))

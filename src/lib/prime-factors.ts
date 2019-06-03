@@ -8,8 +8,10 @@ import {
 // Returns an array containing all prime factors of `n`.
 // If `n` is prime, just returns `[n]`.
 export const primeFactors = (n: number): number[] => {
-  if (n <= 0)
-    throw new RangeError(`Negative numbers have no prime factorization. (${n})`)
+  if (n < 0)
+    throw new RangeError(
+      `Negative numbers (${n}) have no prime factorization. `
+    )
   if (n === 0) throw new RangeError(`Zero has no prime factorization.`)
   if (n === 1) throw new RangeError(`One has no prime factorization.`)
 

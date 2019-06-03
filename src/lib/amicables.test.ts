@@ -1,9 +1,9 @@
-import { d, areAmicable, amicablePair, allAmicables } from '.'
+import { amicablePair, areAmicable, divisorSum, allAmicables } from '.'
 
 describe('amicables', () => {
   test('d', () => {
-    expect(d(220)).toEqual(284)
-    expect(d(284)).toEqual(220)
+    expect(divisorSum(220)).toEqual(284)
+    expect(divisorSum(284)).toEqual(220)
   })
 
   test('areAmicable', () => {
