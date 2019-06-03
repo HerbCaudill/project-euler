@@ -1,4 +1,5 @@
 import { primeFactors, combinations, product, factorMap } from '.'
+import { sort, unique, allButLast } from './arrays';
 
 export const divisors = (n: number): number[] => {
   if (n === 1) return [1]
@@ -6,10 +7,10 @@ export const divisors = (n: number): number[] => {
   const factorCombinations = combinations(uniqueFactors)
   const nonOneDivisors = factorCombinations.map(s => [...s]).map(product)
   const allDivisors = [1, n].concat(nonOneDivisors)
-  return unique(allDivisors)
+  return sort(unique(allDivisors))
 }
 
-const unique = (arr: number[]) => Array.from(new Set(arr))
+export const properDivisors = (n: number): number[] => allButLast(divisors(n))
 
 // If all we need is the *number* of divisors, we don't need to go to the
 // trouble of finding the divisors themselves. We know that given a number N
@@ -24,3 +25,5 @@ export const divisorCount = (n: number): number => {
   const factorExponents = Object.values(factors) // [a₁, a₂, a₃]
   return product(factorExponents.map(a => a + 1)) // (a₁+1)(a₂+1)(a₃+1) ...
 }
+
+
