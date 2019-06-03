@@ -100,7 +100,10 @@ const buildTree = (strTree: string): Node => {
       node.child_L = buildNode(row + 1, col)
       node.child_R = buildNode(row + 1, col + 1)
       // choose the one with the biggest sum
-      node.child_maxPath = node.child_L.maxSum! > node.child_R.maxSum! ? node.child_L : node.child_R
+      node.child_maxPath =
+        node.child_L.maxSum! > node.child_R.maxSum!
+          ? node.child_L
+          : node.child_R
       // that max plus our value is our node's max
       node.maxSum = node.child_maxPath.maxSum! + node.value
     }
