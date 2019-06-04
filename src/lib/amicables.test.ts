@@ -1,4 +1,4 @@
-import { amicablePair, areAmicable, divisorSum, allAmicables } from '.'
+import { areAmicable, divisorSum, friend, allAmicables } from '.'
 
 describe('amicables', () => {
   test('d', () => {
@@ -12,12 +12,25 @@ describe('amicables', () => {
     expect(areAmicable(284, 219)).toBeFalsy()
   })
 
-  test('amicablePair', () => {
-    expect(amicablePair(284)).toEqual([220, 284])
-    expect(amicablePair(283)).toEqual([])
+  test('friend', () => {
+    expect(friend(284)).toEqual(220)
+    expect(friend(220)).toEqual(284)
+    expect(friend(283)).toEqual(undefined)
   })
 
   test('allAmicables', async () => {
     expect(allAmicables(300)).toEqual([220, 284])
+    expect(allAmicables(10000)).toEqual([
+      220,
+      284,
+      1184,
+      1210,
+      2620,
+      2924,
+      5020,
+      5564,
+      6232,
+      6368,
+    ])
   })
 })

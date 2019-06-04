@@ -1,4 +1,4 @@
-import { sum, allAmicables } from './lib'
+import { allAmicables, sum } from './lib'
 
 // Amicable numbers
 // ================
