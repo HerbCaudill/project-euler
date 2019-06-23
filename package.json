@@ -8,7 +8,7 @@
     "barrel": "barrelsby -c barrelsby.json",
     "postbarrel": "prettier --write \"**/index.ts\" --loglevel warn",
     "build": "yarn barrel",
-    "next": "node next.js",
+    "next": "node scripts/next.js",
     "postnext": "yarn barrel"
   },
   "jest": {
