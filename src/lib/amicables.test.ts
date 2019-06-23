@@ -20,17 +20,5 @@ describe('amicables', () => {
 
   test('allAmicables', async () => {
     expect(allAmicables(300)).toEqual([220, 284])
-    expect(allAmicables(10000)).toEqual([
-      220,
-      284,
-      1184,
-      1210,
-      2620,
-      2924,
-      5020,
-      5564,
-      6232,
-      6368,
-    ])
   })
 })

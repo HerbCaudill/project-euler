@@ -11,7 +11,7 @@ describe('calendar', () => {
       weekday: 3,
     })
   })
-  
+
   test('40,000th day', () => {
     // https://www.google.com/search?q=40000+days+after+1900-1-1
     expect(c[40000]).toEqual({

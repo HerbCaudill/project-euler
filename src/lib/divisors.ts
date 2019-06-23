@@ -1,5 +1,5 @@
 import { primeFactors, combinations, product, factorMap } from '.'
-import { sort, unique, allButLast } from './arrays';
+import { sort, unique, allButLast } from './arrays'
 
 export const divisors = (n: number): number[] => {
   if (n === 1) return [1]
@@ -25,5 +25,3 @@ export const divisorCount = (n: number): number => {
   const factorExponents = Object.values(factors) // [a₁, a₂, a₃]
   return product(factorExponents.map(a => a + 1)) // (a₁+1)(a₂+1)(a₃+1) ...
 }
-
-

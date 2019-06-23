@@ -1,25 +1,51 @@
 const path = require('path')
 const fs = require('fs')
-const problems = require('./src/problems.json')
+const problems = require('../src/problems.json')
+const prettier = require('prettier')
+const prettierConfig = require('../package.json').prettier
 
-const nextId =
-  +fs
-    .readdirSync('./src')
-    .map(f => path.parse(f).name)
-    .filter(f => Number.isInteger(+f))
-    .pop() + 1
+const nextFile = (dir, template) => {
+  const nextId =
+    +fs
+      .readdirSync(dir)
+      .map(f => path.parse(f).name)
+      .filter(f => Number.isInteger(+f))
+      .pop() + 1 || 1
 
-const nextFileName = `${nextId}`.padStart(3, '0')
-const problem = problems.find(p => p.id === nextId)
-const problemText = `
-${problem.name}
-${''.padStart(problem.name.length, '=')}
-${problem.description}`
-  .split('\n')
-  .join('\n// ')
+  const nextFileName = `${nextId}`.padStart(3, '0')
+  const fileText = prettier.format(template(nextId), {
+    ...prettierConfig,
+    parser: 'typescript',
+  })
+  fs.writeFileSync(`${dir}/${nextFileName}.ts`, fileText)
+}
 
-const fileText = `${problemText}
+const problemTemplate = nextId => {
+  const nextFileName = `${nextId}`.padStart(3, '0')
+  const problem = problems.find(p => p.id === nextId)
+  const divider = ''.padStart(problem.name.length, '=')
+  const heading = [
+    '',
+    problem.name,
+    divider,
+    ...problem.description.split('\n'),
+  ].join('\n// ') // comment out problem heading
 
-export const solution${nextFileName} = () => -1`
+  return `
+    ${heading}
 
-fs.writeFileSync(`./src/${nextFileName}.ts`, fileText)
+    export const solution${nextFileName} = () => -1`.trim()
+}
+
+const testTemplate = nextId => {
+  const nextFileName = `${nextId}`.padStart(3, '0')
+  const problem = problems.find(p => p.id === nextId)
+  return `
+    import { solution${nextFileName} } from '../src/${nextFileName}'
+    import { executeTest } from '../src/execute'
+    executeTest(${nextId}, solution${nextFileName})
+    `.trim()
+}
+
+nextFile('./src', problemTemplate)
+nextFile('./tests', testTemplate)

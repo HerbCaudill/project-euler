@@ -10,7 +10,8 @@ describe('primes', () => {
 
   test('1,000', () => expect(primes(10 ** 3)).toHaveLength(168))
 
-  test('100,000', () => expect(primes(10 ** 5)).toHaveLength(9592))
+  // slower cases
+  // test('100,000', () => expect(primes(10 ** 5)).toHaveLength(9592))
 })
 
 describe('nextPrime', () => {
@@ -30,12 +31,11 @@ describe('nextPrime', () => {
   testCase(10 ** 10, 10 ** 10 + 19)
   testCase(10 ** 11, 10 ** 11 + 3)
   testCase(10 ** 12, 10 ** 12 + 39)
-  testCase(10 ** 13, 10 ** 13 + 37)
-  testCase(10 ** 14, 10 ** 14 + 31)
-
   // slower cases
-  // testCase(10 ** 15, 10 ** 15 + 37) // 6 secs
-  // testCase(9007199254740880, 9007199254740881) // largest prime in js integer space: 12 secs
+  // testCase(10 ** 13, 10 ** 13 + 37)
+  // testCase(10 ** 14, 10 ** 14 + 31)
+  // testCase(10 ** 15, 10 ** 15 + 37)
+  // testCase(9007199254740880, 9007199254740881) // largest prime in js integer space
 })
 
 describe('nthPrime', () => {
@@ -44,8 +44,9 @@ describe('nthPrime', () => {
   test('6', () => expect(nthPrime(6)).toEqual(13))
   test('10', () => expect(nthPrime(10)).toEqual(29))
   test('1000', () => expect(nthPrime(1000)).toEqual(7919))
-  test('10000', () => expect(nthPrime(10000)).toEqual(104729))
-  test('10001', () => expect(nthPrime(10001)).toEqual(104743))
+  // slower cases
+  // test('10000', () => expect(nthPrime(10000)).toEqual(104729))
+  // test('10001', () => expect(nthPrime(10001)).toEqual(104743))
 })
 
 describe('isPrime', () => {
@@ -71,5 +72,5 @@ describe('isPrime', () => {
   testCase(100000000000, false)
   testCase(100000000019, true)
   // slower cases
-  //testCase(9007199254740881, true) // largest prime in js integer space: 12 secs
+  //testCase(9007199254740881, true) // largest prime in js integer space
 })
