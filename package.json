@@ -17,6 +17,7 @@
     "@jest/test-sequencer": "^24.8.0",
     "@types/jest": "^24.0.13",
     "barrelsby": "^2.1.1",
+    "fast-memoize": "^2.5.1",
     "husky": "^2.3.0",
     "nodemon": "^1.19.0",
     "prettier": "^1.17.1",

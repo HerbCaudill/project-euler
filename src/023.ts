@@ -28,8 +28,8 @@ import { sum } from './lib/sum'
 const MAX = 28123
 const abundants = allAbundants(2, MAX)
 
-const nonAbundantSums = range({ stop: MAX }).filter(
-  n => findSum(n, abundants) === undefined
-)
+const isNotAbundantSum = (n: number) => !findSum(n, abundants)
+
+const nonAbundantSums = range({ stop: MAX }).filter(isNotAbundantSum)
 
 export const solution023 = () => sum(nonAbundantSums)
