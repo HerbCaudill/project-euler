@@ -1,4 +1,4 @@
-import { pascalTriangle } from './lib'
+import { pascalTriangle } from './lib/pascal-triangle'
 
 // Lattice paths
 // =============

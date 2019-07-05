@@ -1,4 +1,4 @@
-import { transcribe } from '../../src/lib'
+import { transcribe } from '../../src/lib/transcribe'
 
 describe('numberToWords', () => {
   const testCase = (n: number, s: string) =>

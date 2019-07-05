@@ -1,4 +1,4 @@
-import { range, RangeProps } from '../../src/lib'
+import { range, RangeProps } from '../../src/lib/range'
 
 describe('range', () => {
   const makeTest = (rangeProps: RangeProps, result: number[]) =>

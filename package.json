@@ -5,11 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "yarn jest --watch",
-    "barrel": "barrelsby -c barrelsby.json",
-    "postbarrel": "prettier --write \"**/index.ts\" --loglevel warn",
-    "build": "yarn barrel",
-    "next": "node scripts/next.js",
-    "postnext": "yarn barrel"
+    "next": "node scripts/next.js"
   },
   "prettier": {
     "printWidth": 80,

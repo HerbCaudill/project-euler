@@ -1,4 +1,4 @@
-import { divisorCount } from './lib'
+import { divisorCount } from './lib/divisors'
 
 // Highly divisible triangular number
 // ==================================

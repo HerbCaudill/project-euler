@@ -1,4 +1,4 @@
-import { nextPrime } from './lib'
+import { nextPrime } from './lib/primes'
 
 // Summation of primes
 // ===================

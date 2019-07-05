@@ -1,4 +1,5 @@
-import { pascalTriangle, range } from '../../src/lib'
+import { pascalTriangle } from '../../src/lib/pascal-triangle'
+import { range } from '../../src/lib/range'
 
 describe("Pascal's triangle", () => {
   test('first 11 rows', () => {

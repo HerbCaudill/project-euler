@@ -1,4 +1,6 @@
-import { range, sum, merge } from './lib'
+import { range } from './lib/range'
+import { merge } from './lib/merge'
+import { sum } from './lib/sum'
 
 // Problem 1
 // =========

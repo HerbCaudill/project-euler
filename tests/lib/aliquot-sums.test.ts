@@ -1,13 +1,14 @@
 import {
-  AliquotType,
+  Abundant,
+  aliquotSum,
+  aliquotSumType,
+  allAbundants,
   allAmicables,
   areAmicable,
-  aliquotSumType,
+  Deficient,
   friend,
-  aliquotSum,
-} from '../../src/lib'
-
-const { Deficient, Perfect, Abundant } = AliquotType
+  Perfect,
+} from '../../src/lib/aliquot-sums'
 
 describe('perfect numbers', () => {
   test.each`
@@ -17,11 +18,20 @@ describe('perfect numbers', () => {
     ${8}  | ${Deficient}
     ${9}  | ${Deficient}
     ${12} | ${Abundant}
+    ${18} | ${Abundant}
+    ${20} | ${Abundant}
+    ${24} | ${Abundant}
     ${28} | ${Perfect}
   `('$n is $exp', ({ n, exp }) => expect(aliquotSumType(n)).toEqual(exp))
 })
 
-describe('amicables', () => {
+describe('abundant numbers', () => {
+  test('should ', () => {
+    expect(allAbundants(2, 28)).toEqual([12, 18, 20, 24])
+  })
+})
+
+describe('amicable numbers', () => {
   test('d', () => {
     expect(aliquotSum(220)).toEqual(284)
     expect(aliquotSum(284)).toEqual(220)

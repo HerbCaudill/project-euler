@@ -1,4 +1,5 @@
-import { leastCommonMultiple, range } from './lib'
+import { leastCommonMultiple } from './lib/least-common-multiple'
+import { range } from './lib/range'
 
 // Smallest multiple
 // =================

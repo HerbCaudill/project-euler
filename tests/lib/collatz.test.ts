@@ -1,4 +1,4 @@
-import { collatzLength, collatz, clearCache } from '../../src/lib'
+import { collatzLength, collatz, clearCache } from '../../src/lib/collatz'
 
 describe('collatz', () => {
   test('2', () => expect(collatz(2)).toEqual([2, 1]))

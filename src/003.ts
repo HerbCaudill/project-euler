@@ -1,4 +1,4 @@
-import { primeFactors } from './lib'
+import { primeFactors } from './lib/prime-factors'
 
 // Problem 3
 // =========

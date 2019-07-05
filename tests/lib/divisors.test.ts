@@ -1,4 +1,4 @@
-import { divisors, divisorCount, properDivisors } from '../../src/lib'
+import { divisors, divisorCount, properDivisors } from '../../src/lib/divisors'
 
 describe('divisors', () => {
   const testCase = (n: number, d: number[]) =>

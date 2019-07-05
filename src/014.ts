@@ -1,4 +1,5 @@
-import { range, collatzLength } from './lib'
+import { collatzLength } from './lib/collatz'
+import { range } from './lib/range'
 
 // Longest Collatz sequence
 // ========================

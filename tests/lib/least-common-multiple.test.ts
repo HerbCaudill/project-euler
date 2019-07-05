@@ -1,4 +1,4 @@
-import { leastCommonMultiple } from '../../src/lib'
+import { leastCommonMultiple } from '../../src/lib/least-common-multiple'
 import { range } from '../../src/lib/range'
 
 describe('leastCommonMultiple', () => {

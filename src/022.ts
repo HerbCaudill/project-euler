@@ -11,9 +11,9 @@
 //
 // What is the total of all the name scores in the file?
 
-import { sum } from './lib'
 import { nameScore } from './lib/name-score'
 import { names } from './resources/022'
+import { sum } from './lib/sum'
 
 const nameScoreSum = (names: string[]) =>
   sum(

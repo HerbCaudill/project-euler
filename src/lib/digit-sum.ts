@@ -1,4 +1,4 @@
-import { sum } from '.'
+import { sum } from './sum'
 
 // returns the sum of the digits of the given number
 export function digitSum(n: bigint) {

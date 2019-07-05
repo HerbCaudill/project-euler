@@ -1,4 +1,5 @@
-import { fibonacci, sum } from './lib'
+import { fibonacci } from './lib/fibonacci'
+import { sum } from './lib/sum'
 
 // Problem 2
 // =========

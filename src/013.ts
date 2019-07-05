@@ -1,4 +1,4 @@
-import { bigSum } from './lib'
+import { bigSum } from './lib/sum'
 
 // Large sum
 // =========

@@ -1,4 +1,4 @@
-import { fibonacci } from '../../src/lib'
+import { fibonacci } from '../../src/lib/fibonacci'
 
 describe('fibonacci', () => {
   test('start with 1,2', () => {

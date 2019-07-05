@@ -1,4 +1,6 @@
-import { transcribe, range, sum } from './lib'
+import { transcribe } from './lib/transcribe'
+import { range } from './lib/range'
+import { sum } from './lib/sum'
 
 // Number letter counts
 // ====================

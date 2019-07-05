@@ -1,4 +1,4 @@
-import { primes, isPrime, nextPrime, nthPrime } from '../../src/lib'
+import { primes, isPrime, nextPrime, nthPrime } from '../../src/lib/primes'
 
 describe('primes', () => {
   test('1', () => expect(primes(1)).toEqual([]))

@@ -1,4 +1,4 @@
-import { sum } from '../../src/lib'
+import { sum } from '../../src/lib/sum'
 
 describe('sum', () => {
   test('empty array ', () => {

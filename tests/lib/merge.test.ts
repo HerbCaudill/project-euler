@@ -1,4 +1,4 @@
-import { merge } from '../../src/lib'
+import { merge } from '../../src/lib/merge'
 
 describe('merge', () => {
   test('no overlap', () => expect(merge([1, 2], [3, 4])).toEqual([1, 2, 3, 4]))

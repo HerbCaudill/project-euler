@@ -1,4 +1,4 @@
-import { RequireAtLeastOne } from '.'
+import { RequireAtLeastOne } from './types'
 
 export type FibonacciProps = RequireAtLeastOne<
   {

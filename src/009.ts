@@ -1,4 +1,4 @@
-import { range } from './lib'
+import { range } from './lib/range'
 
 // Special Pythagorean triplet
 // ===========================

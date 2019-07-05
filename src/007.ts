@@ -1,4 +1,4 @@
-import { nthPrime } from './lib'
+import { nthPrime } from './lib/primes'
 
 // 10001st prime
 // =============

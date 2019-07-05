@@ -1,6 +1,10 @@
-import { range, sum, properDivisors } from '.'
+import { range } from './range'
+import { sum } from './sum'
+import { properDivisors } from './divisors'
 
 export const aliquotSum = (n: number): number => sum(properDivisors(n))
+
+// perfect, deficient, abundant
 
 export enum AliquotType {
   Deficient = 'deficient',
@@ -8,12 +12,20 @@ export enum AliquotType {
   Abundant = 'abundant',
 }
 
+export const { Deficient, Perfect, Abundant } = AliquotType
+
 export const aliquotSumType = (n: number): AliquotType => {
   const sum = aliquotSum(n)
   if (sum < n) return AliquotType.Deficient
   if (sum > n) return AliquotType.Abundant
   return AliquotType.Perfect
 }
+
+export const allAbundants = (
+  start: number = 2,
+  stop: number = 28123
+): number[] =>
+  range({ start, stop }).filter(n => aliquotSumType(n) === Abundant)
 
 // amicables
 

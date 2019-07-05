@@ -1,4 +1,4 @@
-import { sum } from '.'
+import { sum } from './sum'
 
 export const nameScore = (s: string): number =>
   sum(s.split('').map(letterScore))
