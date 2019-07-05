@@ -1,8 +1,8 @@
 module.exports = function(wallaby) {
   return {
-    files: ['src/**/*.ts', 'src/**/*.json', '!src/**/*.test.ts'],
-    tests: ['src/**/*.test.ts', 'tests/**/*.ts'],
-    filesWithNoCoverageCalculated: ['src/**/resources/*', 'src/**/precomputed'],
+    files: ['src/**/*.ts', 'src/**/*.json'],
+    tests: ['tests/**/*.test.ts'],
+    filesWithNoCoverageCalculated: ['**/resources/**/*', '**/precomputed/**/*'],
     slowTestThreshold: 2000,
     env: { type: 'node' },
     testFramework: 'jest',
@@ -13,4 +13,3 @@ module.exports = function(wallaby) {
     },
   }
 }
-// 

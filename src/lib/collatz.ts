@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from 'fs'
 
 export const collatz = (n: number): number[] => {
   if (n <= 1) return [1]
-  if (!cache[n] || !cache[n].sequence) {
+  if (!cache[n]) {
     const next = step(n)
     const sequence = [n].concat(collatz(next))
     const length = sequence.length
@@ -34,14 +34,14 @@ interface CollatzCache {
   }
 }
 
-const CACHE_FILE = './src/lib/precomputed/collatz.json'
+// const CACHE_FILE = './src/lib/precomputed/collatz.json'
 
-export const getCache = () => cache
+// export const getCache = () => cache
 export const clearCache = () => (cache = {})
 
-export const loadCache = () => readFileSync(CACHE_FILE).toJSON()
+// export const loadCache = () => readFileSync(CACHE_FILE).toJSON()
 
-export const saveCache = () =>
-  writeFileSync(CACHE_FILE, JSON.stringify(getCache()))
+// export const saveCache = () =>
+//   writeFileSync(CACHE_FILE, JSON.stringify(getCache()))
 
 let cache: CollatzCache = {}
