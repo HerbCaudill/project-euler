@@ -1,3 +1,8 @@
+import { allAbundants } from './lib/aliquot-sums'
+import { range } from './lib/range'
+import { findSum } from './lib/find-sum'
+import { sum } from './lib/sum'
+
 // Non-abundant sums
 // =================
 // A perfect number is a number for which the sum of its proper divisors is
@@ -20,4 +25,11 @@
 // Find the sum of all the positive integers which cannot be written as the
 // sum of two abundant numbers.
 
-export const solution023 = () => -1
+const MAX = 28123
+const abundants = allAbundants(2, MAX)
+
+const nonAbundantSums = range({ stop: MAX }).filter(
+  n => findSum(n, abundants) === undefined
+)
+
+export const solution023 = () => sum(nonAbundantSums)

@@ -26,7 +26,7 @@ describe('perfect numbers', () => {
 })
 
 describe('abundant numbers', () => {
-  test('should ', () => {
+  test('allAbundants', () => {
     expect(allAbundants(2, 28)).toEqual([12, 18, 20, 24])
   })
 })
