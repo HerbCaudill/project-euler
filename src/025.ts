@@ -23,4 +23,20 @@
 //
 // What is the first term in the Fibonacci sequence to contain 1000 digits?
 
-export const solution025 = () => -1
+const firstTermWithXDigits = (X: number): number => {
+  let digits = 1
+  let arr = [1n, 1n]
+  let i = 2
+  while (digits < X) {
+    i += 1
+    const [a, b] = arr
+    const F = b + a
+    digits = F.toString().length
+    arr = [b, F]
+  }
+  return i
+}
+
+expect(firstTermWithXDigits(3)).toBe(12)
+
+export const solution025 = () => firstTermWithXDigits(1000)
