@@ -15,6 +15,6 @@ const evenOnly = (arr: number[]) => arr.filter(isEven)
 const max = 4000000
 
 export const solution002 = () => {
-  const series = fibonacci({ max })
+  const series = fibonacci({ max }).map(Number)
   return sum(evenOnly(series))
 }

@@ -1,8 +1,9 @@
+import { bigSum } from './sum'
 import { RequireAtLeastOne } from './types'
 
 export type FibonacciProps = RequireAtLeastOne<
   {
-    arr?: number[]
+    arr?: (number | bigint)[]
     count: number
     max: number
   },
@@ -12,14 +13,17 @@ export type FibonacciProps = RequireAtLeastOne<
 export const fibonacci = ({
   count = Infinity,
   max = Infinity,
-  arr = [1, 1],
-}: FibonacciProps): number[] => {
+  arr = [1n, 1n],
+}: FibonacciProps): bigint[] => {
   const N = arr.length
 
+  const bigArr = arr.map(BigInt)
   // add the last two numbers in the array
-  const [a, b] = arr.slice(N - 2)
-  const next = a + b
+  const next = bigSum(bigArr.slice(N - 2)) as bigint
 
-  const keepgoing = next < max && N < count
-  return keepgoing ? fibonacci({ count, max, arr: arr.concat(next) }) : arr
+  if (Number(next) >= max || N >= count) return bigArr
+
+  bigArr.push(next)
+
+  return fibonacci({ count, max, arr: bigArr })
 }
