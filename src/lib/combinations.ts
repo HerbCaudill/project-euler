@@ -21,7 +21,6 @@ export const combinations = (set: string[], r: number = -1): string[][] => {
 
     default:
       // take r out of n items
-
       let remaining = [...set]
       return flatten(
         // for each item, return that item,
