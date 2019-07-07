@@ -1,35 +1,36 @@
 import { range } from './range'
 import { deepEquals } from './deep-equals'
 
-export const reciprocalCycle = (n: number): string => {
+export const reciprocalCycle = (n: number) => {
   if (n < 2) throw new Error('n must be 2 or larger')
 
-  let stack: any[] = []
-  const digits = digitGenerator(n)
+  let history: any[] = []
+  const digits = reciprocalDigitGenerator(n)
 
-  while (true) {
-    const r = digits.next().value
-    if (r.remainder === 0) return ''
-
-    const cycleStart = stack.findIndex(d => deepEquals(d, r))
+  for (const r of digits) {
+    const cycleStart = history.findIndex(d => deepEquals(d, r))
 
     if (cycleStart > -1)
-      return stack
+      return history
         .slice(cycleStart)
         .map(d => d.quotient)
         .join('')
 
-    stack.push(r)
+    history.push(r)
   }
+
+  return ''
 }
 
-const digitGenerator = function*(n: number) {
+const reciprocalDigitGenerator = function*(n: number) {
   let remainder = 1
   while (true) {
     const dividend = 10 * remainder
     const quotient = Math.floor(dividend / n)
     remainder = dividend % n
-    yield { quotient, dividend, remainder }
+    const r = { quotient, dividend, remainder }
+    if (remainder === 0) return r
+    else yield r
   }
 }
 
