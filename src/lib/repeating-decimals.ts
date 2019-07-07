@@ -1,3 +1,5 @@
+import { range } from './range'
+
 export const repeatingDecimals = (n: number): string => {
   if (n < 2) throw new Error('n must be 2 or larger')
   let digits: number[] = []
@@ -29,3 +31,18 @@ export const repeatingDecimals = (n: number): string => {
     } while (dividend < n)
   } while (true)
 }
+
+export const largestCycleUnderX = (X: number) => {
+  let maxLength = 0
+  let maxN = null
+  range({ start: 2, stop: X }).forEach(n => {
+    const length = repeatingDecimals(n).length
+    if (length > maxLength) {
+      maxLength = length
+      maxN = n
+    }
+  })
+  return maxN
+}
+
+expect(largestCycleUnderX(10)).toBe(7)
