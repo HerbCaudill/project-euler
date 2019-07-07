@@ -1,3 +1,5 @@
+import { isPrime } from './lib/primes'
+
 // Quadratic primes
 // ================
 // Euler published the remarkable quadratic formula:
@@ -24,4 +26,33 @@
 // expression that produces the maximum number of primes for consecutive
 // values of n, starting with n = 0.
 
-export const solution027 = () => -1
+const primeCount = (a: number, b: number): number => {
+  let n = 0
+  while (isPrime(n ** 2 + a * n + b)) n += 1
+  return n
+}
+
+expect(primeCount(1, 41)).toEqual(40)
+expect(primeCount(-79, 1601)).toEqual(80)
+
+const highestPrime = (max: number) => {
+  let highest = { count: 0, a: NaN, b: NaN }
+  for (let a = -max; a <= max; a++) {
+    for (let b = -max; b <= max; b++) {
+      const count = primeCount(a, b)
+      if (count > highest.count) highest = { a, b, count }
+    }
+  }
+  return highest
+}
+
+expect(highestPrime(42)).toEqual({
+  a: -1,
+  b: 41,
+  count: 41,
+})
+
+export const solution027 = () => {
+  const h = highestPrime(1000)
+  return h.a * h.b
+}
