@@ -1,4 +1,4 @@
-import { largestCycleUnderX } from './lib/repeating-decimals'
+import { largestReciprocalCycle } from './lib/reciprocal-cycle'
 
 // Reciprocal cycles
 // =================
@@ -21,4 +21,4 @@ import { largestCycleUnderX } from './lib/repeating-decimals'
 // Find the value of d < 1000 for which ^1/[d] contains the longest recurring
 // cycle in its decimal fraction part.
 
-export const solution026 = () => largestCycleUnderX(1000)
+export const solution026 = () => largestReciprocalCycle(1000)
