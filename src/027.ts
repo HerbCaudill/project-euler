@@ -33,9 +33,11 @@ const primeCount = (a: number, b: number): number => {
 }
 
 expect(primeCount(1, 41)).toEqual(40)
+expect(primeCount(-1, 41)).toEqual(41) // Slightly more remarkable than Euler's formula
 expect(primeCount(-79, 1601)).toEqual(80)
+expect(primeCount(-61, 971)).toEqual(71)
 
-const highestPrime = (max: number) => {
+const highestPrimeCount = (max: number) => {
   let highest = { count: 0, a: NaN, b: NaN }
   for (let a = -max; a <= max; a++) {
     for (let b = -max; b <= max; b++) {
@@ -46,13 +48,21 @@ const highestPrime = (max: number) => {
   return highest
 }
 
-expect(highestPrime(42)).toEqual({
+expect(highestPrimeCount(42)).toEqual({
   a: -1,
   b: 41,
   count: 41,
 })
 
+// second example
+expect(highestPrimeCount(1602)).toEqual({
+  a: -79,
+  b: 1601,
+  count: 80,
+})
+
 export const solution027 = () => {
-  const h = highestPrime(1000)
+  const h = highestPrimeCount(1000)
+  expect(h).toEqual({ a: -61, b: 971, count: 71 })
   return h.a * h.b
 }
