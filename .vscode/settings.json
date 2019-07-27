@@ -1,10 +1,17 @@
 {
   "jest.autoEnable": false,
   "jest.pathToJest": "yarn test ",
-  "cSpell.ignoreWords": [
-    "threehundredandfortytwo"
-  ],
+  "cSpell.ignoreWords": ["threehundredandfortytwo"],
   "testFileMagic.testDirectoryName": "",
   "testFileMagic.customLocationForTestFiles": "tests",
-  "testFileMagic.defaultLocationForTestFiles": "project root"
+  "testFileMagic.defaultLocationForTestFiles": "project root",
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": ".*",
+        "isAsync": true,
+        "cmd": "yarn tcr"
+      }
+    ]
+  }
 }

@@ -4,8 +4,12 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "test": "yarn jest --watch",
-    "next": "node scripts/next.js"
+    "next": "node scripts/next.js",
+    "pretest": "tsc --noemit",
+    "test": "jest -o",
+    "commit": "git add -A && git commit -m \"TCR\"",
+    "revert": "git reset --hard",
+    "tcr": "yarn test && yarn commit || yarn revert"
   },
   "prettier": {
     "printWidth": 80,

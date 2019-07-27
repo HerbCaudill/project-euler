@@ -1,7 +1,7 @@
 import { flatten } from './flatten'
 
 // returns all combinations of r items (without repeating) from `set`
-export const combinations = (set: string[], r: number = -1): string[][] => {
+export const combinations = <T>(set: T[], r: number = -1): T[][] => {
   // base cases
   if (set.length === 0 || r === 0 || r > set.length) return []
   if (set.length === 1) return [set]
@@ -11,7 +11,7 @@ export const combinations = (set: string[], r: number = -1): string[][] => {
       // return combinations for all values of r between [1..N]
       return set.reduce(
         (result, _, i) => combinations(set, i + 1).concat(result),
-        [] as string[][]
+        [] as T[][]
       )
 
     case 1:
