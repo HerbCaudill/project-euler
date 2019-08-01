@@ -1,6 +1,6 @@
 ﻿import { sumCombinations } from './sumCombinations'
 describe('sumCombinations', () => {
   it('should ', () => {
-    expect(true)
+    expect(sumCombinations(5, [5])).toEqual([[5]])
   })
 })
