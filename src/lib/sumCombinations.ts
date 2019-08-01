@@ -1,3 +1,8 @@
-﻿export const sumCombinations = (arr: number[]): number[][] => {
+﻿/**
+ * 
+ * @param N 
+ * @param arr 
+ */
+export const sumCombinations = (N: number, arr: number[]): number[][] => {
   return []
 }
