@@ -1,3 +1,3 @@
-﻿const sumCombinations = (arr: number[]): number[][] => {
+﻿export const sumCombinations = (arr: number[]): number[][] => {
   return []
 }
