@@ -12,8 +12,8 @@ const makeHitMap = (arr: number[], key: string) =>
   cache[key]
     ? cache[key]
     : (cache[key] = arr.reduce(
-        (m, i) => ({
-          ...m,
+        (hitMap, i) => ({
+          ...hitMap,
           [i]: true,
         }),
         {}
