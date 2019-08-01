@@ -1,20 +1,22 @@
 ﻿import { sumCombinations, Counts } from '../../src/lib/sumCombinations'
 
-const makeTestCase = (coins: number[]) => (
-  total: number,
-  expected: Counts[]
-) => {
-  const actual = sumCombinations(total, coins)
-  expected.forEach(arr => expect(actual).toEqual(expect.arrayContaining([arr])))
-  expect(actual).toHaveLength(expected.length)
-}
-
-const pennies = 1
-const nickels = 5
-const dimes = 10
-const quarters = 25
-
 describe('sumCombinations', () => {
+  const makeTestCase = (coins: number[]) => (
+    total: number,
+    expected: Counts[]
+  ) => {
+    const actual = sumCombinations(total, coins)
+    expected.forEach(arr =>
+      expect(actual).toEqual(expect.arrayContaining([arr]))
+    )
+    expect(actual).toHaveLength(expected.length)
+  }
+
+  const pennies = 1
+  const nickels = 5
+  const dimes = 10
+  const quarters = 25
+
   describe('pennies', () => {
     const t = makeTestCase([pennies])
     test(`$.04`, () => t(4, [{ 1: 4 }])) // 4 pennies
