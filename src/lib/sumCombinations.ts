@@ -27,5 +27,3 @@ export const sumCombinations = (total: number, coins: number[]): Counts[] => {
 export interface Counts {
   [coinValue: number]: number
 }
-
-const descending = (a: number, b: number) => b - a
