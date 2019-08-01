@@ -2,39 +2,30 @@
  * Returns all possible combinations of a set of coin values that add up to a given total value.
  *
  * @param total The total value that combinations of coins will add up to
- * @param coinValues The available coin values
+ * @param coins The available coin values
  */
-export const sumCombinations = (
-  total: number,
-  coinValues: number[]
-): CoinCounts[] => {
-  coinValues.sort(descending)
-  const result: CoinCounts[] = []
-  return coinValues.reduce((result, coin, i) => {
-    const quotient = Math.floor(total / coin)
-    if (quotient > 0) {
-      const remainder = total - quotient * coin
-
-      if (remainder === 0) result.push({ [coin]: quotient })
-
-      if (quotient > 1 || remainder > 0) {
-        const newRemainder = remainder > 0 ? remainder : coin
-        const newQuotient = remainder > 0 ? quotient : quotient - 1
-        const smallerCoins = coinValues.filter(d => d < coin)
-        const remainderCombos = sumCombinations(newRemainder, smallerCoins)
-        remainderCombos.forEach(combo =>
-          result.push({
-            [coin]: newQuotient,
-            ...combo,
-          })
-        )
-      }
+export const sumCombinations = (total: number, coins: number[]): Counts[] => {
+  coins.sort(descending)
+  const result: Counts[] = []
+  return coins.reduce((result, coin, i) => {
+    let quotient = Math.floor(total / coin)
+    while (quotient > 0) {
+      let remainder = total - quotient * coin
+      const thisCoinCount = { [coin]: quotient }
+      const smallerCoins = coins.filter(d => d < coin)
+      const remainderCombinations =
+        remainder > 0 ? sumCombinations(remainder, smallerCoins) : [{}]
+      remainderCombinations.forEach(combination =>
+        result.push({ ...thisCoinCount, ...combination })
+      )
+      quotient -= 1
+      remainder -= coin
     }
     return result
   }, result)
 }
 
-export interface CoinCounts {
+export interface Counts {
   [coinValue: number]: number
 }
 
