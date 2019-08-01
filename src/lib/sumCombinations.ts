@@ -7,7 +7,7 @@
 export const sumCombinations = (total: number, coins: number[]): Counts[] => {
   coins.sort(descending)
   const result: Counts[] = []
-  return coins.reduce((result, coin, i) => {
+  return coins.reduce((result, coin) => {
     let quotient = Math.floor(total / coin)
     while (quotient > 0) {
       let remainder = total - quotient * coin
