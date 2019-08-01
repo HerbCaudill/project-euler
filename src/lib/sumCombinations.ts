@@ -1,7 +1,7 @@
 ﻿/**
- * Returns all possible combinations of a set of coin values that add up to a given total.
+ * Returns all possible combinations of a set of coin values that add up to a given total value.
  *
- * @param total The number that combinations will add up to
+ * @param total The total value that combinations will add up to
  * @param coins The available coin values
  */
 export const sumCombinations = (total: number, coins: number[]): number[][] => {
