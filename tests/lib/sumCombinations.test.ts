@@ -72,4 +72,31 @@ describe('sumCombinations', () => {
         { 10: 1, 1: 1 }, // 1 dime + 1 penny
       ]))
   })
+
+  describe('dimes and quarters', () => {
+    const t = makeTestCase([dimes, quarters])
+    test(`$1.00`, () =>
+      t(100, [
+        { 10: 10 }, //..
+        { 10: 5, 25: 2 },
+        { 25: 4 },
+      ]))
+  })
+
+  describe('dimes, quarters, nickels', () => {
+    const t = makeTestCase([dimes, quarters, nickels])
+    test(`$1.00`, () =>
+      t(50, [
+        { 25: 2 }, //..
+        { 25: 1, 10: 2, 5: 1 },
+        { 25: 1, 10: 1, 5: 3 },
+        { 25: 1, 5: 5 },
+        { 10: 5 },
+        { 10: 4, 5: 2 },
+        { 10: 3, 5: 4 },
+        { 10: 2, 5: 6 },
+        { 10: 1, 5: 8 },
+        { 5: 10 },
+      ]))
+  })
 })
