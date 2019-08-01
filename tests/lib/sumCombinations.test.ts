@@ -36,7 +36,7 @@ describe('sumCombinations', () => {
         { 1: 5 }, // 5 pennies
         { 5: 1 }, // 1 nickel
       ]))
-    test.only(`$.06`, () =>
+    test(`$.06`, () =>
       t(6, [
         { 5: 1, 1: 1 }, // 1 nickel + 1 penny
         { 1: 6 }, // 6 pennies
