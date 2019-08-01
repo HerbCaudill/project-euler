@@ -36,7 +36,7 @@ describe('sumCombinations', () => {
         { 1: 5 }, // 5 pennies
         { 5: 1 }, // 1 nickel
       ]))
-    test(`$.06`, () =>
+    test.only(`$.06`, () =>
       t(6, [
         { 5: 1, 1: 1 }, // 1 nickel + 1 penny
         { 1: 6 }, // 6 pennies
@@ -46,6 +46,17 @@ describe('sumCombinations', () => {
         { 1: 10 }, // 10 pennies
         { 5: 2 }, // 2 nickels
         { 5: 1, 1: 5 }, // 1 nickel + 5 pennies
+      ]))
+  })
+
+  describe('pennies, nickels, and dimes', () => {
+    const t = makeTestCase([pennies, nickels, dimes])
+    test(`$.10`, () =>
+      t(10, [
+        { 1: 10 }, // 10 pennies
+        { 5: 2 }, // 2 nickels
+        { 5: 1, 1: 5 }, // 1 nickel + 5 pennies
+        { 10: 1 }, // 1 dime
       ]))
   })
 })

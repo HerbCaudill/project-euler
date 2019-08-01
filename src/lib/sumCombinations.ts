@@ -1,45 +1,41 @@
 ﻿/**
  * Returns all possible combinations of a set of coin values that add up to a given total value.
  *
- * @param total The total value that combinations will add up to
+ * @param total The total value that combinations of coins will add up to
  * @param coinValues The available coin values
  */
 export const sumCombinations = (
   total: number,
   coinValues: number[]
 ): CoinCounts[] => {
-  //
-  const descending = (a: number, b: number) => b - a
   coinValues.sort(descending)
-  return coinValues.reduce(
-    (result, coin, i) => {
-      const quotient = Math.floor(total / coin)
-      if (quotient > 0) {
-        const remainder = total - quotient * coin
-        const allThisCoin = { [coin]: quotient }
-        const remainingCoins = coinValues.filter(d => d !== coin)
-        if (remainder > 0) {
-          const remainderCombos = sumCombinations(remainder, remainingCoins)
-          remainderCombos.forEach(combo =>
-            result.push({ ...allThisCoin, ...combo })
-          )
-        } else {
-          result.push(allThisCoin)
-          if (quotient > 1) {
-            const remainderCombos = sumCombinations(coin, remainingCoins)
-            const allThisCoinMinusOne = { [coin]: quotient - 1 }
-            remainderCombos.forEach(combo => {
-              result.push({ ...allThisCoinMinusOne, ...combo })
-            })
-          }
-        }
+  const result: CoinCounts[] = []
+  return coinValues.reduce((result, coin, i) => {
+    const quotient = Math.floor(total / coin)
+    if (quotient > 0) {
+      const remainder = total - quotient * coin
+
+      if (remainder === 0) result.push({ [coin]: quotient })
+
+      if (quotient > 1 || remainder > 0) {
+        const newRemainder = remainder > 0 ? remainder : coin
+        const newQuotient = remainder > 0 ? quotient : quotient - 1
+        const smallerCoins = coinValues.filter(d => d < coin)
+        const remainderCombos = sumCombinations(newRemainder, smallerCoins)
+        remainderCombos.forEach(combo =>
+          result.push({
+            [coin]: newQuotient,
+            ...combo,
+          })
+        )
       }
-      return result
-    },
-    [] as CoinCounts[]
-  )
+    }
+    return result
+  }, result)
 }
 
 export interface CoinCounts {
   [coinValue: number]: number
 }
+
+const descending = (a: number, b: number) => b - a
