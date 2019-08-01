@@ -28,10 +28,7 @@ export const nextPrime = (n: number): number => {
 export const nthPrime = (n: number): number => {
   let i = 1
   let p = 2 // 2 is the first prime
-  while (i++ < n) {
-    p = nextPrime(p)
-    if (p > highestKnownPrime()) knownPrimes.push(p)
-  }
+  while (i++ < n) p = nextPrime(p)
   return p
 }
 
