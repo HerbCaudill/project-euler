@@ -1,11 +1,11 @@
-﻿import { sumCombinations, CoinCounts } from '../../src/lib/sumCombinations'
+﻿import { sumCombinations, Counts } from '../../src/lib/sumCombinations'
 
 const makeTestCase = (coins: number[]) => (
   total: number,
-  expected: CoinCounts[]
+  expected: Counts[]
 ) => {
   const actual = sumCombinations(total, coins)
-  expect(actual).toEqual(expect.arrayContaining(expected))
+  expected.forEach(arr => expect(actual).toEqual(expect.arrayContaining([arr])))
   expect(actual).toHaveLength(expected.length)
 }
 
@@ -47,6 +47,12 @@ describe('sumCombinations', () => {
         { 5: 2 }, // 2 nickels
         { 5: 1, 1: 5 }, // 1 nickel + 5 pennies
       ]))
+    test(`$.11`, () =>
+      t(11, [
+        { 1: 11 }, // 11 pennies
+        { 5: 2, 1: 1 }, // 2 nickels, 1 penny
+        { 5: 1, 1: 6 }, // 1 nickel + 6 pennies
+      ]))
   })
 
   describe('pennies, nickels, and dimes', () => {
@@ -57,6 +63,13 @@ describe('sumCombinations', () => {
         { 5: 2 }, // 2 nickels
         { 5: 1, 1: 5 }, // 1 nickel + 5 pennies
         { 10: 1 }, // 1 dime
+      ]))
+    test(`$.11`, () =>
+      t(11, [
+        { 1: 11 }, // 10 pennies
+        { 5: 2, 1: 1 }, // 2 nickels
+        { 5: 1, 1: 6 }, // 1 nickel + 6 pennies
+        { 10: 1, 1: 1 }, // 1 dime + 1 penny
       ]))
   })
 })
