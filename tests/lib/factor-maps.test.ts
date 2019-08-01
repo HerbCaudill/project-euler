@@ -1,23 +1,25 @@
-import { factorArrayToFactorMap, FactorMap, factorMap } from '../../src/lib/factor-maps'
+import {
+  factorArrayToFactorMap,
+  FactorMap,
+  factorMap,
+} from '../../src/lib/factor-maps'
 
 describe('factorArrayToFactorMap', () => {
   const testCase = (n: number[], result: FactorMap) =>
-    test(`${n}`, () => {
-      expect(factorArrayToFactorMap(n)).toEqual(result)
-    })
+    expect(factorArrayToFactorMap(n)).toEqual(result)
 
-  testCase([2], { 2: 1 })
-  testCase([2, 3], { 2: 1, 3: 1 })
-  testCase([2, 2, 2, 3, 3, 5], { 2: 3, 3: 2, 5: 1 })
+  test('[2]', () => testCase([2], { 2: 1 }))
+  test('[2, 3]', () => testCase([2, 3], { 2: 1, 3: 1 }))
+  test('[2, 2, 2, 3, 3, 5]', () =>
+    testCase([2, 2, 2, 3, 3, 5], { 2: 3, 3: 2, 5: 1 }))
 })
 
-describe('factorMaps', () => {
+describe('factorMap', () => {
   const testCase = (n: number, result: FactorMap) =>
-    test(`${n}`, () => {
-      expect(factorMap(n)).toEqual(result)
-    })
+    expect(factorMap(n)).toEqual(result)
 
-  testCase(2, { 2: 1 })
-  testCase(6, { 2: 1, 3: 1 })
-  testCase(360, { 2: 3, 3: 2, 5: 1 })
+  test('1', () => testCase(1, { 1: 1 }))
+  test('2', () => testCase(2, { 2: 1 }))
+  test('6', () => testCase(6, { 2: 1, 3: 1 }))
+  test('360', () => testCase(360, { 2: 3, 3: 2, 5: 1 }))
 })

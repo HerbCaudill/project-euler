@@ -18,6 +18,8 @@ describe('repeatingDecimals', () => {
   `('$n', ({ n, exp }) => {
     expect(reciprocalCycle(n)).toEqual(exp)
   })
-})
 
-describe('largestRepeatingPeriod', () => {})
+  test('n lower than 2 throws error', () => {
+    expect(() => reciprocalCycle(1)).toThrowError(/must be 2 or larger/)
+  })
+})
