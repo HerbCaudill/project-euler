@@ -7,5 +7,14 @@ export const sumCombinations = (
   total: number,
   numbers: number[]
 ): number[][] => {
-  return [numbers]
+  return numbers.reduce(
+    (previous, current, i) => {
+      if (total % current === 0) {
+        const count = total / current
+        previous.push(Array(count).fill(current))
+      }
+      return previous
+    },
+    [] as number[][]
+  )
 }
