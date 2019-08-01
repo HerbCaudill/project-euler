@@ -7,5 +7,5 @@ export const sumCombinations = (
   total: number,
   numbers: number[]
 ): number[][] => {
-  return []
+  return [numbers]
 }
