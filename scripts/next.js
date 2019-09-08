@@ -47,5 +47,5 @@ const testTemplate = nextId => {
     `.trim()
 }
 
-nextFile('./src', problemTemplate)
-nextFile('./tests', testTemplate, '.test')
+nextFile('./src/problems', problemTemplate)
+nextFile('./tests/problems', testTemplate, '.test')
