@@ -26,12 +26,5 @@
     "strictPropertyInitialization": true,
     "target": "esnext"
   },
-  "include": [
-    "src",
-    "types",
-    "lib",
-    "src/answers.ts",
-    "tests/001.ts",
-    "tests/lib/sumCombinations.test.ts"
-  ]
+  "include": ["src", "types", "lib"]
 }
