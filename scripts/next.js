@@ -43,8 +43,8 @@ const testTemplate = nextId => {
   const nextFileName = `${nextId}`.padStart(3, '0')
   const problem = problems.find(p => p.id === nextId)
   return `
-    import { solution${nextFileName} } from '../src/${nextFileName}'
-    import { executeTest } from '../src/execute'
+    import { solution${nextFileName} } from '../../src/problems/${nextFileName}'
+    import { executeTest } from '../../src/execute'
     executeTest(${nextId}, solution${nextFileName})
     `.trim()
 }
