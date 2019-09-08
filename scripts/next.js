@@ -17,7 +17,9 @@ const nextFile = (dir, template, suffix = '') => {
     ...prettierConfig,
     parser: 'typescript',
   })
-  fs.writeFileSync(`${dir}/${nextFileName}${suffix}.ts`, fileText)
+  const fileName = `${dir}/${nextFileName}${suffix}.ts`
+  fs.writeFileSync(fileName, fileText)
+  console.log(`created ${fileName}`)
 }
 
 const problemTemplate = nextId => {
