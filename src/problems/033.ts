@@ -50,9 +50,4 @@ const allCuriousFractions = allFractions.filter(isCurious)
 const numProduct = product(allCuriousFractions.map(f => f[0]))
 const denProduct = product(allCuriousFractions.map(f => f[1]))
 
-const numProductFactors = primeFactors(numProduct)
-const denProductFactors = primeFactors(denProduct)
-
-console.log({ numProductFactors, denProductFactors })
-
 export const solution033 = () => -1
