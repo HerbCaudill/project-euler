@@ -5,11 +5,12 @@
   "license": "MIT",
   "scripts": {
     "next": "node scripts/next.js",
-    "pretest": "tsc --noemit",
-    "test": "jest -o",
-    "commit": "git add -A && git commit -m \"TCR\"",
-    "revert": "git reset --hard",
-    "tcr": "yarn test && yarn commit || yarn revert"
+    "test": "jest",
+    "pretcr:test": "tsc --noemit",
+    "tcr:test": "jest -o",
+    "tcr:commit": "git add -A && git commit -m \"TCR\"",
+    "tcr:revert": "git reset --hard",
+    "tcr": "yarn tcr:test && yarn tcr:commit || yarn tcr:revert"
   },
   "prettier": {
     "printWidth": 80,
