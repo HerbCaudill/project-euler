@@ -1,6 +1,6 @@
 import { range } from 'lib/range'
 import { product } from 'lib/product'
-import { primeFactors } from 'lib/prime-factors'
+import { simplify } from 'lib/simplify'
 
 // Digit cancelling fractions
 // ==========================
@@ -50,4 +50,7 @@ const allCuriousFractions = allFractions.filter(isCurious)
 const numProduct = product(allCuriousFractions.map(f => f[0]))
 const denProduct = product(allCuriousFractions.map(f => f[1]))
 
-export const solution033 = () => -1
+const simplified = simplify([numProduct, denProduct])
+const simplifiedDen = simplified[1]
+
+export const solution033 = () => simplifiedDen
