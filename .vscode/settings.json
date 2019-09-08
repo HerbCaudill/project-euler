@@ -1,13 +1,19 @@
 {
-  // "emeraldwalk.runonsave": {
-  //   "commands": [
-  //     {
-  //       "match": ".*",
-  //       "isAsync": true,
-  //       "cmd": "yarn tcr"
-  //     }
-  //   ]
-  // },
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": ".*",
+        "isAsync": true,
+        "cmd": "git wip save ${fileBasename}"
+      }
+      //     {
+      //       "match": ".*",
+      //       "isAsync": true,
+      //       "cmd": "yarn tcr"
+      //     }
+    ]
+  },
+
   "workbench.colorCustomizations": {
     "statusBar.background": "#3f2160",
     "statusBarItem.hoverBackground": "#582e86",
