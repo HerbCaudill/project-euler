@@ -1,9 +1,9 @@
 import { flatten } from './flatten'
 import { factorial } from './factorial'
 
-const cache: { [k: string]: string[][] } = {}
+const cache: { [k: string]: any[][] } = {}
 
-export const permutations = (arr: string[], sorted = false): string[][] => {
+export const permutations = <T>(arr: T[], sorted = false): T[][] => {
   const key = arr.join('')
   const result =
     cache[key] ||
