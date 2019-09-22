@@ -53,8 +53,10 @@ export const candidateGenerator = function*(n: number) {
 
 // returns true if a number is prime, false if it is composite
 export const isPrime = (n: number) => {
-  // if it's in the range of the list,
-  // then it's only prime if it's on the list
+  // negative numbers and zero are not prime
+  if (n < 1) return false
+
+  // if it's in the range of the list, then it's only prime if it's on the list
   if (n <= highestKnownPrime()) return knownPrimes.includes(n)
 
   const sqrt = Math.sqrt(n)

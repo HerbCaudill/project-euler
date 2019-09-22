@@ -1,0 +1,431 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20190922.112011.11468.0.001.json",
+    "dumpEventTime": "2019-09-22T11:20:11Z",
+    "dumpEventTimeStamp": "1569144011115",
+    "processId": 11468,
+    "cwd": "C:\\git\\herbcaudill\\project-euler",
+    "commandLine": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\git\\herbcaudill\\project-euler\\node_modules\\.bin\\\\..\\jest-cli\\bin\\jest.js",
+      "--watch"
+    ],
+    "nodejsVersion": "v12.6.0",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.6.0",
+      "v8": "7.5.288.22-node.14",
+      "uv": "1.30.1",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.38.0",
+      "napi": "4",
+      "llhttp": "1.1.4",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1c",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019a",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "headersUrl": "https://nodejs.org/download/release/v12.6.0/node-v12.6.0-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.6.0/node-v12.6.0.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.6.0/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.18362",
+    "osVersion": "Windows 10 Pro",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+        "speed": 2808,
+        "user": 918796,
+        "nice": 0,
+        "sys": 1216953,
+        "idle": 4301015,
+        "irq": 48562
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+        "speed": 2808,
+        "user": 918796,
+        "nice": 0,
+        "sys": 1216953,
+        "idle": 4301015,
+        "irq": 48562
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+        "speed": 2808,
+        "user": 918796,
+        "nice": 0,
+        "sys": 1216953,
+        "idle": 4301015,
+        "irq": 48562
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+        "speed": 2808,
+        "user": 918796,
+        "nice": 0,
+        "sys": 1216953,
+        "idle": 4301015,
+        "irq": 48562
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+        "speed": 2808,
+        "user": 918796,
+        "nice": 0,
+        "sys": 1216953,
+        "idle": 4301015,
+        "irq": 48562
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+        "speed": 2808,
+        "user": 918796,
+        "nice": 0,
+        "sys": 1216953,
+        "idle": 4301015,
+        "irq": 48562
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+        "speed": 2808,
+        "user": 918796,
+        "nice": 0,
+        "sys": 1216953,
+        "idle": 4301015,
+        "irq": 48562
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+        "speed": 2808,
+        "user": 918796,
+        "nice": 0,
+        "sys": 1216953,
+        "idle": 4301015,
+        "irq": 48562
+      }
+    ],
+    "host": "HERB-DELLXPS"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x00007ff76c536db9",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+10889"
+    },
+    {
+      "pc": "0x00007ff76c53a72c",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+25596"
+    },
+    {
+      "pc": "0x00007ff76c5396d8",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+21416"
+    },
+    {
+      "pc": "0x00007ff76c62300b",
+      "symbol": "v8::base::CPU::has_sse+37675"
+    },
+    {
+      "pc": "0x00007ff76ce08a1e",
+      "symbol": "v8::Isolate::ReportExternalAllocationLimitReached+94"
+    },
+    {
+      "pc": "0x00007ff76cdf0d6a",
+      "symbol": "v8::SharedArrayBuffer::Externalize+842"
+    },
+    {
+      "pc": "0x00007ff76cc8256c",
+      "symbol": "v8::internal::Heap::EphemeronKeyWriteBarrierFromCode+1436"
+    },
+    {
+      "pc": "0x00007ff76cc9619d",
+      "symbol": "v8::internal::Factory::AllocateRawFixedArray+61"
+    },
+    {
+      "pc": "0x00007ff76cc9dc64",
+      "symbol": "v8::internal::Factory::NewFixedArrayWithFiller+52"
+    },
+    {
+      "pc": "0x00007ff76cc9dc21",
+      "symbol": "v8::internal::Factory::NewFixedArray+65"
+    },
+    {
+      "pc": "0x00007ff76cceb58e",
+      "symbol": "v8::debug::Script::GetIsolate+6478"
+    },
+    {
+      "pc": "0x00007ff76ca7f543",
+      "symbol": "v8::internal::interpreter::JumpTableTargetOffsets::iterator::operator=+181731"
+    },
+    {
+      "pc": "0x00007ff76ceb170d",
+      "symbol": "v8::internal::SetupIsolateDelegate::SetupHeap+614605"
+    },
+    {
+      "pc": "0x0000030d35e91fa3",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 2705358848,
+    "totalCommittedMemory": 2705358848,
+    "usedMemory": 2664275064,
+    "availableMemory": 17554232,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 262144,
+        "capacity": 261832,
+        "used": 31960,
+        "available": 229872
+      },
+      "new_space": {
+        "memorySize": 33554432,
+        "committedMemory": 33554432,
+        "capacity": 16757248,
+        "used": 0,
+        "available": 16757248
+      },
+      "old_space": {
+        "memorySize": 99495936,
+        "committedMemory": 99495936,
+        "capacity": 94961032,
+        "used": 94393920,
+        "available": 567112
+      },
+      "code_space": {
+        "memorySize": 2785280,
+        "committedMemory": 2785280,
+        "capacity": 1157856,
+        "used": 1157856,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 2101248,
+        "committedMemory": 2101248,
+        "capacity": 1608960,
+        "used": 1608960,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 1664598016,
+        "committedMemory": 1664598016,
+        "capacity": 1664568032,
+        "used": 1664568032,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 49152,
+        "committedMemory": 49152,
+        "capacity": 3456,
+        "used": 3456,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 902512640,
+        "committedMemory": 902512640,
+        "capacity": 902510880,
+        "used": 902510880,
+        "available": 0
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 81.218,
+    "kernelCpuSeconds": 6.562,
+    "cpuConsumptionPercent": 45.7188,
+    "maxRss": 2770116608,
+    "pageFaults": {
+      "IORequired": 803026,
+      "IONotRequired": 0
+    },
+    "fsActivity": {
+      "reads": 2821,
+      "writes": 28
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "=C:": "C:\\git\\herbcaudill\\project-euler",
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "APPDATA": "C:\\Users\\herb\\AppData\\Roaming",
+    "ChocolateyInstall": "C:\\ProgramData\\chocolatey",
+    "ChocolateyLastPathUpdate": "Wed Jun  5 14:47:56 2019",
+    "ChocolateyToolsLocation": "C:\\tools",
+    "COLORTERM": "truecolor",
+    "CommonProgramFiles": "C:\\Program Files\\Common Files",
+    "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+    "CommonProgramW6432": "C:\\Program Files\\Common Files",
+    "COMPUTERNAME": "HERB-DELLXPS",
+    "ComSpec": "C:\\WINDOWS\\system32\\cmd.exe",
+    "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+    "FPS_BROWSER_APP_PROFILE_STRING": "Internet Explorer",
+    "FPS_BROWSER_USER_PROFILE_STRING": "Default",
+    "FSHARPINSTALLDIR": "C:\\Program Files (x86)\\Microsoft SDKs\\F#\\10.1\\Framework\\v4.0\\",
+    "HOME": "C:\\git",
+    "HOMEDRIVE": "C:",
+    "HOMEPATH": "\\Users\\herb",
+    "INIT_CWD": "C:\\git\\herbcaudill\\project-euler",
+    "JEST_WORKER_ID": "1",
+    "LOCALAPPDATA": "C:\\Users\\herb\\AppData\\Local",
+    "LOGONSERVER": "\\\\HERB-DELLXPS",
+    "MSMPI_BIN": "C:\\Program Files\\Microsoft MPI\\Bin\\",
+    "NODE": "C:\\Program Files\\nodejs\\node.exe",
+    "NODE_ENV": "test",
+    "npm_config_argv": "{\"remain\":[],\"cooked\":[\"run\",\"test\"],\"original\":[\"test\",\"--watch\"]}",
+    "npm_config_bin_links": "true",
+    "npm_config_emoji": "true",
+    "npm_config_ignore_optional": "true",
+    "npm_config_ignore_scripts": "",
+    "npm_config_init_author_email": "herb@devresults.com",
+    "npm_config_init_author_name": "Herb Caudill",
+    "npm_config_init_license": "MIT",
+    "npm_config_init_version": "1.0.0",
+    "npm_config_prefix": "C:\\Users\\Herb\\AppData\\Roaming\\npm",
+    "npm_config_python": "C:\\Users\\herb\\.windows-build-tools\\python27\\python.exe",
+    "npm_config_registry": "https://registry.yarnpkg.com",
+    "npm_config_save_prefix": "^",
+    "npm_config_silent": "true",
+    "npm_config_strict_ssl": "true",
+    "npm_config_user_agent": "yarn/1.17.3 npm/? node/v12.6.0 win32 x64",
+    "npm_config_version_commit_hooks": "true",
+    "npm_config_version_git_message": "v%s",
+    "npm_config_version_git_sign": "",
+    "npm_config_version_git_tag": "true",
+    "npm_config_version_tag_prefix": "v",
+    "npm_config_workspaces_experimental": "true",
+    "npm_execpath": "C:\\Program Files (x86)\\Yarn\\bin\\yarn.js",
+    "npm_lifecycle_event": "test",
+    "npm_lifecycle_script": "jest",
+    "npm_node_execpath": "C:\\Program Files\\nodejs\\node.exe",
+    "npm_package_dependencies_barrelsby": "^2.1.1",
+    "npm_package_dependencies_fast_memoize": "^2.5.1",
+    "npm_package_dependencies_husky": "^2.3.0",
+    "npm_package_dependencies_nodemon": "^1.19.0",
+    "npm_package_dependencies_prettier": "^1.17.1",
+    "npm_package_dependencies_tsconfig_paths": "^3.8.0",
+    "npm_package_dependencies_tsconfig_paths_webpack_plugin": "^3.2.0",
+    "npm_package_dependencies_tsdx": "^0.5.9",
+    "npm_package_dependencies_tslib": "^1.9.3",
+    "npm_package_dependencies_ts_jest": "^24.0.2",
+    "npm_package_dependencies_ts_node": "^8.1.0",
+    "npm_package_dependencies_typescript": "^3.4.5",
+    "npm_package_dependencies__jest_test_sequencer": "^24.8.0",
+    "npm_package_dependencies__types_jest": "^24.0.13",
+    "npm_package_description": "I'm working through the [Project Euler](www.projecteuler.net) problems in TypeScript, and using them to get better at coding in a functional style.",
+    "npm_package_license": "MIT",
+    "npm_package_main": "index.ts",
+    "npm_package_name": "project-euler",
+    "npm_package_prettier_printWidth": "80",
+    "npm_package_prettier_semi": "false",
+    "npm_package_prettier_singleQuote": "true",
+    "npm_package_prettier_trailingComma": "es5",
+    "npm_package_readmeFilename": "README.md",
+    "npm_package_scripts_next": "node scripts/next.js",
+    "npm_package_scripts_pretcr_test": "tsc --noemit",
+    "npm_package_scripts_tcr": "yarn tcr:test && yarn tcr:commit || yarn tcr:revert",
+    "npm_package_scripts_tcr_commit": "git add -A && git commit -m \"TCR\"",
+    "npm_package_scripts_tcr_revert": "git reset --hard",
+    "npm_package_scripts_tcr_test": "jest -o",
+    "npm_package_scripts_test": "jest",
+    "npm_package_version": "0.1.0",
+    "NUMBER_OF_PROCESSORS": "8",
+    "NVM_HOME": "C:\\Users\\herb\\AppData\\Roaming\\nvm",
+    "NVM_SYMLINK": "C:\\Program Files\\nodejs",
+    "OneDrive": "C:\\Users\\herb\\OneDrive",
+    "OS": "Windows_NT",
+    "Path": "C:\\Users\\herb\\AppData\\Local\\Temp\\yarn--1569143822559-0.7154274424142437;C:\\git\\herbcaudill\\project-euler\\node_modules\\.bin;C:\\Users\\herb\\AppData\\Local\\Yarn\\Data\\link\\node_modules\\.bin;C:\\Program Files\\libexec\\lib\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\lib\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\Microsoft MPI\\Bin\\;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Users\\herb\\AppData\\Local\\Microsoft\\WindowsApps;G:\\My Drive;G:\\My Drive\\Shortcuts\\Win10;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Git\\cmd;C:\\ProgramData\\nvm;C:\\Users\\herb\\AppData\\Local\\Yarn\\bin;C:\\Users\\herb\\AppData\\Roaming\\nvm;C:\\Program Files\\nodejs;C:\\program files\\mongodb\\server\\3.6\\bin\\;c:\\Program Files\\MongoDB\\Server\\3.4\\bin\\;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files\\dotnet\\;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\MSBuild\\15.0\\bin\\;C:\\Program Files (x86)\\IIS Express\\;C:\\Program Files\\Amazon\\AWSCLI\\bin\\;C:\\Users\\herb\\AppData\\Roaming\\Python\\Python37\\Scripts;C:\\Program Files\\PuTTY\\;G:\\My Drive\\Shortcuts\\Scripts;C:\\Users\\herb\\AppData\\Local\\Programs\\Microsoft VS Code\\;C:\\Program Files\\NVIDIA Corporation\\NVIDIA NvDLISR;C:\\Program Files\\OpenSSL\\bin;C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\DAL;C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\DAL;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files (x86)\\Yarn\\bin\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Users\\herb\\.windows-build-tools\\python27\\;C:\\Users\\herb\\AppData\\Local\\Temp\\yarn--1566911306377-0.613688839952726;C:\\Users\\herb\\AppData\\Local\\Yarn\\Data\\global\\node_modules\\windows-build-tools\\node_modules\\.bin;C:\\Users\\herb\\AppData\\Local\\Yarn\\Data\\link\\node_modules\\.bin;C:\\Program Files\\libexec\\lib\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\lib\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\Microsoft MPI\\Bin\\;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Users\\herb\\AppData\\Local\\Microsoft\\WindowsApps;G:\\My Drive;G:\\My Drive\\Shortcuts\\Win10;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Git\\cmd;C:\\ProgramData\\nvm;C:\\Users\\herb\\AppData\\Local\\Yarn\\bin;C:\\Users\\herb\\AppData\\Roaming\\nvm;C:\\Program Files\\nodejs;C:\\program files\\mongodb\\server\\3.6\\bin\\;c:\\Program Files\\MongoDB\\Server\\3.4\\bin\\;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files\\dotnet\\;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\MSBuild\\15.0\\bin\\;C:\\Program Files (x86)\\IIS Express\\;C:\\Program Files\\Amazon\\AWSCLI\\bin\\;C:\\Users\\herb\\AppData\\Roaming\\Python\\Python37\\Scripts;C:\\Program Files\\PuTTY\\;G:\\My Drive\\Shortcuts\\Scripts;C:\\Users\\herb\\AppData\\Local\\Programs\\Microsoft VS Code\\;C:\\Program Files\\NVIDIA Corporation\\NVIDIA NvDLISR;C:\\Program Files\\OpenSSL\\bin;C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\DAL;C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\DAL;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files (x86)\\Yarn\\bin\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Users\\herb\\.windows-build-tools\\python27\\;C:\\Users\\herb\\AppData\\Local\\Temp\\yarn--1565518546413-0.20699371824679846;C:\\Users\\herb\\AppData\\Local\\Yarn\\Data\\global\\node_modules\\windows-build-tools\\node_modules\\.bin;C:\\Users\\herb\\AppData\\Local\\Yarn\\Data\\link\\node_modules\\.bin;C:\\Program Files\\libexec\\lib\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\lib\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Users\\herb\\.windows-build-tools\\python27\\;C:\\Users\\herb\\AppData\\Local\\Temp\\yarn--1543320168515-0.8221089754004443;C:\\Users\\herb\\AppData\\Local\\Yarn\\Data\\global\\node_modules\\windows-build-tools\\node_modules\\.bin;C:\\Users\\herb\\AppData\\Local\\Yarn\\Data\\link\\node_modules\\.bin;C:\\Users\\Herb\\AppData\\Roaming\\npm\\bin;C:\\Program Files\\libexec\\lib\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\lib\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\Docker\\Docker\\Resources\\bin;C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\iCLS\\;C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\iCLS\\;C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Co;C:\\Users\\herb\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\herb\\AppData\\Local\\GitHubDesktop\\bin;C:\\Users\\herb\\AppData\\Local\\now-cli;C:\\Users\\herb\\AppData\\Local\\hyper\\app-3.0.2\\resources\\bin;C:\\Users\\herb\\AppData\\Local\\MaxTo\\",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JSE;.WSF;.WSH;.MSC;.CPL",
+    "PROCESSOR_ARCHITECTURE": "AMD64",
+    "PROCESSOR_IDENTIFIER": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+    "PROCESSOR_LEVEL": "6",
+    "PROCESSOR_REVISION": "9e09",
+    "ProgramData": "C:\\ProgramData",
+    "ProgramFiles": "C:\\Program Files",
+    "ProgramFiles(x86)": "C:\\Program Files (x86)",
+    "ProgramW6432": "C:\\Program Files",
+    "PROMPT": "$P$G",
+    "PSModulePath": "G:\\My Drive\\Documents\\WindowsPowerShell\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\Modules",
+    "PUBLIC": "C:\\Users\\Public",
+    "SCREENTIMEBANK_MONGODB_PASSWORD": "frtASao4KMMtswPW",
+    "SESSIONNAME": "Console",
+    "SystemDrive": "C:",
+    "SystemRoot": "C:\\WINDOWS",
+    "TEMP": "C:\\Users\\herb\\AppData\\Local\\Temp",
+    "TERM_PROGRAM": "vscode",
+    "TERM_PROGRAM_VERSION": "1.38.1",
+    "TMP": "C:\\Users\\herb\\AppData\\Local\\Temp",
+    "USERDOMAIN": "HERB-DELLXPS",
+    "USERDOMAIN_ROAMINGPROFILE": "HERB-DELLXPS",
+    "USERNAME": "herb",
+    "USERPROFILE": "C:\\Users\\herb",
+    "VS140COMNTOOLS": "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Common7\\Tools\\",
+    "windir": "C:\\WINDOWS",
+    "YARN_WRAP_OUTPUT": "false"
+  },
+  "sharedObjects": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+    "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+    "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+    "C:\\WINDOWS\\System32\\WS2_32.dll",
+    "C:\\WINDOWS\\System32\\RPCRT4.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dbghelp.dll",
+    "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+    "C:\\WINDOWS\\System32\\ucrtbase.dll",
+    "C:\\WINDOWS\\System32\\msvcrt.dll",
+    "C:\\WINDOWS\\System32\\sechost.dll",
+    "C:\\WINDOWS\\System32\\USER32.dll",
+    "C:\\WINDOWS\\System32\\win32u.dll",
+    "C:\\WINDOWS\\System32\\GDI32.dll",
+    "C:\\WINDOWS\\System32\\gdi32full.dll",
+    "C:\\WINDOWS\\System32\\msvcp_win.dll",
+    "C:\\WINDOWS\\System32\\PSAPI.DLL",
+    "C:\\WINDOWS\\System32\\CRYPT32.dll",
+    "C:\\WINDOWS\\System32\\MSASN1.dll",
+    "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\USERENV.dll",
+    "C:\\WINDOWS\\System32\\bcrypt.dll",
+    "C:\\WINDOWS\\System32\\profapi.dll",
+    "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+    "C:\\WINDOWS\\SYSTEM32\\winmmbase.dll",
+    "C:\\WINDOWS\\System32\\cfgmgr32.dll",
+    "C:\\WINDOWS\\System32\\bcryptPrimitives.dll",
+    "C:\\WINDOWS\\System32\\IMM32.DLL",
+    "C:\\WINDOWS\\System32\\powrprof.dll",
+    "C:\\WINDOWS\\System32\\UMPDC.dll",
+    "C:\\WINDOWS\\system32\\uxtheme.dll",
+    "C:\\WINDOWS\\System32\\combase.dll",
+    "C:\\WINDOWS\\system32\\mswsock.dll",
+    "C:\\WINDOWS\\System32\\kernel.appcore.dll",
+    "C:\\WINDOWS\\system32\\napinsp.dll",
+    "C:\\WINDOWS\\system32\\pnrpnsp.dll",
+    "C:\\WINDOWS\\SYSTEM32\\DNSAPI.dll",
+    "C:\\WINDOWS\\System32\\NSI.dll",
+    "C:\\WINDOWS\\System32\\winrnr.dll",
+    "C:\\WINDOWS\\system32\\NLAapi.dll",
+    "C:\\WINDOWS\\system32\\wshbth.dll"
+  ]
+}
