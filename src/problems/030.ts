@@ -1,5 +1,6 @@
 import { sum } from '../lib/sum'
 import { range } from '../lib/range'
+import { digits } from '../lib/digits'
 
 // Digit fifth powers
 // ==================
@@ -18,12 +19,7 @@ import { range } from '../lib/range'
 // powers of their digits.
 
 const sumOfPowers = (number: number, power: number) => {
-  const digits = number
-    .toString()
-    .split('')
-    .map(d => +d)
-
-  return sum(digits.map(d => d ** power))
+  return sum(digits(number).map(d => d ** power))
 }
 
 expect(sumOfPowers(1634, 4)).toBe(1634)
