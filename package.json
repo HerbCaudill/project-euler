@@ -5,33 +5,21 @@
   "license": "MIT",
   "scripts": {
     "next": "node scripts/next.js",
-    "test": "jest",
-    "pretcr:test": "tsc --noemit",
-    "tcr:test": "jest -o",
-    "tcr:commit": "git add -A && git commit -m \"TCR\"",
-    "tcr:revert": "git reset --hard",
-    "tcr": "yarn tcr:test && yarn tcr:commit || yarn tcr:revert"
+    "test": "jest"
+  },
+  "dependencies": {
+    "@jest/test-sequencer": "^24.8.0",
+    "@types/jest": "^24.0.13",
+    "jest": "^24.9.0",
+    "prettier": "^1.17.1",
+    "ts-jest": "^24.0.2",
+    "tslib": "^1.9.3",
+    "typescript": "^3.4.5"
   },
   "prettier": {
     "printWidth": 80,
     "semi": false,
     "singleQuote": true,
     "trailingComma": "es5"
-  },
-  "dependencies": {
-    "@jest/test-sequencer": "^24.8.0",
-    "@types/jest": "^24.0.13",
-    "barrelsby": "^2.1.1",
-    "fast-memoize": "^2.5.1",
-    "husky": "^2.3.0",
-    "nodemon": "^1.19.0",
-    "prettier": "^1.17.1",
-    "ts-jest": "^24.0.2",
-    "ts-node": "^8.1.0",
-    "tsconfig-paths": "^3.8.0",
-    "tsconfig-paths-webpack-plugin": "^3.2.0",
-    "tsdx": "^0.5.9",
-    "tslib": "^1.9.3",
-    "typescript": "^3.4.5"
   }
 }
