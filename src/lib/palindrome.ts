@@ -1,4 +1,4 @@
-export const isPalindrome = (n: number): boolean => {
+export const isPalindrome = (n: number | string): boolean => {
   const s = n.toString()
 
   if (s.length <= 1) return true
