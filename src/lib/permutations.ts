@@ -22,6 +22,11 @@ export const permutations = <T>(arr: T[], sorted = false): T[][] => {
   if (arr.length < 7) cache[key] = result // so we don't run out of memory
   return result
 }
+
+
+
+
+
 /**
  * Returns the nth permutation (in lexicographic order) of the given array.
  */
