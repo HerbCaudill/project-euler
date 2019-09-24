@@ -1,3 +1,6 @@
+import { range } from 'lib/range'
+import { digits } from 'lib/digits'
+
 // Pandigital multiples
 // ====================
 // Take the number 192 and multiply it by each of 1, 2, and 3:
@@ -16,6 +19,9 @@
 // What is the largest 1 to 9 pandigital 9-digit number that can be formed as
 // the concatenated product of an integer with (1,2, ... , n) where n > 1?
 
+const concatProduct = (n: number, r: number[]) =>
+  +r.reduce((result, d) => `${result}${d * n}`, '')
 
+expect(concatProduct(192, [1, 2, 3])).toEqual(192384576)
 
 export const solution038 = () => -1
