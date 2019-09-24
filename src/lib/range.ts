@@ -4,7 +4,10 @@ export interface RangeProps {
   step?: number
 }
 
-export const range = ({ start = 0, stop, step = 1 }: RangeProps): number[] =>
-  Array(Math.floor((stop - start) / step) + 1)
+export const range = (args: RangeProps | number): number[] => {
+  const { start = 1, stop, step = 1 } =
+    typeof args === 'object' ? args : { stop: args }
+  return Array(Math.floor((stop - start) / step) + 1)
     .fill(start)
     .map((d, i) => d + i * step)
+}

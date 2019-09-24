@@ -3,7 +3,7 @@ import { range } from '../../src/lib/range'
 
 describe("Pascal's triangle", () => {
   test('first 11 rows', () => {
-    const t = range({ stop: 10 }).map(r => pascalTriangle(r))
+    const t = range({ start: 0, stop: 10 }).map(r => pascalTriangle(r))
     const expected = [
       [1],
       [1, 1],

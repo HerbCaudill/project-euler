@@ -10,8 +10,8 @@ import { sum } from '../lib/sum'
 
 const specialSum = (N: number) => {
   const stop = N - 1
-  const multiples3 = range({ step: 3, stop })
-  const multiples5 = range({ step: 5, stop })
+  const multiples3 = range({ start: 0, step: 3, stop })
+  const multiples5 = range({ start: 0, step: 5, stop })
   return sum(merge(multiples3, multiples5))
 }
 
