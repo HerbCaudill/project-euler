@@ -8,13 +8,14 @@
     "test": "jest"
   },
   "dependencies": {
-    "@jest/test-sequencer": "^24.8.0",
-    "@types/jest": "^24.0.13",
-    "jest": "^24.9.0",
-    "prettier": "^1.17.1",
-    "ts-jest": "^24.0.2",
-    "tslib": "^1.9.3",
-    "typescript": "^3.4.5"
+    "@jest/test-sequencer": "24",
+    "@types/jest": "24",
+    "@types/node": "12",
+    "jest": "24",
+    "prettier": "1",
+    "ts-jest": "24",
+    "tslib": "1",
+    "typescript": "3"
   },
   "prettier": {
     "printWidth": 80,
