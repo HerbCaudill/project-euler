@@ -56,12 +56,14 @@ export const solution038 = () => {
   for (let factor of searchSpace) {
     let i = 1
     let concatProduct = ''
+
     // concatenate products until we have at least a 9-digit number
     while (concatProduct.length < 9)
       concatProduct = concatProduct.concat((factor * i++).toString())
+
+    // check if it's better than the best result we've found
     if (+concatProduct > best && isPandigital(concatProduct))
       best = +concatProduct
-    factor += 1
   }
   return best
 }
