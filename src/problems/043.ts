@@ -81,8 +81,8 @@ expect(noDuplicates(19283740651)).toBe(false)
 expect(noDuplicates(19283710465)).toBe(false)
 
 /**
- * Takes a number n1, and returns a function that takes a number n2 and returns true if n1 and n2
- * have no digits in common.
+ * Takes a number n1, and returns a filter function that takes a number n2 and returns true if n1
+ * and n2 have no digits in common.
  * @param n1 Number with the digits to exclude. If not provided, returns true.
  */
 const noOverlap = (n1?: number) => (n2: number) =>
@@ -96,7 +96,6 @@ expect(noOverlap()(456)).toBe(true)
 
 /**
  * Returns all 3-digit multiples of `n` that have no duplicate digits
- * (optionally also excluding the digits in `excludeDigits`)
  */
 const candidates = (n: number): number[] => {
   const start = Math.ceil(100 / n)
