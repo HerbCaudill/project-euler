@@ -16,28 +16,20 @@ import { Sequence } from 'lib/Sequence'
 
 const P = new Sequence((n: number) => (n * (3 * n - 1)) / 2)
 
-const example = [1, 5, 12, 22, 35, 51, 70, 92, 117, 145]
-expect(P.valuesUpTo(145)).toEqual(expect.arrayContaining(example))
+expect(P.valuesUpTo(60)).toEqual([1, 5, 12, 22, 35, 51])
+expect(P.valuesUpTo(145)).toEqual([1, 5, 12, 22, 35, 51, 70, 92, 117, 145])
 
 expect(P.includes(P.value(4) + P.value(7))).toBe(true)
 expect(P.includes(P.value(7) - P.value(4))).toBe(false)
-
-// this works but takes ~5 seconds
-// const test = (pk: number, pj: number) => P.includes(pk - pj) && P.includes(pk + pj)
-
-// this takes less than 1 second lesson: math is often faster than lookups (case in point, I tried
-// memoizing `isP` and it takes much, much longer than just recalculating each time)
-const isP = (x: number) => (Math.sqrt(1 + 24 * x) + 1) % 6 === 0 // inverse function of P[n]
-const test = (pk: number, pj: number) => isP(pk - pj) && isP(pk + pj)
 
 export const solution044 = () => {
   let n = 2
   let solution: { pk: number; pj: number } | undefined
   while (solution === undefined) {
-    const pk = P.value(n)
+    const pk = P.value(n++)
     const valuesBelow = P.valuesUpTo(pk - 1)
-    for (const pj of valuesBelow) if (test(pk, pj)) solution = { pk, pj }
-    n += 1
+    for (const pj of valuesBelow)
+      if (P.includes(pk - pj) && P.includes(pk + pj)) solution = { pk, pj }
   }
   const { pk, pj } = solution
   return pk - pj
