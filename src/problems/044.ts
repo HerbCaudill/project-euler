@@ -25,8 +25,8 @@ expect(P.includes(P.value(7) - P.value(4))).toBe(false)
 // this works but takes ~5 seconds
 // const test = (pk: number, pj: number) => P.includes(pk - pj) && P.includes(pk + pj)
 
-// this takes less than 1 second
-// lesson: math is often faster than lookups (case in point, I tried memoizing `isP` and it takes much, much longer)
+// this takes less than 1 second lesson: math is often faster than lookups (case in point, I tried
+// memoizing `isP` and it takes much, much longer than just recalculating each time)
 const isP = (x: number) => (Math.sqrt(1 + 24 * x) + 1) % 6 === 0 // inverse function of P[n]
 const test = (pk: number, pj: number) => isP(pk - pj) && isP(pk + pj)
 
