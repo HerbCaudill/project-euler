@@ -1,4 +1,4 @@
-import { Series } from 'lib/Series'
+import { Sequence } from 'lib/Sequence'
 
 // Pentagon numbers
 // ================
@@ -14,7 +14,7 @@ import { Series } from 'lib/Series'
 // and difference is pentagonal and D = |P[k] - P[j]| is minimised; what is
 // the value of D?
 
-const P = new Series((n: number) => (n * (3 * n - 1)) / 2)
+const P = new Sequence((n: number) => (n * (3 * n - 1)) / 2)
 
 const example = [1, 5, 12, 22, 35, 51, 70, 92, 117, 145]
 expect(P.valuesUpTo(145)).toEqual(expect.arrayContaining(example))

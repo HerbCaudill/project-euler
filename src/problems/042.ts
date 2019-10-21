@@ -1,4 +1,4 @@
-import { Series } from 'lib/Series'
+import { Sequence } from 'lib/Sequence'
 import { sum } from 'lib/sum'
 import { words } from '../resources/042'
 
@@ -17,7 +17,7 @@ import { words } from '../resources/042'
 // Using words.txt, a 16K text file containing nearly two-thousand common
 // English words, how many are triangle words?
 
-const T = new Series((n: number) => (n * (n + 1)) / 2)
+const T = new Sequence((n: number) => (n * (n + 1)) / 2)
 
 expect(T.includes(55)).toBe(true)
 expect(T.includes(1)).toBe(true)
