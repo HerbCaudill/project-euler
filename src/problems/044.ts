@@ -1,5 +1,4 @@
 import { Series } from 'lib/Series'
-import { range } from 'lib/range'
 
 // Pentagon numbers
 // ================
@@ -23,16 +22,19 @@ expect(P.valuesUpTo(145)).toEqual(expect.arrayContaining(example))
 expect(P.includes(P.value(4) + P.value(7))).toBe(true)
 expect(P.includes(P.value(7) - P.value(4))).toBe(false)
 
-const pSums = (max: number) => {
-  const values = P.valuesUpTo(max)
-  const results: { pj: number; pk: number }[] = []
-  for (const pk of values) {
+const solution = () => {
+  let n = 2
+  let solution: { pk: number; pj: number } | undefined
+  while (!solution) {
+    const pk = P.value(n++)
     const valuesBelow = P.valuesUpTo(pk - 1)
-    for (const pj of valuesBelow) {
-    }
+    for (const pj of valuesBelow)
+      if (P.includes(pk + pj) && P.includes(pk - pj)) solution = { pk, pj }
   }
+  return solution
 }
 
 export const solution044 = () => {
-  return -1
+  const { pk, pj } = solution()
+  return pk - pj
 }
