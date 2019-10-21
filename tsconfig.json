@@ -27,5 +27,5 @@
     "strictPropertyInitialization": true,
     "target": "esnext"
   },
-  "include": ["src", "types", "lib"]
+  "include": ["src", "types", "lib", "src/lib/Series.ts"]
 }
