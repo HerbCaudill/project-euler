@@ -22,19 +22,23 @@ expect(P.valuesUpTo(145)).toEqual(expect.arrayContaining(example))
 expect(P.includes(P.value(4) + P.value(7))).toBe(true)
 expect(P.includes(P.value(7) - P.value(4))).toBe(false)
 
-const solution = () => {
+// this works but takes ~5 seconds
+// const test = (pk: number, pj: number) =>
+//   P.includes(pk - pj) && P.includes(pk + pj)
+
+// this takes about 1 second
+const isP = (x: number) => (Math.sqrt(1 + 24 * x) + 1) % 6 === 0 // inverse function of P[n]
+const test = (pk: number, pj: number) => isP(pk - pj) && isP(pk + pj)
+
+export const solution044 = () => {
   let n = 2
   let solution: { pk: number; pj: number } | undefined
   while (!solution) {
-    const pk = P.value(n++)
+    const pk = P.value(n)
     const valuesBelow = P.valuesUpTo(pk - 1)
-    for (const pj of valuesBelow)
-      if (P.includes(pk + pj) && P.includes(pk - pj)) solution = { pk, pj }
+    for (const pj of valuesBelow) if (test(pk, pj)) solution = { pk, pj }
+    n += 1
   }
-  return solution
-}
-
-export const solution044 = () => {
-  const { pk, pj } = solution()
+  const { pk, pj } = solution
   return pk - pj
 }
