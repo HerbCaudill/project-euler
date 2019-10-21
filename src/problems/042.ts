@@ -1,3 +1,4 @@
+import { Series } from 'lib/Series'
 import { sum } from 'lib/sum'
 import { words } from '../resources/042'
 
@@ -16,31 +17,12 @@ import { words } from '../resources/042'
 // Using words.txt, a 16K text file containing nearly two-thousand common
 // English words, how many are triangle words?
 
-const t = (n: number) => (n * (n + 1)) / 2
+const T = new Series((n: number) => (n * (n + 1)) / 2)
 
-function* tGenerator(): IterableIterator<number> {
-  let n = 1
-  while (true) yield t(n++)
-}
-
-const knownTs: number[] = [t(1)]
-
-const highestKnownT = () => knownTs[knownTs.length]
-
-const isT = (x: number) => {
-  let tNumbers = tGenerator()
-  let nextT: number = highestKnownT()
-  do {
-    nextT = tNumbers.next().value
-    knownTs.push(nextT)
-  } while (nextT < x)
-  return knownTs.includes(x)
-}
-
-expect(isT(55)).toBe(true)
-expect(isT(1)).toBe(true)
-expect(isT(21)).toBe(true)
-expect(isT(20)).toBe(false)
+expect(T.includes(55)).toBe(true)
+expect(T.includes(1)).toBe(true)
+expect(T.includes(21)).toBe(true)
+expect(T.includes(20)).toBe(false)
 
 const asciiOffset = 'A'.charCodeAt(0) - 1
 const wordValue = (word: string) =>
@@ -54,7 +36,7 @@ const wordValue = (word: string) =>
 expect(wordValue('SKY')).toBe(55)
 expect(wordValue('FOOBAR')).toBe(57)
 
-const isTriangleWord = (word: string) => isT(wordValue(word))
+const isTriangleWord = (word: string) => T.includes(wordValue(word))
 
 expect(isTriangleWord('SKY')).toBe(true)
 expect(isTriangleWord('FOOBAR')).toBe(false)
