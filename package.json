@@ -11,6 +11,7 @@
     "@jest/test-sequencer": "24",
     "@types/jest": "24",
     "@types/node": "12",
+    "fast-memoize": "^2.5.1",
     "jest": "24",
     "prettier": "1",
     "ts-jest": "24",
