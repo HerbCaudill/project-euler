@@ -1,4 +1,4 @@
-﻿export type SequenceFn = (...args: any[]) => number
+﻿export type SequenceFn = (n: number) => number | bigint
 
 /**
  * Represents a monotonically increasing numeric sequence
@@ -12,13 +12,13 @@ export class Sequence {
   private knownValues: number[] = []
   private highestKnownValue: number = -1
   private knownValueMap: { [value: number]: boolean } = {}
-  private generator: IterableIterator<number>
+  private generator: IterableIterator<number | bigint>
 
   constructor(fn: SequenceFn) {
     this.fn = fn
     this.generator = generator()
 
-    function* generator(startIndex: number = 1): IterableIterator<number> {
+    function* generator(startIndex: number = 1) {
       let n = startIndex
       while (true) yield fn(n++)
     }
@@ -26,6 +26,11 @@ export class Sequence {
 
   value(n: number) {
     return this.fn(n)
+  }
+
+  values(count: number) {
+    while (this.knownValues.length <= count) this.next()
+    return this.knownValues.slice(0, count)
   }
 
   valuesUpTo(x: number) {
@@ -36,12 +41,15 @@ export class Sequence {
 
   generateUpTo(x: number) {
     let next = this.highestKnownValue
-    while (next <= x) {
-      next = this.generator.next().value
-      this.knownValues.push(next)
-      this.knownValueMap[next] = true
-      this.highestKnownValue = next
-    }
+    while (next <= x) next = this.next()
+  }
+
+  next() {
+    const next = this.generator.next().value
+    this.knownValues.push(next)
+    this.knownValueMap[next] = true
+    this.highestKnownValue = next
+    return next
   }
 
   includes(x: number) {
