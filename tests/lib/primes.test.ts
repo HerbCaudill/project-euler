@@ -1,14 +1,14 @@
-import { primes, isPrime, nextPrime, nthPrime } from '../../src/lib/primes'
+import { primesUpTo, isPrime, nextPrime, nthPrime } from '../../src/lib/primes'
 
 describe('primes', () => {
-  test('1', () => expect(primes(1)).toEqual([]))
+  test('1', () => expect(primesUpTo(1)).toEqual([]))
 
-  test('2', () => expect(primes(2)).toEqual([]))
+  test('2', () => expect(primesUpTo(2)).toEqual([]))
 
   test('30', () =>
-    expect(primes(30)).toEqual([2, 3, 5, 7, 11, 13, 17, 19, 23, 29]))
+    expect(primesUpTo(30)).toEqual([2, 3, 5, 7, 11, 13, 17, 19, 23, 29]))
 
-  test('1,000', () => expect(primes(10 ** 3)).toHaveLength(168))
+  test('1,000', () => expect(primesUpTo(10 ** 3)).toHaveLength(168))
 
   // slower cases
   // test('100,000', () => expect(primes(10 ** 5)).toHaveLength(9592))

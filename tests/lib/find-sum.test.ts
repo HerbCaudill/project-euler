@@ -1,6 +1,6 @@
-import { primes } from '../../src/lib/primes'
+import { primesUpTo } from '../../src/lib/primes'
 import { findSum } from '../../src/lib/find-sum'
-const p = primes(3428)
+const p = primesUpTo(3428)
 
 describe('find-sum', () => {
   test('works ', () => {

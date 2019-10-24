@@ -2,7 +2,7 @@ export const knownPrimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 export const highestKnownPrime = () => knownPrimes[knownPrimes.length - 1]
 
 // returns an array of primes lower than `max`
-export const primes = (max = 100) => {
+export const primesUpTo = (max = 100) => {
   let p = highestKnownPrime()
   while (p < max) {
     p = nextPrime(p)

@@ -1,5 +1,5 @@
 import { Sequence } from 'lib/Sequence'
-import { primes as primesBelow, isPrime } from 'lib/primes'
+import { primesUpTo, isPrime } from 'lib/primes'
 
 // Goldbach's other conjecture
 // ===========================
@@ -30,7 +30,7 @@ expect(doubleSquares.includes(18)).toBe(true)
  */
 const goldbach = (n: number): { p: number; x: number } | undefined => {
   if (n % 2 === 0) throw new Error(`\`n\` must be odd; ${n} is an even number`)
-  for (const p of primesBelow(n)) {
+  for (const p of primesUpTo(n)) {
     const diff = n - p
     if (doubleSquares.includes(n - p)) {
       const x = Math.sqrt(diff / 2)
