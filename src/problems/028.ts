@@ -42,15 +42,15 @@ Rather than try to construct the spiral, let's just look directly at the numbers
 Looks like a pretty straightforward pattern. 
 
       start with 1                              1
-      increment by 2, 4 times (3x3 spiral)      3  5  7  9
-      increment by 4, 4 times (5x5 spiral)      13 17 21 25
-      increment by 6, 4 times (7x7 spiral)      31 37 43 49
+      increment by 2, 4 times (3×3 spiral)      3  5  7  9
+      increment by 4, 4 times (5×5 spiral)      13 17 21 25
+      increment by 6, 4 times (7×7 spiral)      31 37 43 49
       . . .
-      increment by N-1, 4 times (NxN spiral)
+      increment by N-1, 4 times (N×N spiral)
 
 
-Also, it looks like the upper-right diagonal of an NxN spiral is N²; so the outer diagonals of an
-NxN spiral are 
+Also, it looks like the upper-right diagonal of an N×N spiral is N²; so the outer diagonals of an
+N×N spiral are 
 
       N² - 0(N - 1)
       N² - 1(N - 1)
@@ -72,7 +72,7 @@ expect(outerDiagonals(5)).toEqual([13, 17, 21, 25])
 expect(outerDiagonals(7)).toEqual([31, 37, 43, 49])
 
 /*
-Now that we have the outer diagonals for any given NxN spiral, we have all the diagonals.
+Now that we have the outer diagonals for any given N×N spiral, we have all the diagonals.
 */
 
 const oddNumbersUpTo = (n: number) => range(0, n / 2).map(d => d * 2 + 1)
