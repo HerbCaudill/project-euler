@@ -17,7 +17,7 @@ import { sum } from 'lib/sum'
 // What is the sum of both diagonals in a 1001 by 1001 spiral formed in the
 // same way?
 
-/*
+/*******************************
 
 Rather than try to construct the spiral, let's just look directly at the numbers on the diagonals:
 
@@ -60,6 +60,7 @@ NxN spiral are
 */
 
 const isEven = (n: number) => n % 2 === 0
+
 const outerDiagonals = (N: number) => {
   if (isEven(N)) throw new Error('N must be odd')
   if (N === 1) return [1]
@@ -74,11 +75,11 @@ expect(outerDiagonals(7)).toEqual([31, 37, 43, 49])
 Now that we have the outer diagonals for any given NxN spiral, we have all the diagonals.
 */
 
-const oddNumbersThrough = (n: number) => range(0, n / 2).map(d => d * 2 + 1)
+const oddNumbersUpTo = (n: number) => range(0, n / 2).map(d => d * 2 + 1)
 
 const spiralDiagonals = (N: any) => {
   if (isEven(N)) throw new Error('N must be odd')
-  const allOuterDiagonals = oddNumbersThrough(N).map(outerDiagonals)
+  const allOuterDiagonals = oddNumbersUpTo(N).map(outerDiagonals)
   return allOuterDiagonals.flat()
 }
 
