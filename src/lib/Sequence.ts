@@ -1,4 +1,4 @@
-﻿export type SequenceFn = (n: number) => number | bigint
+﻿export type SequenceFn<T extends number | bigint> = (n: number) => T
 
 /**
  * Represents a monotonically increasing numeric sequence
@@ -7,18 +7,18 @@
  * - s(n+1) > s(n) for all n
  * - s(n) can be calculated as a function of n
  */
-export class Sequence {
-  private fn: SequenceFn
-  private knownValues: number[] = []
+export class Sequence<T extends bigint | number> {
+  private fn: SequenceFn<T>
+  private knownValues: T[] = []
   private highestKnownValue: number = -1
-  private knownValueMap: { [value: number]: boolean } = {}
-  private generator: IterableIterator<number | bigint>
+  private knownValueMap: { [value: string]: boolean } = {}
+  private generator: IterableIterator<T>
 
-  constructor(fn: SequenceFn) {
+  constructor(fn: SequenceFn<T>) {
     this.fn = fn
     this.generator = generator()
 
-    function* generator(startIndex: number = 1) {
+    function* generator(startIndex = 1 as T) {
       let n = startIndex
       while (true) yield fn(n++)
     }
