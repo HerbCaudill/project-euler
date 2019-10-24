@@ -1,7 +1,8 @@
 import { panDigitals, allDigits } from 'lib/panDigital'
 import { sum } from 'lib/sum'
 import { range } from 'lib/range'
-import { digits } from 'lib/digits'
+import { noDuplicates } from '../lib/noDuplicates'
+import { noOverlap } from '../lib/noOverlap'
 
 // Sub-string divisibility
 // =======================
@@ -60,15 +61,6 @@ expect(isSubstringDivisible(375829)).toBe(false)
 expect(isSubstringDivisible(6375298)).toBe(false)
 expect(isSubstringDivisible(460537892)).toBe(false)
 
-/**
- * Returns true
- * @param n
- */
-const noDuplicates = (n: number) => {
-  const isDuplicate = (d: number, i: number, arr: number[]) =>
-    i < 1 ? false : arr.slice(0, i).includes(d)
-  return !digits(n).some(isDuplicate)
-}
 expect(noDuplicates(1234567890)).toBe(true)
 expect(noDuplicates(1092837465)).toBe(true)
 expect(noDuplicates(123)).toBe(true)
@@ -79,14 +71,6 @@ expect(noDuplicates(92811370465)).toBe(false)
 expect(noDuplicates(92837460511)).toBe(false)
 expect(noDuplicates(19283740651)).toBe(false)
 expect(noDuplicates(19283710465)).toBe(false)
-
-/**
- * Takes a number n1, and returns a filter function that takes a number n2 and returns true if n1
- * and n2 have no digits in common.
- * @param n1 Number with the digits to exclude. If not provided, returns true.
- */
-const noOverlap = (n1?: number) => (n2: number) =>
-  n1 ? !digits(n1).some(d => digits(n2).includes(d)) : true
 
 expect(noOverlap(123)(123)).toBe(false)
 expect(noOverlap(123)(345)).toBe(false)
