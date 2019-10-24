@@ -1,8 +1,8 @@
-import { primes, isPrime } from 'lib/primes'
-import { permutations } from 'lib/permutations'
-import { digits } from 'lib/digits'
 import { combinations } from 'lib/combinations'
-import { noDuplicates as noDuplicateDigits } from 'lib/noDuplicates'
+import { digits } from 'lib/digits'
+import { permutations } from 'lib/permutations'
+import { isPrime, primesUpTo } from 'lib/primes'
+import { areEvenlySpaced } from '../lib/areEvenlySpaced'
 
 // Prime permutations
 // ==================
@@ -20,37 +20,13 @@ import { noDuplicates as noDuplicateDigits } from 'lib/noDuplicates'
 
 const ascending = (a: number, b: number) => a - b
 
-const areEvenlySpaced = (nums: number[]) => {
-  if (nums.length < 3) return true
-  nums = nums.sort(ascending)
-  let prev: number | undefined
-  const diff = nums[1] - nums[0]
-  for (const n of nums) {
-    if (prev && n - prev !== diff) {
-      return false
-    }
-    prev = n
-  }
-  return true
-}
-
-expect(areEvenlySpaced([8, 11, 14, 17, 20])).toBe(true)
-expect(areEvenlySpaced([8, 11, 14, 17, 12])).toBe(false)
-
-// example
-expect(areEvenlySpaced([1487, 4817, 8147])).toBe(true)
-
-// order doesn't matter
-expect(areEvenlySpaced([100, 95, 85, 90])).toBe(true)
-expect(areEvenlySpaced([100, 95, 85, 91])).toBe(false)
-
 const joinDigits = (arr: number[]) => Number(arr.join(''))
 
 const digitPermutations = (n: number) => permutations(digits(n)).map(joinDigits)
 
-type arrFilter = (nums: number[]) => boolean
+// array filters
 
-const allPrime: arrFilter = nums => !nums.some(n => !isPrime(n))
+type arrFilter = (nums: number[]) => boolean
 
 const inRange = (n: number) => n >= 1000 && n <= 9999
 const allInRange: arrFilter = nums => !nums.some(n => !inRange(n))
@@ -60,21 +36,34 @@ const noRepeatedElements: arrFilter = nums => !nums.some(repeatedIn(nums))
 
 const notKnownSolution: arrFilter = nums => !nums.includes(1487)
 
+// We'll end up with a lot of arrays that are the same. Since `Set` deduplicates based on identity,
+// we serialize them before deduplicating, then deserialize the deduplicated set.
+const distinctArrays = (arr: number[][]) => {
+  const stringify = (arr: number[]) => JSON.stringify(arr)
+  const parse = (s: string) => JSON.parse(s) as number[]
+  return Array.from(new Set(arr.map(stringify))).map(parse)
+}
+
 export const solution049 = () => {
-  const solution = primes(9999)
-    .filter(p => p > 1000)
+  // get all sets of 4-digit prime numbers that are permutations of each other
+  const primePermutations = primesUpTo(9999)
     .map(digitPermutations)
+    .map(arr => arr.filter(isPrime)) // only permutations that are prime themselves
+    .map(arr => arr.filter(inRange)) // only 4-digit numbers
+    .filter(arr => arr.length >= 3) // only sets of at least 3
+
+  const distinctPrimePermutations = distinctArrays(primePermutations)
+
+  const candidates = distinctPrimePermutations
     .map(arr => combinations(arr, 3).map(arr => arr.sort(ascending)))
     .flat()
-    .filter(allInRange)
+
+  const distinctCandidates = distinctArrays(candidates)
+
+  const solutions = distinctCandidates
     .filter(areEvenlySpaced)
-    .filter(allPrime)
     .filter(noRepeatedElements)
 
-  const uniqueArrays = (arr: number[][]) =>
-    [...new Set(arr.map(d => JSON.stringify(d)))].map(s => JSON.parse(s))
-
-  console.log(uniqueArrays(solution))
-
-  return solution.filter(notKnownSolution)[0].join('')
+  const newSolutions = solutions.filter(notKnownSolution)
+  return newSolutions[0].join('')
 }
