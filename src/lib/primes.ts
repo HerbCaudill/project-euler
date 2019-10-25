@@ -10,7 +10,7 @@ export const primesUpTo = (max = 100) => {
   return knownPrimes.filter(p => p < max)
 }
 
-const getPrimesFromSieve = (sieve: boolean[]) =>
+export const getPrimesFromSieve = (sieve: boolean[]) =>
   sieve.reduce(
     (primes, value, i) => {
       if (value) primes.push(i)
@@ -86,7 +86,7 @@ export const isPrime = (n: number) => {
   return true
 }
 
-const eSieve = (max: number): boolean[] => {
+export const eSieve = (max: number): boolean[] => {
   const isPrime = new Array(max).fill(true)
   isPrime[0] = isPrime[1] = false
   for (let i = 2; i < Math.sqrt(max); i++)
