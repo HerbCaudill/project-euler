@@ -1,5 +1,4 @@
-import { primesUpTo, nthPrime, isPrime } from 'lib/primes'
-import { sum } from 'lib/sum'
+import { primesUpTo } from 'lib/primes'
 
 // Consecutive prime sum
 // =====================
@@ -16,34 +15,32 @@ import { sum } from 'lib/sum'
 // Which prime, below one-million, can be written as the sum of the most
 // consecutive primes?
 
-type NumberMap = {
-  [key: number]: boolean
-}
-
 const longestPrimeSumBelow = (max: number) => {
-  const primes = primesUpTo(max)
+  const p = primesUpTo(max)
 
   // lookup of cumulative sum of primes: each element `sums[i]` is the sum of all primes smaller
   // or equal to `primes[i]`
-  const sums = primesUpTo(max + 1).reduce(
-    (result, d, i) => [...result, d + (i > 0 ? result[i - 1] : 0)],
-    [] as number[]
-  )
+  const sums = [] as number[]
+  p.forEach((d, i) => sums.push(d + (i > 0 ? sums[i - 1] : 0)))
 
-  const consecutivePrimeSum = (start: number, stop: number) =>
-    sums[stop] - (start > 0 ? sums[start - 1] : 0)
+  // now we can easily look up the sum of primes from p[i] to p[j]
+  const consecutivePrimeSum = (i: number, j: number) =>
+    sums[j] - (i > 0 ? sums[i - 1] : 0)
 
+  // make a place to store info about the best solution we've found so far
   let best = { sum: 0, length: 0, i: 0, j: 0 }
-  for (let i = 0; i < primes.length; i++)
-    for (let j = i + best.length; j < primes.length + 1; j++) {
+
+  for (let i = 0; i < p.length; i++)
+    // no point in testing series that are shorter than our best
+    for (let j = i + best.length; j < p.length; j++) {
       const length = j - i
-      if (length > best.length) {
-        const sum = consecutivePrimeSum(i, j)
-        if (sum < max && primes.includes(sum)) best = { sum, length, i, j }
-      }
+      const sum = consecutivePrimeSum(i, j)
+      // if we go past the max, there's no point in trying larger values of j
+      if (sum > max) break
+      if (length > best.length && p.includes(sum)) best = { sum, length, i, j }
     }
   const { sum, i, j } = best
-  const series = primes.slice(i, j + 1)
+  const series = p.slice(i, j + 1)
   return { sum, series }
 }
 
@@ -56,9 +53,4 @@ const t1000 = longestPrimeSumBelow(1000)
 expect(t1000.sum).toEqual(953)
 expect(t1000.series.length).toEqual(21)
 
-export const solution050 = () => {
-  console.time('million')
-  const result = longestPrimeSumBelow(1000000).sum
-  console.timeEnd('million')
-  return result
-}
+export const solution050 = () => longestPrimeSumBelow(1000000).sum
