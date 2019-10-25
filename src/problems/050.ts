@@ -1,4 +1,4 @@
-import { primesUpTo } from 'lib/primes'
+import { eSieve, getPrimesFromSieve } from 'lib/primes'
 
 // Consecutive prime sum
 // =====================
@@ -16,7 +16,8 @@ import { primesUpTo } from 'lib/primes'
 // consecutive primes?
 
 const longestPrimeSumBelow = (max: number) => {
-  const p = primesUpTo(max)
+  const isPrime = eSieve(max)
+  const p = getPrimesFromSieve(isPrime)
 
   // lookup of cumulative sum of primes: each element `sums[i]` is the sum of all primes smaller
   // or equal to `primes[i]`
@@ -33,11 +34,11 @@ const longestPrimeSumBelow = (max: number) => {
   for (let i = 0; i < p.length; i++)
     // no point in testing series that are shorter than our best
     for (let j = i + best.length; j < p.length; j++) {
-      const length = j - i
       const sum = consecutivePrimeSum(i, j)
       // if we go past the max, there's no point in trying larger values of j
       if (sum > max) break
-      if (length > best.length && p.includes(sum)) best = { sum, length, i, j }
+      const length = j - i
+      if (length > best.length && isPrime[sum]) best = { sum, length, i, j }
     }
   const { sum, i, j } = best
   const series = p.slice(i, j + 1)
