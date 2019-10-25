@@ -1,5 +1,4 @@
-export const knownPrimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
-export const highestKnownPrime = () => knownPrimes[knownPrimes.length - 1]
+// export const knownPrimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 
 // returns an array of primes lower than `max`
 export const primesUpTo = (max = 100) => {
@@ -11,10 +10,19 @@ export const primesUpTo = (max = 100) => {
   return knownPrimes.filter(p => p < max)
 }
 
+const getPrimesFromSieve = (sieve: boolean[]) =>
+  sieve.reduce(
+    (primes, value, i) => {
+      if (value) primes.push(i)
+      return primes
+    },
+    [] as number[]
+  )
+
 // returns the next prime after `n`
 export const nextPrime = (n: number): number => {
   // if it's in the range of the list, just look it up
-  if (n < highestKnownPrime()) return knownPrimes.find(p => p > n) as number
+  if (n < sieve_max) return knownPrimes.find(p => p > n) as number
 
   // brute-force time
   let candidates = candidateGenerator(n)
@@ -56,8 +64,7 @@ export const isPrime = (n: number) => {
   // negative numbers and zero are not prime
   if (n < 1) return false
 
-  // if it's in the range of the list, then it's only prime if it's on the list
-  if (n <= highestKnownPrime()) return knownPrimes.includes(n)
+  if (n < 10 ** 5) return sieve[n]
 
   const sqrt = Math.sqrt(n)
 
@@ -78,3 +85,18 @@ export const isPrime = (n: number) => {
   // must be prime
   return true
 }
+
+const eSieve = (max: number): boolean[] => {
+  const isPrime = new Array(max).fill(true)
+  isPrime[0] = isPrime[1] = false
+  for (let i = 2; i < Math.sqrt(max); i++)
+    // if i is prime, we can start at i² and mark every multiple of i from there as NOT a prime
+    if (isPrime[i])
+      for (let j = Math.pow(i, 2); j < max; j += i) isPrime[j] = false
+  return isPrime
+}
+
+const sieve_max = 10 ** 7
+const sieve = eSieve(sieve_max)
+const knownPrimes = getPrimesFromSieve(sieve)
+export const highestKnownPrime = () => knownPrimes[knownPrimes.length - 1]

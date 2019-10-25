@@ -1,18 +1,23 @@
-import { primesUpTo, isPrime, nextPrime, nthPrime } from '../../src/lib/primes'
+import {
+  isPrime,
+  primesUpTo,
+  nextPrime,
+  nthPrime,
+  highestKnownPrime,
+} from '../../src/lib/primes'
 
-describe('primes', () => {
+describe('primesUpTo', () => {
   test('1', () => expect(primesUpTo(1)).toEqual([]))
-
   test('2', () => expect(primesUpTo(2)).toEqual([]))
-
-  test('30', () =>
-    expect(primesUpTo(30)).toEqual([2, 3, 5, 7, 11, 13, 17, 19, 23, 29]))
-
-  test('1,000', () => expect(primesUpTo(10 ** 3)).toHaveLength(168))
-
-  // slower cases
-  // test('100,000', () => expect(primes(10 ** 5)).toHaveLength(9592))
+  test('20', () => expect(primesUpTo(20)).toEqual([2, 3, 5, 7, 11, 13, 17, 19]))
+  test('10**4', () => expect(primesUpTo(10 ** 3)).toHaveLength(168))
+  test('10**5', () => expect(primesUpTo(10 ** 5)).toHaveLength(9592))
+  test('10**6', () => expect(primesUpTo(10 ** 6)).toHaveLength(78498))
+  test('10**7', () => expect(primesUpTo(10 ** 7)).toHaveLength(664579))
 })
+
+console.log(highestKnownPrime())
+console.log(primesUpTo(10 ** 8).length)
 
 describe('nextPrime', () => {
   const testCase = (n: number, expected: number) =>
@@ -30,10 +35,10 @@ describe('nextPrime', () => {
   test('10 ** 9', () => testCase(10 ** 9, 10 ** 9 + 7))
   test('10 ** 10', () => testCase(10 ** 10, 10 ** 10 + 19))
   test('10 ** 11', () => testCase(10 ** 11, 10 ** 11 + 3))
-  // test('10 ** 12', () => testCase(10 ** 12, 10 ** 12 + 39))
-  // test('10 ** 13', () => testCase(10 ** 13, 10 ** 13 + 37))
-  // test('10 ** 14', () => testCase(10 ** 14, 10 ** 14 + 31))
-  // test('10 ** 15', () => testCase(10 ** 15, 10 ** 15 + 37))
+  test('10 ** 12', () => testCase(10 ** 12, 10 ** 12 + 39))
+  test('10 ** 13', () => testCase(10 ** 13, 10 ** 13 + 37))
+  test('10 ** 14', () => testCase(10 ** 14, 10 ** 14 + 31))
+  test('10 ** 15', () => testCase(10 ** 15, 10 ** 15 + 37))
   // test('9007199254740880', () => testCase(9007199254740880, 9007199254740881)) // largest prime in js integer space
 })
 
@@ -42,9 +47,9 @@ describe('nthPrime', () => {
   test('2', () => expect(nthPrime(2)).toEqual(3))
   test('6', () => expect(nthPrime(6)).toEqual(13))
   test('10', () => expect(nthPrime(10)).toEqual(29))
-  // test('1000', () => expect(nthPrime(1000)).toEqual(7919))
-  // test('10000', () => expect(nthPrime(10000)).toEqual(104729))
-  // test('10001', () => expect(nthPrime(10001)).toEqual(104743))
+  test('1000', () => expect(nthPrime(1000)).toEqual(7919))
+  test('10000', () => expect(nthPrime(10000)).toEqual(104729))
+  test('10001', () => expect(nthPrime(10001)).toEqual(104743))
 })
 
 describe('isPrime', () => {
@@ -66,7 +71,7 @@ describe('isPrime', () => {
   test('71234567', () => testCase(71234567, true))
   test('71234569', () => testCase(71234569, false))
   test('10000000019', () => testCase(10000000019, true))
-  // test('100000000000', () => testCase(100000000000, false))
-  // test('100000000019', () => testCase(100000000019, true))
+  test('100000000000', () => testCase(100000000000, false))
+  test('100000000019', () => testCase(100000000019, true))
   // test('9007199254740881', () => testCase(9007199254740881, true)) // largest prime in js integer space
 })
