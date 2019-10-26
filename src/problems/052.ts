@@ -1,6 +1,4 @@
 import { range } from 'lib/range'
-import { digits } from 'lib/digits'
-import wu from 'wu'
 
 // Permuted multiples
 // ==================
@@ -35,9 +33,8 @@ function solutionsGenerator(digitCount: number, maxMultiple: number = 6) {
   const smallEnoughToMultiply = (n: number) =>
     n < (10 ** digitCount - 1) / maxMultiple
 
-  let result = wu
-    .count(10 ** (digitCount - 1))
-    .takeWhile(smallEnoughToMultiply)
+  let result = range(10 ** (digitCount - 1), 10 ** digitCount - 1)
+    .filter(smallEnoughToMultiply)
     .map(toDigits)
     .filter(noRepeatedElements)
     .map(join)
@@ -45,12 +42,13 @@ function solutionsGenerator(digitCount: number, maxMultiple: number = 6) {
   for (let k = 2; k <= maxMultiple; k++)
     result = result.filter(d => isPermutation(d * k)(d))
 
-  return result.toArray()
+  return result
 }
 
 export const solution052 = () => {
   let digitCount = 6
   let solutions = [] as number[]
-  while (solutions.length === 0) solutions = solutionsGenerator(digitCount++)
+  while (solutions.length === 0 && digitCount < 10)
+    solutions = solutionsGenerator(digitCount++)
   return solutions[0]
 }
