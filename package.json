@@ -11,12 +11,14 @@
     "@jest/test-sequencer": "24",
     "@types/jest": "24",
     "@types/node": "12",
+    "@types/wu": "^2.1.39",
     "fast-memoize": "^2.5.1",
     "jest": "24",
     "prettier": "1",
     "ts-jest": "24",
     "tslib": "1",
-    "typescript": "3"
+    "typescript": "3",
+    "wu": "^2.1.0"
   },
   "prettier": {
     "printWidth": 80,
