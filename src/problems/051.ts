@@ -68,30 +68,10 @@ const primeDigitReplacements = (pattern: string) =>
  * ```
  */
 const _getPositionCombinations = (length: number) => {
-  const positions = range(0, length - 1)
-  const notEntireString = (positions: number[]) => positions.length < length
-  return combinations(positions).filter(notEntireString)
+  const positions = range(0, length - 2) // last digit can't be a placeholder
+  return combinations(positions)
 }
 const getPositionCombinations = memoize(_getPositionCombinations)
-
-{
-  expect(getPositionCombinations(4)).toEqual([
-    [0, 1, 2],
-    [0, 1, 3],
-    [0, 2, 3],
-    [1, 2, 3],
-    [0, 1],
-    [0, 2],
-    [0, 3],
-    [1, 2],
-    [1, 3],
-    [2, 3],
-    [0],
-    [1],
-    [2],
-    [3],
-  ])
-}
 
 /**
  * Finds all replacement patterns for a given number. For example, for the number `157` you'd have:
@@ -100,62 +80,41 @@ const getPositionCombinations = memoize(_getPositionCombinations)
  */
 const allPatterns = (n: number) => {
   const positionCombinations = getPositionCombinations(n.toString().length)
-  const subsitute = (combo: number[]) => {
-    let _n = n.toString()
-    combo.forEach(pos => {
-      _n = replaceAt(_n, pos, '*')
-    })
-    return _n
-  }
+  const subsitute = (combo: number[]) =>
+    n
+      .toString()
+      .split('')
+      .map((d, i) => (combo.includes(i) ? '*' : d))
+      .join('')
   return positionCombinations.map(subsitute)
 }
 
-const replaceAt = (s: string, index: number, replacement: string) =>
-  s.substr(0, index) + replacement + s.substr(index + replacement.length)
-
 {
   expect(allPatterns(157)).toEqual(
-    expect.arrayContaining(['**7', '*5*', '1**', '*57', '1*7', '15*'])
+    expect.arrayContaining(['**7', '*57', '1*7'])
   )
 }
-
-// function* candidates_gen(digitCount: number) {
-//   let p = 10 ** (digitCount - 1)
-//   while (p < 10 ** digitCount) yield nextPrime(p)
-// }
-
-// function* patterns_gen(digitCount: number) {
-//   const seen = new Set<string>()
-//   const candidates = candidates_gen(digitCount)
-//   for (const n of candidates)
-
-// }
 
 const findLongestFamilies = (digitCount: number) => {
   const candidates = range(10 ** (digitCount - 1), 10 ** digitCount - 1) // e.g. 3 digits -> 100..999
     .filter(isPrime)
 
-  console.time(`patterns ${digitCount}`)
   const patterns = new Set<string>()
   for (const p of candidates)
-    for (const combo of getPositionCombinations(digitCount)) {
-      let pattern = p.toString()
-      combo.forEach(pos => (pattern = replaceAt(pattern, pos, '*')))
-      patterns.add(pattern)
-    }
-  console.timeEnd(`patterns ${digitCount}`)
+    for (const pattern of allPatterns(p)) patterns.add(pattern)
 
   // generate prime digit replacement families & record their length
-  const generateFamilies = (pattern: string) => ({
-    pattern,
-    length: primeDigitReplacements(pattern).length,
-  })
-  const families: Family[] = Array.from(patterns)
-    .map(generateFamilies)
-    .flat()
-    .filter(f => f.length > 1)
-  const findMax = (max: number, f: Family) => (f.length > max ? f.length : max)
-  const maxLength = families.reduce(findMax, 0)
+  const families = [] as Family[]
+  let maxLength = 0
+  for (const pattern of patterns) {
+    const f = primeDigitReplacements(pattern)
+    const length = f.length
+    if (length >= maxLength) {
+      maxLength = length
+      families.push({ pattern, length })
+    }
+  }
+
   return families.filter(f => f.length === maxLength)
 }
 
@@ -169,7 +128,7 @@ const findLongestFamilies = (digitCount: number) => {
   // testLength(3, 6)
   // testLength(4, 6)
   // testLength(5, 7)
-  testLength(6, 8)
+  // testLength(6, 8)
 }
 
 const findSmallestFamilyMember = (families: Family[]) => {
@@ -182,7 +141,7 @@ const findSmallestFamilyMember = (families: Family[]) => {
 expect(findSmallestFamilyMember(findLongestFamilies(3))).toBe(107)
 
 export const solution051 = () => {
-  return -1
+  // return -1
   let digitCount = 3
   let bestLength = 0
   let families: Family[] = []
