@@ -1,23 +1,15 @@
-import {
-  isPrime,
-  primesUpTo,
-  nextPrime,
-  nthPrime,
-  highestKnownPrime,
-} from '../../src/lib/primes'
+import { isPrime, nextPrime, nthPrime, primesUpTo } from '../../src/lib/primes'
 
 describe('primesUpTo', () => {
   test('1', () => expect(primesUpTo(1)).toEqual([]))
   test('2', () => expect(primesUpTo(2)).toEqual([]))
   test('20', () => expect(primesUpTo(20)).toEqual([2, 3, 5, 7, 11, 13, 17, 19]))
-  test('10**4', () => expect(primesUpTo(10 ** 3)).toHaveLength(168))
-  test('10**5', () => expect(primesUpTo(10 ** 5)).toHaveLength(9592))
-  test('10**6', () => expect(primesUpTo(10 ** 6)).toHaveLength(78498))
-  test('10**7', () => expect(primesUpTo(10 ** 7)).toHaveLength(664579))
+  test('10**4', () => expect(primesUpTo(10 ** 3).length).toBe(168))
+  test('10**5', () => expect(primesUpTo(10 ** 5).length).toBe(9592))
+  test('10**6', () => expect(primesUpTo(10 ** 6).length).toBe(78498))
+  test('10**7', () => expect(primesUpTo(10 ** 7).length).toBe(664579))
+  test('10**7+100', () => expect(primesUpTo(10 ** 7 + 100).length).toBe(664581))
 })
-
-console.log(highestKnownPrime())
-console.log(primesUpTo(10 ** 8).length)
 
 describe('nextPrime', () => {
   const testCase = (n: number, expected: number) =>
