@@ -22,13 +22,16 @@ export const getPrimesFromSieve = (sieve: boolean[]) =>
 // returns the next prime after `n`
 export const nextPrime = (n: number): number => {
   // if it's in the range of the list, just look it up
-  if (n < sieve_max) return knownPrimes.find(p => p > n) as number
+  const nextKnown = knownPrimes.find(p => p > n) as number
+  if (nextKnown !== undefined) return nextKnown
 
   // brute-force time
   let candidates = candidateGenerator(n)
   let candidate
-  do candidate = candidates.next().value
-  while (!isPrime(candidate))
+
+  do {
+    candidate = candidates.next().value
+  } while (!isPrime(candidate))
 
   return candidate
 }
@@ -61,10 +64,10 @@ export const candidateGenerator = function*(n: number) {
 
 // returns true if a number is prime, false if it is composite
 export const isPrime = (n: number) => {
-  // negative numbers and zero are not prime
-  if (n < 1) return false
+  // negative numbers, zero, and one are not prime
+  if (n <= 1) return false
 
-  if (n < 10 ** 5) return sieve[n]
+  if (n < sieveMax) return sieve[n]
 
   const sqrt = Math.sqrt(n)
 
@@ -96,7 +99,7 @@ export const eSieve = (max: number): boolean[] => {
   return isPrime
 }
 
-const sieve_max = 10 ** 7
-const sieve = eSieve(sieve_max)
+const sieveMax = 10 ** 7
+const sieve = eSieve(sieveMax)
 const knownPrimes = getPrimesFromSieve(sieve)
 export const highestKnownPrime = () => knownPrimes[knownPrimes.length - 1]
