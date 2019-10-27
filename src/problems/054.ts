@@ -212,17 +212,19 @@ const ranks: { [key: string]: RankDefinition } = {
   expect(ranks.straight.evaluate(parse('6S 7S 8H 9S TS'))).toBe(10)
 }
 
-/** Each hand gets  a score in array form. The first element is the rank of the hand (royal flush = 14,
+const pad = (n: number) => n.toString().padStart(3, '0')
+
+/** Each hand gets a score in array form. The first element is the rank of the hand (royal flush = 14,
  * straight flush = 13, etc.); the second is the value of the hand (e.g. 5 for a pair of fives,
  * etc.) Then we append all of the hand's values in descending order to use as tiebreakers. Finally
  * we pad the array's values with zeroes because arrays are compared lexically.  */
 const handScore = (hand: Hand) => {
-  const pad = (n: number) => n.toString().padStart(3, '0')
-  let rankValue = Object.keys(ranks).length
+  // we start with the highest possible rankValue, which is equal to the number of ranks we have
+  let rankValue = Object.keys(ranks).length // we're counting on map keys being ordered, which they're not...
   for (const key in ranks) {
     const highCard = ranks[key].evaluate(hand)
     if (highCard > 0) return [rankValue, highCard, ...getValues(hand)].map(pad)
-    rankValue -= 1
+    rankValue -= 1 // next rankValue is one lower
   }
   throw new Error('Every hand has a score')
 }
