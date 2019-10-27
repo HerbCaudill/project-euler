@@ -203,7 +203,7 @@ const ranks: { [key: string]: RankDefinition } = {
     const { evaluate, example } = ranks[key]
     const { hand, highCard } = example
     const result = evaluate(parse(hand))
-    if (result !== highCard) console.log({ hand, key, result, highCard })
+    // if (result !== highCard) console.log({ hand, key, result, highCard })
     expect(result).toEqual(highCard)
   }
 
@@ -212,7 +212,7 @@ const ranks: { [key: string]: RankDefinition } = {
   expect(ranks.straight.evaluate(parse('6S 7S 8H 9S TS'))).toBe(10)
 }
 
-/** Each hand has a score in array form. The first element is the rank of the hand (royal flush = 14,
+/** Each hand gets  a score in array form. The first element is the rank of the hand (royal flush = 14,
  * straight flush = 13, etc.); the second is the value of the hand (e.g. 5 for a pair of fives,
  * etc.) Then we append all of the hand's values in descending order to use as tiebreakers. Finally
  * we pad the array's values with zeroes because arrays are compared lexically.  */
