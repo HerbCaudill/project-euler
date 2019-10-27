@@ -228,8 +228,7 @@ const handScore = (hand: Hand) => {
 }
 
 /** Returns true if the first hand beats the second. */
-const wins = ([hand1, hand2]: [Hand, Hand]) =>
-  handScore(hand1) > handScore(hand2)
+const wins = ([h1, h2]: [Hand, Hand]) => handScore(h1) > handScore(h2)
 
 {
   // test provided examples
