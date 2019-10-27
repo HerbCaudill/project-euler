@@ -1,4 +1,4 @@
-export const isPalindrome = (n: number | string): boolean => {
+export const isPalindrome = (n: number | string | bigint): boolean => {
   const s = n.toString()
 
   if (s.length <= 1) return true
@@ -6,8 +6,10 @@ export const isPalindrome = (n: number | string): boolean => {
   const midpoint = s.length / 2 - 1
 
   let i = 0
+
   do {
     if (s[i] != s[s.length - 1 - i]) return false
   } while (i++ <= midpoint)
+
   return true
 }
