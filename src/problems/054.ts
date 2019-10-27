@@ -167,13 +167,15 @@ const ofAKind = (count1: 2 | 3 | 4, count2?: 2 | 3) => (hand: Hand) => {
 
   const value1 = values[0] as Value
   if (counts[value1] === count1) {
+    // just one count to match (1 pair, 3 of a kind, 4 of a kind)
     if (count2 === undefined && values.length === 1) return score[value1]
     else {
+      // multiple counts to match (2 pairs, full house)
       const value2 = values[1] as Value
       if (counts[value2] === count2)
         return count1 === count2
-          ? Math.max(score[value1], score[value2])
-          : score[value1]
+          ? Math.max(score[value1], score[value2]) // e.g. 2 pairs, use the highest value
+          : score[value1] // e.g. full house, use the value with 3 of a kind & disregard the value of the pair
     }
   }
   return 0
