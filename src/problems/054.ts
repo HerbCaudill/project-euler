@@ -86,39 +86,13 @@ const parseCard = (card: string) => {
 }
 const parse = (hand: string) => hand.split(/\s+/).map(parseCard)
 
-/**
- * Counts sets of cards of the same value. Returns a map listing the number of cards in each set.
- * For example, a result of `{Q:2, J:3}` means there are two queens and three jacks.
- */
-const valueSets = (cards: Hand) => {
-  const result = {} as { [key: string]: number }
-  for (const c of cards) result[c.value] = (result[c.value] || 0) + 1
-  // only return sets with at least 2 cards
-  for (const v in result) if (result[v] < 2) delete result[v]
-  return result
-}
+const getValues = (hand: Hand) => hand.map(c => score[c.value]).sort(descending)
 {
-  // tests: valueSets
-  expect(valueSets(parse('5H 5C 6S 7S KD'))).toEqual({ 5: 2 })
-  expect(valueSets(parse('5D 8C 9S JS AC'))).toEqual({})
-  expect(valueSets(parse('2D 9C AS AH AC'))).toEqual({ A: 3 })
-  expect(valueSets(parse('4D 6S 9H QH QC'))).toEqual({ Q: 2 })
-  expect(valueSets(parse('2H 2D 4C 4D 4S'))).toEqual({ 2: 2, 4: 3 })
-  expect(valueSets(parse('2C 3S 8S 8D TD'))).toEqual({ 8: 2 })
-  expect(valueSets(parse('2C 5C 7D 8S QH'))).toEqual({})
-  expect(valueSets(parse('3D 6D 7D TD QD'))).toEqual({})
-  expect(valueSets(parse('3D 6D 7H QD QS'))).toEqual({ Q: 2 })
-  expect(valueSets(parse('3C 3D 3S 9S 9D'))).toEqual({ 3: 3, 9: 2 })
-}
-
-const handValues = (hand: Hand) =>
-  hand.map(c => score[c.value]).sort(descending)
-{
-  expect(handValues(parse('TD JD QD KD AD'))).toEqual([14, 13, 12, 11, 10])
+  expect(getValues(parse('TD JD QD KD AD'))).toEqual([14, 13, 12, 11, 10])
 }
 
 /** returns the highest value in the hand */
-const high = (hand: Hand) => handValues(hand)[0]
+const high = (hand: Hand) => getValues(hand)[0]
 {
   expect(high(parse('TD JD QD KD AD'))).toBe(14)
 }
@@ -128,26 +102,35 @@ const flush = (cards: Hand) => new Set(cards.map(c => c.suit)).size === 1
 
 /** returns true if cards all have consecutive values */
 const straight = (cards: Hand) =>
-  !handValues(cards).some((_, i, v) => i > 0 && v[i - 1] - v[i] !== 1)
+  !getValues(cards).some((_, i, v) => i > 0 && v[i - 1] - v[i] !== 1)
 {
   expect(straight(parse('7S 8H 9S TS JC'))).toBe(true)
   expect(straight(parse('6S 7S 8H 9S TS'))).toBe(true)
 }
 
-type Sets = { [key: string]: number[] }
+/** Returns a map where card counts are mapped to arrays of card values.
+ * Examples:
+ * - A result of `{3:[7], 2:[9]}` means we have 3 sevens and 2 nines (a full house)
+ * - A result of `{2:[9,7]}` means we have two pairs, of 9 and 7
+ * - A result of `{5:7}` means we have a flush of sevens
+ * - A result of `{1:[12,10,7,3,2]}` means we have no repeated cards and a high card of Q
+ */
 const sets = (hand: Hand) => {
-  const values = handValues(hand)
-  const result = { 5: [], 4: [], 3: [], 2: [], 1: [] } as Sets
+  const values = getValues(hand)
+  const result = new Map<number, number[]>()
+  for (const count of range(1, 5)) result.set(count, [])
   for (const value of new Set(values)) {
     const count = values.filter(v => v === value).length
-    result[count].push(value)
+    const arr = result.get(count)
+    arr!.push(value)
+    result.set(count, arr!)
   }
   return result
 }
 
 //** higher-order-function for pair, three of a kind, four of a kind */
-const ofAKind = (count1: 2 | 3 | 4) => (hand: Hand) => {
-  const set = sets(hand)[count1]
+const ofAKind = (count: 2 | 3 | 4) => (hand: Hand) => {
+  const set = sets(hand).get(count) || []
   return set.length === 1 ? set[0] : 0
 }
 
@@ -174,8 +157,8 @@ const ranks: { [key: string]: RankDefinition } = {
 
   full_house: {
     evaluate: hand => {
-      const three = sets(hand)[3]
-      const pair = sets(hand)[2]
+      const three = sets(hand).get(3) || []
+      const pair = sets(hand).get(2) || []
       return three.length === 1 && pair.length === 1 ? three[0] : 0
     },
     example: { hand: '4H 4D 4S AD AC', highCard: 4 },
@@ -198,7 +181,7 @@ const ranks: { [key: string]: RankDefinition } = {
 
   two_pairs: {
     evaluate: hand => {
-      const pairs = sets(hand)[2]
+      const pairs = sets(hand).get(2) || []
       return pairs.length === 2 ? Math.max(...pairs) : 0
     },
     example: { hand: 'QH QD 2H 2S AH', highCard: 12 },
@@ -220,7 +203,7 @@ const ranks: { [key: string]: RankDefinition } = {
     const { evaluate, example } = ranks[key]
     const { hand, highCard } = example
     const result = evaluate(parse(hand))
-    // if (result !== highCard) console.log({ hand, key, result, highCard })
+    if (result !== highCard) console.log({ hand, key, result, highCard })
     expect(result).toEqual(highCard)
   }
 
@@ -237,9 +220,8 @@ const handScore = (hand: Hand) => {
   const pad = (n: number) => n.toString().padStart(3, '0')
   let rankValue = Object.keys(ranks).length
   for (const key in ranks) {
-    const highCardValue = ranks[key].evaluate(hand)
-    if (highCardValue > 0)
-      return [rankValue, highCardValue, ...handValues(hand)].map(pad)
+    const highCard = ranks[key].evaluate(hand)
+    if (highCard > 0) return [rankValue, highCard, ...getValues(hand)].map(pad)
     rankValue -= 1
   }
   throw new Error('Every hand has a score')
