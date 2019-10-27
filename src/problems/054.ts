@@ -72,7 +72,6 @@ const score = {
   A: 14,
 }
 
-const ascending = (a: number, b: number) => a - b
 const descending = (a: number, b: number) => b - a
 
 type Suit = 'H' | 'D' | 'C' | 'D'
@@ -115,7 +114,7 @@ const straight = (cards: Hand) =>
  * - A result of `{5:7}` means we have a flush of sevens
  * - A result of `{1:[12,10,7,3,2]}` means we have no repeated cards and a high card of Q
  */
-const groups = (hand: Hand) => {
+const getGroups = (hand: Hand) => {
   const values = getValues(hand)
   const result = new Map<number, number[]>()
   for (const value of new Set(values)) {
@@ -128,7 +127,7 @@ const groups = (hand: Hand) => {
 
 //** higher-order-function for pair, three of a kind, four of a kind */
 const ofAKind = (c: 2 | 3 | 4) => (hand: Hand) => {
-  const group = groups(hand).get(c) || []
+  const group = getGroups(hand).get(c) || []
   return group.length === 1 ? group[0] : 0
 }
 
@@ -155,9 +154,9 @@ const ranks: { [key: string]: RankDefinition } = {
 
   full_house: {
     evaluate: hand => {
-      const handGroups = groups(hand)
-      const three = handGroups.get(3) || []
-      const pair = handGroups.get(2) || []
+      const groups = getGroups(hand)
+      const three = groups.get(3) || []
+      const pair = groups.get(2) || []
       return three.length === 1 && pair.length === 1 ? three[0] : 0
     },
     example: { hand: '4H 4D 4S AD AC', highCard: 4 },
@@ -180,8 +179,8 @@ const ranks: { [key: string]: RankDefinition } = {
 
   two_pairs: {
     evaluate: hand => {
-      const handGroups = groups(hand)
-      const pairs = handGroups.get(2) || []
+      const groups = getGroups(hand)
+      const pairs = groups.get(2) || []
       return pairs.length === 2 ? Math.max(...pairs) : 0
     },
     example: { hand: 'QH QD 2H 2S AH', highCard: 12 },
