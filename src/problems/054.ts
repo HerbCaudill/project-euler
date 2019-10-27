@@ -118,12 +118,10 @@ const straight = (cards: Hand) =>
 const sets = (hand: Hand) => {
   const values = getValues(hand)
   const result = new Map<number, number[]>()
-  for (const count of range(1, 5)) result.set(count, [])
   for (const value of new Set(values)) {
     const count = values.filter(v => v === value).length
-    const arr = result.get(count)
-    arr!.push(value)
-    result.set(count, arr!)
+    const valuesWithThisCount = result.get(count) || []
+    result.set(count, valuesWithThisCount.concat(value))
   }
   return result
 }
