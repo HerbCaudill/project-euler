@@ -1,4 +1,5 @@
 import { games_raw } from '../resources/054'
+import { range } from 'lib/range'
 
 // Poker hands
 // ===========
@@ -85,23 +86,17 @@ const parseCard = (card: string) => {
 }
 const parse = (hand: string) => hand.split(/\s+/).map(parseCard)
 
-const byScore = (a: Card, b: Card) => score[a.value] - score[b.value]
-
-/** Helper for valueSets & suitSets */
-const countSets = (property: 'suit' | 'value', cards: Hand) => {
-  const result = {} as { [key: string]: number }
-  for (const c of cards.sort(byScore))
-    result[c[property]] = (result[c[property]] || 0) + 1
-  // only return sets with at least 2 cards
-  for (const v in result) if (result[v] < 2) delete result[v]
-  return result
-}
-
 /**
  * Counts sets of cards of the same value. Returns a map listing the number of cards in each set.
  * For example, a result of `{Q:2, J:3}` means there are two queens and three jacks.
  */
-const valueSets = (cards: Hand) => countSets('value', cards)
+const valueSets = (cards: Hand) => {
+  const result = {} as { [key: string]: number }
+  for (const c of cards) result[c.value] = (result[c.value] || 0) + 1
+  // only return sets with at least 2 cards
+  for (const v in result) if (result[v] < 2) delete result[v]
+  return result
+}
 {
   // tests: valueSets
   expect(valueSets(parse('5H 5C 6S 7S KD'))).toEqual({ 5: 2 })
@@ -116,25 +111,6 @@ const valueSets = (cards: Hand) => countSets('value', cards)
   expect(valueSets(parse('3C 3D 3S 9S 9D'))).toEqual({ 3: 3, 9: 2 })
 }
 
-/**
- * Counts sets of cards of the same suit. Returns a map listing the number of cards in each set.
- * For example, a result of `{C:2}` means there are two clubs (and one of everything else).
- */
-const suitSets = (cards: Hand) => countSets('suit', cards)
-{
-  // tests: suitSets
-  expect(suitSets(parse('5H 5C 6S 7S KD'))).toEqual({ S: 2 })
-  expect(suitSets(parse('5D 8C 9S JS AC'))).toEqual({ S: 2, C: 2 })
-  expect(suitSets(parse('2D 9C AS AH AC'))).toEqual({ C: 2 })
-  expect(suitSets(parse('4D 6S 9H QH QC'))).toEqual({ H: 2 })
-  expect(suitSets(parse('2H 2D 4C 4D 4S'))).toEqual({ D: 2 })
-  expect(suitSets(parse('2C 3S 8S 8D TD'))).toEqual({ S: 2, D: 2 })
-  expect(suitSets(parse('2C 5C 7D 8S QH'))).toEqual({ C: 2 })
-  expect(suitSets(parse('3D 6D 7D TD QD'))).toEqual({ D: 5 })
-  expect(suitSets(parse('3D 6D 7H QD QS'))).toEqual({ D: 3 })
-  expect(suitSets(parse('3C 3D 3S 9S 9D'))).toEqual({ D: 2, S: 2 })
-}
-
 const handValues = (hand: Hand) =>
   hand.map(c => score[c.value]).sort(descending)
 {
@@ -142,189 +118,157 @@ const handValues = (hand: Hand) =>
 }
 
 /** returns the highest value in the hand */
-const highestValue = (hand: Hand) => handValues(hand)[0]
+const high = (hand: Hand) => handValues(hand)[0]
 {
-  expect(highestValue(parse('TD JD QD KD AD'))).toBe(14)
+  expect(high(parse('TD JD QD KD AD'))).toBe(14)
 }
 
 /** returns true if all cards are of the same suit */
-const isFlush = (cards: Hand) => Object.values(suitSets(cards))[0] === 5
+const flush = (cards: Hand) => new Set(cards.map(c => c.suit)).size === 1
 
 /** returns true if cards all have consecutive values */
-const isStraight = (cards: Hand) =>
+const straight = (cards: Hand) =>
   !handValues(cards).some((_, i, v) => i > 0 && v[i - 1] - v[i] !== 1)
 {
-  expect(isStraight(parse('7S 8H 9S TS JC'))).toBe(true)
-  expect(isStraight(parse('6S 7S 8H 9S TS'))).toBe(true)
+  expect(straight(parse('7S 8H 9S TS JC'))).toBe(true)
+  expect(straight(parse('6S 7S 8H 9S TS'))).toBe(true)
 }
 
-//** higher-order-function for rank functions pair, three of a kind, four of a kind */
-const ofAKind = (count1: 2 | 3 | 4, count2?: 2 | 3) => (hand: Hand) => {
-  const counts = valueSets(hand)
-
-  // order keys in descending order of count, because we call ofAKind(3,2) and not (2,3)
-  const values = Object.keys(counts).sort((a, b) => counts[b] - counts[a])
-
-  const value1 = values[0] as Value
-  if (counts[value1] === count1) {
-    // just one count to match (1 pair, 3 of a kind, 4 of a kind)
-    if (count2 === undefined && values.length === 1) return score[value1]
-    else {
-      // multiple counts to match (2 pairs, full house)
-      const value2 = values[1] as Value
-      if (counts[value2] === count2)
-        return count1 === count2
-          ? Math.max(score[value1], score[value2]) // e.g. 2 pairs, use the highest value
-          : score[value1] // e.g. full house, use the value with 3 of a kind & disregard the value of the pair
-    }
+type Sets = { [key: string]: number[] }
+const sets = (hand: Hand) => {
+  const values = handValues(hand)
+  const result = { 5: [], 4: [], 3: [], 2: [], 1: [] } as Sets
+  for (const value of new Set(values)) {
+    const count = values.filter(v => v === value).length
+    result[count].push(value)
   }
-  return 0
+  return result
+}
+
+//** higher-order-function for pair, three of a kind, four of a kind */
+const ofAKind = (count1: 2 | 3 | 4) => (hand: Hand) => {
+  const set = sets(hand)[count1]
+  return set.length === 1 ? set[0] : 0
 }
 
 interface RankDefinition {
-  name: string
-  value: number
-  evaluator: (hand: Hand) => number
-  example: { hand: Hand; highCard: number }
+  evaluate: (hand: Hand) => number
+  example: { hand: string; highCard: number }
 }
 
 const ranks: { [key: string]: RankDefinition } = {
   royal_flush: {
-    name: 'Royal Flush',
-    value: 9,
-    evaluator: hand =>
-      isFlush(hand) && isStraight(hand) && highestValue(hand) === 14 ? 14 : 0,
-    example: { hand: parse('TD JD QD KD AD'), highCard: 14 },
+    evaluate: h => (flush(h) && straight(h) && high(h) > 13 ? 14 : 0),
+    example: { hand: 'TD JD QD KD AD', highCard: 14 },
   },
 
   straight_flush: {
-    name: 'Straight Flush',
-    value: 8,
-    evaluator: hand =>
-      isFlush(hand) && isStraight(hand) && highestValue(hand) < 14
-        ? highestValue(hand)
-        : 0,
-    example: { hand: parse('5C 6C 7C 8C 9C'), highCard: 9 },
+    evaluate: h => (flush(h) && straight(h) && high(h) < 14 ? high(h) : 0),
+    example: { hand: '5C 6C 7C 8C 9C', highCard: 9 },
   },
 
   four_of_a_kind: {
-    name: 'Four of a Kind',
-    value: 7,
-    evaluator: ofAKind(4),
-    example: { hand: parse('7D 7C 7H 7S AH'), highCard: 7 },
+    evaluate: ofAKind(4),
+    example: { hand: '7D 7C 7H 7S AH', highCard: 7 },
   },
 
   full_house: {
-    name: 'Full House',
-    value: 6,
-    evaluator: ofAKind(3, 2),
-    example: { hand: parse('4H 4D 4S AD AC'), highCard: 4 },
+    evaluate: hand => {
+      const three = sets(hand)[3]
+      const pair = sets(hand)[2]
+      return three.length === 1 && pair.length === 1 ? three[0] : 0
+    },
+    example: { hand: '4H 4D 4S AD AC', highCard: 4 },
   },
 
   flush: {
-    name: 'Flush',
-    value: 5,
-    evaluator: hand =>
-      isFlush(hand) && !isStraight(hand) ? highestValue(hand) : 0,
-    example: { hand: parse('AH 3H 7H 8H JH'), highCard: 14 },
+    evaluate: hand => (flush(hand) && !straight(hand) ? high(hand) : 0),
+    example: { hand: 'AH 3H 7H 8H JH', highCard: 14 },
   },
 
   straight: {
-    name: 'Straight',
-    value: 4,
-    evaluator: hand =>
-      isStraight(hand) && !isFlush(hand) ? highestValue(hand) : 0,
-    example: { hand: parse('4H 5D 6D 7H 8C'), highCard: 8 },
+    evaluate: hand => (straight(hand) && !flush(hand) ? high(hand) : 0),
+    example: { hand: '4H 5D 6D 7H 8C', highCard: 8 },
   },
 
   three_of_a_kind: {
-    name: 'Three of a Kind',
-    value: 3,
-    evaluator: ofAKind(3),
-    example: { hand: parse('QH QD QS 2H 5S'), highCard: 12 },
+    evaluate: ofAKind(3),
+    example: { hand: 'QH QD QS 2H 5S', highCard: 12 },
   },
 
   two_pairs: {
-    name: 'Two Pairs',
-    value: 2,
-    evaluator: ofAKind(2, 2),
-    example: { hand: parse('QH QD 2H 2S AH'), highCard: 12 },
+    evaluate: hand => {
+      const pairs = sets(hand)[2]
+      return pairs.length === 2 ? Math.max(...pairs) : 0
+    },
+    example: { hand: 'QH QD 2H 2S AH', highCard: 12 },
   },
 
   one_pair: {
-    name: 'One Pair',
-    value: 1,
-    evaluator: ofAKind(2),
-    example: { hand: parse('JH JS 3H 2D AH'), highCard: 11 },
+    evaluate: ofAKind(2),
+    example: { hand: 'JH JS 3H 2D AH', highCard: 11 },
   },
 
   high_card: {
-    name: 'High Card',
-    value: 0,
-    evaluator: hand => {
-      const noneOfAKind = Object.keys(valueSets(hand)).length === 0
-      return noneOfAKind && !isFlush(hand) && !isStraight(hand)
-        ? highestValue(hand)
-        : 0
-    },
-    example: { hand: parse('JH QS 3H 2D AH'), highCard: 14 },
+    evaluate: high,
+    example: { hand: 'JH QS 3H 2D AH', highCard: 14 },
   },
 }
 {
-  // test all of our examples to make sure each evaluator only gets a hit on its own example
-  for (const testKey in ranks)
-    for (const exampleKey in ranks) {
-      const { hand, highCard } = ranks[exampleKey].example
-      const result = ranks[testKey].evaluator(hand)
-      const expected = testKey === exampleKey ? highCard : 0
-      if (result !== expected)
-        console.log({ hand, testKey, exampleKey, result, expected })
-      expect(result).toEqual(expected)
-    }
+  // test all of our examples to make sure each evaluator returns true for its example
+  for (const key in ranks) {
+    const { evaluate, example } = ranks[key]
+    const { hand, highCard } = example
+    const result = evaluate(parse(hand))
+    // if (result !== highCard) console.log({ hand, key, result, highCard })
+    expect(result).toEqual(highCard)
+  }
 
   // other cases
-  expect(ranks.one_pair.evaluator(parse('2H 2D 3H 5H 7H'))).toBe(2)
-  expect(ranks.straight.evaluator(parse('6S 7S 8H 9S TS'))).toBe(10)
+  expect(ranks.one_pair.evaluate(parse('2H 2D 3H 5H 7H'))).toBe(2)
+  expect(ranks.straight.evaluate(parse('6S 7S 8H 9S TS'))).toBe(10)
 }
 
+/** Each hand has a score in array form. The first element is the rank of the hand (royal flush = 14,
+ * straight flush = 13, etc.); the second is the value of the hand (e.g. 5 for a pair of fives,
+ * etc.) Then we append all of the hand's values in descending order to use as tiebreakers. Finally
+ * we pad the array's values with zeroes because arrays are compared lexically.  */
 const handScore = (hand: Hand) => {
   const pad = (n: number) => n.toString().padStart(3, '0')
+  let rankValue = Object.keys(ranks).length
   for (const key in ranks) {
-    const rank = ranks[key]
-    const highCardValue = rank.evaluator(hand)
+    const highCardValue = ranks[key].evaluate(hand)
     if (highCardValue > 0)
-      return [rank.value, highCardValue, ...handValues(hand)].map(pad)
+      return [rankValue, highCardValue, ...handValues(hand)].map(pad)
+    rankValue -= 1
   }
   throw new Error('Every hand has a score')
 }
 
-/** returns true if the first hand beats the second */
-const p1Wins = ([hand1, hand2]: [Hand, Hand]) =>
+/** Returns true if the first hand beats the second. */
+const wins = ([hand1, hand2]: [Hand, Hand]) =>
   handScore(hand1) > handScore(hand2)
 
 {
   // test provided examples
-  expect(p1Wins([parse('5H 5C 6S 7S KD'), parse('2C 3S 8S 8D TD')])).toBe(false) // pair of eights > pair of fives
-  expect(p1Wins([parse('5D 8C 9S JS AC'), parse('2C 5C 7D 8S QH')])).toBe(true) //  high card ace > high card queen
-  expect(p1Wins([parse('2D 9C AS AH AC'), parse('3D 6D 7D TD QD')])).toBe(false) // flush > three of a kind
-  expect(p1Wins([parse('4D 6S 9H QH QC'), parse('3D 6D 7H QD QS')])).toBe(true) //  pair of queens, tiebreaker: nine > seven
-  expect(p1Wins([parse('2H 2D 4C 4D 4S'), parse('3C 3D 3S 9S 9D')])).toBe(true) //  full house, four > full house, three
+  expect(wins([parse('5H 5C 6S 7S KD'), parse('2C 3S 8S 8D TD')])).toBe(false) // pair of eights > pair of fives
+  expect(wins([parse('5D 8C 9S JS AC'), parse('2C 5C 7D 8S QH')])).toBe(true) //  high card ace > high card queen
+  expect(wins([parse('2D 9C AS AH AC'), parse('3D 6D 7D TD QD')])).toBe(false) // flush > three of a kind
+  expect(wins([parse('4D 6S 9H QH QC'), parse('3D 6D 7H QD QS')])).toBe(true) //  pair of queens, tiebreaker: nine > seven
+  expect(wins([parse('2H 2D 4C 4D 4S'), parse('3C 3D 3S 9S 9D')])).toBe(true) //  full house, four > full house, three
 
   // other examples
-  expect(p1Wins([parse('2H 2D 9H 8D 3S'), parse('2C 2S 9C 9D 3C')])).toBe(false) // tiebreaker: 9C 9D > 9H 8D
-  expect(p1Wins([parse('2H 2D JH 4D 3S'), parse('2C 2S TH 4C 3D')])).toBe(true) //  tiebreaker: jack > ten
-  expect(p1Wins([parse('6S 7S 8H 9S TS'), parse('3C 7H 8C QH AH')])).toBe(true) //  straight (ten) > queen
-  expect(p1Wins([parse('3S 5D 5H 6D 7C'), parse('2H 3D 5C 5S JC')])).toBe(false) // pair of five, tiebreaker: jack > seven
+  expect(wins([parse('2H 2D 9H 8D 3S'), parse('2C 2S 9C 9D 3C')])).toBe(false) // tiebreaker: 9C 9D > 9H 8D
+  expect(wins([parse('2H 2D JH 4D 3S'), parse('2C 2S TH 4C 3D')])).toBe(true) //  tiebreaker: jack > ten
+  expect(wins([parse('6S 7S 8H 9S TS'), parse('3C 7H 8C QH AH')])).toBe(true) //  straight (ten) > queen
+  expect(wins([parse('3S 5D 5H 6D 7C'), parse('2H 3D 5C 5S JC')])).toBe(false) // pair of five, tiebreaker: jack > seven
 }
 
 const games = games_raw
   .trim()
-  .split(/\n/)
-  .map(row => row.split(/\s+/))
-  .map(arr => [arr.slice(0, 5), arr.slice(5)])
-  .map(r => r.map(p => p.map(parseCard)) as [Hand, Hand])
+  .split(/\n/) // split into rows, each row is a game
+  .map(row => row.split(/\s+/)) // split into cards
+  .map(arr => [arr.slice(0, 5), arr.slice(5)]) // cut into two hands
+  .map(r => r.map(p => p.map(parseCard)) as [Hand, Hand]) // parse cards
 
-// const stringify = (hand: Hand) => hand.map(c => `${c.value}${c.suit}`).join(' ')
-// console.log(games.filter(g => p1Wins(g)).map(g => g.map(stringify).join('  ')))
-
-export const solution054 = () => games.filter(p1Wins).length
+export const solution054 = () => games.filter(wins).length
