@@ -87,7 +87,7 @@ const hands = _hands.map(players => {
   return { p1, p2 }
 })
 
-const countSets = (property: 'suit' | 'value', cards: Card[]) => {
+const countSets = (property: 'suit' | 'value', cards: Hand) => {
   const result = {} as { [key: string]: number }
   for (const c of cards) result[c[property]] = (result[c[property]] || 0) + 1
   // only return sets with at least 2 cards
@@ -99,7 +99,7 @@ const countSets = (property: 'suit' | 'value', cards: Card[]) => {
  * Counts sets of cards of the same value. Returns a map listing the number of cards in each set.
  * For example, a result of `{Q:2, J:3}` means there are two queens and three jacks.
  */
-const valueSets = (cards: Card[]) => countSets('value', cards)
+const valueSets = (cards: Hand) => countSets('value', cards)
 {
   // tests: valueSets
   expect(valueSets(parseHand('5H 5C 6S 7S KD'))).toEqual({ 5: 2 })
@@ -118,7 +118,7 @@ const valueSets = (cards: Card[]) => countSets('value', cards)
  * Counts sets of cards of the same suit. Returns a map listing the number of cards in each set.
  * For example, a result of `{C:2}` means there are two clubs (and one of everything else).
  */
-const suitSets = (cards: Card[]) => countSets('suit', cards)
+const suitSets = (cards: Hand) => countSets('suit', cards)
 {
   // tests: suitSets
   expect(suitSets(parseHand('5H 5C 6S 7S KD'))).toEqual({ S: 2 })
@@ -133,92 +133,204 @@ const suitSets = (cards: Card[]) => countSets('suit', cards)
   expect(suitSets(parseHand('3C 3D 3S 9S 9D'))).toEqual({ D: 2, S: 2 })
 }
 
-const highestValue = (cards: Card[]) =>
+/** returns the highest  */
+const highestValue = (cards: Hand) =>
   Math.max(...cards.map(c => score[c.value]))
 
-const rank: { [name: string]: (hand: Card[]) => number } = {
-  // Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.           - same suit, consecutive
-  // Straight Flush: All cards are consecutive values of same suit.    - same suit, consecutive
-  // Four of a Kind: Four cards of the same value.                     - same value
-  // Full House: Three of a kind and a pair.                           - same value
+/** returns true if all cards are of the same suit */
+const isFlush = (cards: Hand) => {
+  const counts = suitSets(cards)
+  const suit = Object.keys(counts)[0]
+  return counts[suit] === 5
+}
 
-  // Flush: All cards of the same suit.                                - same suit
-  flush: hand => {
-    const counts = suitSets(hand)
-    const suit = Object.keys(counts)[0]
-    if (counts[suit] === 5) return highestValue(hand)
-    else return 0
-  },
+/** returns true if cards all have consecutive values */
+const isStraight = (cards: Hand) => {
+  const scores = cards.map(c => score[c.value])
+  return !scores.sort().some((_, i, arr) => i > 0 && arr[i] - arr[i - 1] !== 1)
+}
 
-  // Straight: All cards are consecutive values.                       - consecutive
-
-  // Three of a Kind: Three cards of the same value.                   - same value
-
-  // Two Pairs: Two different pairs.                                   - same value
-  twopairs: hand => {
-    const counts = valueSets(hand)
-    const values = Object.keys(counts)
-    if (values.length === 2) {
-      const v1 = values[0] as Value
-      const v2 = values[1] as Value
-      if (counts[v1] === 2 && counts[v2] === 2)
-        return Math.max(score[v1], score[v2])
+//** higher-order-function for rank functions pair, three of a kind, four of a kind */
+const ofAKind = (count1: 2 | 3 | 4, count2?: 2 | 3) => (hand: Hand) => {
+  const counts = valueSets(hand)
+  const values = Object.keys(counts)
+  const value1 = values[0] as Value
+  if (counts[value1] === count1) {
+    if (count2 === undefined && values.length === 1) return score[value1]
+    else {
+      const value2 = values[1] as Value
+      if (counts[value2] === count2)
+        return count1 === count2
+          ? Math.max(score[value1], score[value2])
+          : score[value1]
     }
-    return 0
+  }
+  return 0
+}
+
+interface RankDefinition {
+  name: string
+  description: string
+  value: number
+  evaluator: (hand: Hand) => number
+  example: {
+    hand: Hand
+    highCard: number
+  }
+}
+
+const ranks: { [key: string]: RankDefinition } = {
+  royal_flush: {
+    name: 'Royal Flush',
+    description: 'Ten, Jack, Queen, King, Ace, in same suit.',
+    value: 900,
+    evaluator: hand =>
+      isFlush(hand) && isStraight(hand) && highestValue(hand) === 14 ? 14 : 0,
+    example: {
+      hand: parseHand('TD JD QD KD AD'),
+      highCard: 14,
+    },
   },
 
-  // One Pair: Two cards of the same value.                            - same value
-  pair: hand => {
-    const counts = valueSets(hand)
-    const values = Object.keys(counts)
-    const value = values[0] as Value
-    if (values.length === 1 && counts[value] === 2) return score[value]
-    return 0
+  straight_flush: {
+    name: 'Straight Flush',
+    description: 'All cards are consecutive values of same suit.',
+    value: 800,
+    evaluator: hand =>
+      isFlush(hand) && isStraight(hand) && highestValue(hand) < 14
+        ? highestValue(hand)
+        : 0,
+    example: {
+      hand: parseHand('5C 6C 7C 8C 9C'),
+      highCard: 9,
+    },
   },
 
-  // High Card: Highest value card.                                    -
+  four_of_a_kind: {
+    name: 'Four of a Kind',
+    description: 'Four cards of the same value.',
+    value: 700,
+    evaluator: ofAKind(4),
+    example: {
+      hand: parseHand('7D 7C 7H 7S AH'),
+      highCard: 7,
+    },
+  },
+
+  full_house: {
+    name: 'Full House',
+    description: 'Three of a kind and a pair.',
+    value: 600,
+    evaluator: ofAKind(3, 2),
+    example: {
+      hand: parseHand('4H 4D 4S AD AC'),
+      highCard: 4,
+    },
+  },
+
+  flush: {
+    name: 'Flush',
+    description: 'All cards of the same suit.',
+    value: 500,
+    evaluator: hand =>
+      isFlush(hand) && !isStraight(hand) ? highestValue(hand) : 0,
+    example: {
+      hand: parseHand('AH 3H 7H 8H JH'),
+      highCard: 14,
+    },
+  },
+
+  straight: {
+    name: 'Straight',
+    description: 'All cards are consecutive values.',
+    value: 400,
+    evaluator: hand =>
+      isStraight(hand) && !isFlush(hand) ? highestValue(hand) : 0,
+    example: {
+      hand: parseHand('4H 5D 6D 7H 8C'),
+      highCard: 8,
+    },
+  },
+
+  three_of_a_kind: {
+    name: 'Three of a Kind',
+    description: 'Three cards of the same value.',
+    value: 300,
+    evaluator: ofAKind(3),
+    example: {
+      hand: parseHand('QH QD QS 2H 5S'),
+      highCard: 12,
+    },
+  },
+
+  two_pairs: {
+    name: 'Two Pairs',
+    description: 'Two different pairs.',
+    value: 200,
+    evaluator: ofAKind(2, 2),
+    example: {
+      hand: parseHand('QH QD 2H 2S AH'),
+      highCard: 12,
+    },
+  },
+
+  one_pair: {
+    name: 'One Pair',
+    description: 'Two cards of the same value.',
+    value: 100,
+    evaluator: ofAKind(2),
+    example: {
+      hand: parseHand('JH JS 3H 2D AH'),
+      highCard: 11,
+    },
+  },
+
+  high_card: {
+    name: 'High Card',
+    description: 'Highest value card.',
+    value: 0,
+    evaluator: hand => {
+      const noneOfAKind = Object.keys(valueSets(hand)).length === 0
+      return noneOfAKind && !isFlush(hand) && !isStraight(hand)
+        ? highestValue(hand)
+        : 0
+    },
+    example: {
+      hand: parseHand('JH QS 3H 2D AH'),
+      highCard: 14,
+    },
+  },
 }
 {
-  {
-    // flush
-    expect(rank.flush(parseHand('5H 5C 6S 7S KD'))).toEqual(0)
-    expect(rank.flush(parseHand('5D 8C 9S JS AC'))).toEqual(0)
-    expect(rank.flush(parseHand('2D 9C AS AH AC'))).toEqual(0)
-    expect(rank.flush(parseHand('4D 6S 9H QH QC'))).toEqual(0)
-    expect(rank.flush(parseHand('2H 2D 4C 4D 4S'))).toEqual(0)
-    expect(rank.flush(parseHand('2C 3S 8S 8D TD'))).toEqual(0)
-    expect(rank.flush(parseHand('2C 5C 7D 8S QH'))).toEqual(0)
-    expect(rank.flush(parseHand('3D 6D 7D TD QD'))).toEqual(12) // flush with diamonds; queen
-    expect(rank.flush(parseHand('3D 6D 7H QD QS'))).toEqual(0)
-    expect(rank.flush(parseHand('3C 3D 3S 9S 9D'))).toEqual(0)
+  // test all of our examples to make sure each evaluator only gets a hit on its own example
+  for (const testKey in ranks)
+    for (const exampleKey in ranks) {
+      const { hand, highCard } = ranks[exampleKey].example
+      const result = ranks[testKey].evaluator(hand)
+      const expected = testKey === exampleKey ? highCard : 0
+      expect(result).toEqual(expected)
+    }
+}
+
+const scoreHand = (hand: Hand) => {
+  for (const key in ranks) {
+    const rank = ranks[key]
+    const highCardValue = rank.evaluator(hand)
+    if (highCardValue > 0) return rank.value + highCardValue
   }
-  {
-    // twopairs
-    expect(rank.twopairs(parseHand('5H 5C 6S 6S KD'))).toEqual(6) // pair of fives, pair of sixes
-    expect(rank.twopairs(parseHand('5H 5C 6S 7S KD'))).toEqual(0)
-    expect(rank.twopairs(parseHand('5D 8C 9S JS AC'))).toEqual(0)
-    expect(rank.twopairs(parseHand('2D 9C AS AH AC'))).toEqual(0)
-    expect(rank.twopairs(parseHand('4D 6S 9H QH QC'))).toEqual(0)
-    expect(rank.twopairs(parseHand('2H 2D 4C 4D 4S'))).toEqual(0)
-    expect(rank.twopairs(parseHand('2C 3S 8S 8D TD'))).toEqual(0)
-    expect(rank.twopairs(parseHand('2C 5C 7D 8S QH'))).toEqual(0)
-    expect(rank.twopairs(parseHand('3D 6D 7D TD QD'))).toEqual(0)
-    expect(rank.twopairs(parseHand('3D 6D 7H QD QS'))).toEqual(0)
-    expect(rank.twopairs(parseHand('3C 3D 3S 9S 9D'))).toEqual(0)
-  }
-  {
-    // pair
-    expect(rank.pair(parseHand('5H 5C 6S 7S KD'))).toEqual(5)
-    expect(rank.pair(parseHand('5D 8C 9S JS AC'))).toEqual(0)
-    expect(rank.pair(parseHand('2D 9C AS AH AC'))).toEqual(0)
-    expect(rank.pair(parseHand('4D 6S 9H QH QC'))).toEqual(12) // pair of queens
-    expect(rank.pair(parseHand('2H 2D 4C 4D 4S'))).toEqual(0)
-    expect(rank.pair(parseHand('2C 3S 8S 8D TD'))).toEqual(8) // pair of eights
-    expect(rank.pair(parseHand('2C 5C 7D 8S QH'))).toEqual(0)
-    expect(rank.pair(parseHand('3D 6D 7D TD QD'))).toEqual(0)
-    expect(rank.pair(parseHand('3D 6D 7H QD QS'))).toEqual(12) // pair of queens
-    expect(rank.pair(parseHand('3C 3D 3S 9S 9D'))).toEqual(0)
-  }
+  throw new Error('Every hand has a score')
+}
+{
+  expect(scoreHand(ranks.royal_flush.example.hand)).toBe(914)
+  expect(scoreHand(ranks.straight_flush.example.hand)).toBe(809)
+  expect(scoreHand(ranks.four_of_a_kind.example.hand)).toBe(707)
+  expect(scoreHand(ranks.full_house.example.hand)).toBe(604)
+  expect(scoreHand(ranks.flush.example.hand)).toBe(514)
+  expect(scoreHand(ranks.straight.example.hand)).toBe(408)
+  expect(scoreHand(ranks.three_of_a_kind.example.hand)).toBe(312)
+  expect(scoreHand(ranks.two_pairs.example.hand)).toBe(212)
+  expect(scoreHand(ranks.one_pair.example.hand)).toBe(111)
+  expect(scoreHand(ranks.high_card.example.hand)).toBe(14)
 }
 
 export const solution054 = () => -1
