@@ -115,7 +115,7 @@ const straight = (cards: Hand) =>
  * - A result of `{5:7}` means we have a flush of sevens
  * - A result of `{1:[12,10,7,3,2]}` means we have no repeated cards and a high card of Q
  */
-const sets = (hand: Hand) => {
+const groups = (hand: Hand) => {
   const values = getValues(hand)
   const result = new Map<number, number[]>()
   for (const value of new Set(values)) {
@@ -127,9 +127,9 @@ const sets = (hand: Hand) => {
 }
 
 //** higher-order-function for pair, three of a kind, four of a kind */
-const ofAKind = (count: 2 | 3 | 4) => (hand: Hand) => {
-  const set = sets(hand).get(count) || []
-  return set.length === 1 ? set[0] : 0
+const ofAKind = (c: 2 | 3 | 4) => (hand: Hand) => {
+  const group = groups(hand).get(c) || []
+  return group.length === 1 ? group[0] : 0
 }
 
 interface RankDefinition {
@@ -155,8 +155,9 @@ const ranks: { [key: string]: RankDefinition } = {
 
   full_house: {
     evaluate: hand => {
-      const three = sets(hand).get(3) || []
-      const pair = sets(hand).get(2) || []
+      const handGroups = groups(hand)
+      const three = handGroups.get(3) || []
+      const pair = handGroups.get(2) || []
       return three.length === 1 && pair.length === 1 ? three[0] : 0
     },
     example: { hand: '4H 4D 4S AD AC', highCard: 4 },
@@ -179,7 +180,8 @@ const ranks: { [key: string]: RankDefinition } = {
 
   two_pairs: {
     evaluate: hand => {
-      const pairs = sets(hand).get(2) || []
+      const handGroups = groups(hand)
+      const pairs = handGroups.get(2) || []
       return pairs.length === 2 ? Math.max(...pairs) : 0
     },
     example: { hand: 'QH QD 2H 2S AH', highCard: 12 },
