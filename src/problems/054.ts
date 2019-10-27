@@ -71,6 +71,9 @@ const score = {
   A: 14,
 }
 
+const ascending = (a: number, b: number) => a - b
+const descending = (a: number, b: number) => b - a
+
 type Suit = 'H' | 'D' | 'C' | 'D'
 type Value = keyof typeof score
 type Card = { suit: Suit; value: Value }
@@ -132,24 +135,24 @@ const suitSets = (cards: Hand) => countSets('suit', cards)
   expect(suitSets(parse('3C 3D 3S 9S 9D'))).toEqual({ D: 2, S: 2 })
 }
 
-/** returns the highest  */
-const highestValue = (cards: Hand) =>
-  Math.max(...cards.map(c => score[c.value]))
+const handValues = (hand: Hand) =>
+  hand.map(c => score[c.value]).sort(descending)
+{
+  expect(handValues(parse('TD JD QD KD AD'))).toEqual([14, 13, 12, 11, 10])
+}
+
+/** returns the highest value in the hand */
+const highestValue = (hand: Hand) => handValues(hand)[0]
+{
+  expect(highestValue(parse('TD JD QD KD AD'))).toBe(14)
+}
 
 /** returns true if all cards are of the same suit */
-const isFlush = (cards: Hand) => {
-  const counts = suitSets(cards)
-  const suit = Object.keys(counts)[0]
-  return counts[suit] === 5
-}
-
-const ascending = (a: number, b: number) => a - b
+const isFlush = (cards: Hand) => Object.values(suitSets(cards))[0] === 5
 
 /** returns true if cards all have consecutive values */
-const isStraight = (cards: Hand) => {
-  const scores = cards.map(c => score[c.value]).sort(ascending)
-  return !scores.some((_, i, arr) => i > 0 && arr[i] - arr[i - 1] !== 1)
-}
+const isStraight = (cards: Hand) =>
+  !handValues(cards).some((_, i, v) => i > 0 && v[i - 1] - v[i] !== 1)
 {
   expect(isStraight(parse('7S 8H 9S TS JC'))).toBe(true)
   expect(isStraight(parse('6S 7S 8H 9S TS'))).toBe(true)
@@ -158,7 +161,10 @@ const isStraight = (cards: Hand) => {
 //** higher-order-function for rank functions pair, three of a kind, four of a kind */
 const ofAKind = (count1: 2 | 3 | 4, count2?: 2 | 3) => (hand: Hand) => {
   const counts = valueSets(hand)
-  const values = Object.keys(counts).sort((a, b) => counts[b] - counts[a]) // order keys in descending order of count, because we call ofAKind(3,2) and not (2,3)
+
+  // order keys in descending order of count, because we call ofAKind(3,2) and not (2,3)
+  const values = Object.keys(counts).sort((a, b) => counts[b] - counts[a])
+
   const value1 = values[0] as Value
   if (counts[value1] === count1) {
     if (count2 === undefined && values.length === 1) return score[value1]
@@ -175,124 +181,83 @@ const ofAKind = (count1: 2 | 3 | 4, count2?: 2 | 3) => (hand: Hand) => {
 
 interface RankDefinition {
   name: string
-  description: string
   value: number
   evaluator: (hand: Hand) => number
-  example: {
-    hand: Hand
-    highCard: number
-  }
+  example: { hand: Hand; highCard: number }
 }
 
 const ranks: { [key: string]: RankDefinition } = {
   royal_flush: {
     name: 'Royal Flush',
-    description: 'Ten, Jack, Queen, King, Ace, in same suit.',
-    value: 900,
+    value: 9,
     evaluator: hand =>
       isFlush(hand) && isStraight(hand) && highestValue(hand) === 14 ? 14 : 0,
-    example: {
-      hand: parse('TD JD QD KD AD'),
-      highCard: 14,
-    },
+    example: { hand: parse('TD JD QD KD AD'), highCard: 14 },
   },
 
   straight_flush: {
     name: 'Straight Flush',
-    description: 'All cards are consecutive values of same suit.',
-    value: 800,
+    value: 8,
     evaluator: hand =>
       isFlush(hand) && isStraight(hand) && highestValue(hand) < 14
         ? highestValue(hand)
         : 0,
-    example: {
-      hand: parse('5C 6C 7C 8C 9C'),
-      highCard: 9,
-    },
+    example: { hand: parse('5C 6C 7C 8C 9C'), highCard: 9 },
   },
 
   four_of_a_kind: {
     name: 'Four of a Kind',
-    description: 'Four cards of the same value.',
-    value: 700,
+    value: 7,
     evaluator: ofAKind(4),
-    example: {
-      hand: parse('7D 7C 7H 7S AH'),
-      highCard: 7,
-    },
+    example: { hand: parse('7D 7C 7H 7S AH'), highCard: 7 },
   },
 
   full_house: {
     name: 'Full House',
-    description: 'Three of a kind and a pair.',
-    value: 600,
+    value: 6,
     evaluator: ofAKind(3, 2),
-    example: {
-      hand: parse('4H 4D 4S AD AC'),
-      highCard: 4,
-    },
+    example: { hand: parse('4H 4D 4S AD AC'), highCard: 4 },
   },
 
   flush: {
     name: 'Flush',
-    description: 'All cards of the same suit.',
-    value: 500,
+    value: 5,
     evaluator: hand =>
       isFlush(hand) && !isStraight(hand) ? highestValue(hand) : 0,
-    example: {
-      hand: parse('AH 3H 7H 8H JH'),
-      highCard: 14,
-    },
+    example: { hand: parse('AH 3H 7H 8H JH'), highCard: 14 },
   },
 
   straight: {
     name: 'Straight',
-    description: 'All cards are consecutive values.',
-    value: 400,
+    value: 4,
     evaluator: hand =>
       isStraight(hand) && !isFlush(hand) ? highestValue(hand) : 0,
-    example: {
-      hand: parse('4H 5D 6D 7H 8C'),
-      highCard: 8,
-    },
+    example: { hand: parse('4H 5D 6D 7H 8C'), highCard: 8 },
   },
 
   three_of_a_kind: {
     name: 'Three of a Kind',
-    description: 'Three cards of the same value.',
-    value: 300,
+    value: 3,
     evaluator: ofAKind(3),
-    example: {
-      hand: parse('QH QD QS 2H 5S'),
-      highCard: 12,
-    },
+    example: { hand: parse('QH QD QS 2H 5S'), highCard: 12 },
   },
 
   two_pairs: {
     name: 'Two Pairs',
-    description: 'Two different pairs.',
-    value: 200,
+    value: 2,
     evaluator: ofAKind(2, 2),
-    example: {
-      hand: parse('QH QD 2H 2S AH'),
-      highCard: 12,
-    },
+    example: { hand: parse('QH QD 2H 2S AH'), highCard: 12 },
   },
 
   one_pair: {
     name: 'One Pair',
-    description: 'Two cards of the same value.',
-    value: 100,
+    value: 1,
     evaluator: ofAKind(2),
-    example: {
-      hand: parse('JH JS 3H 2D AH'),
-      highCard: 11,
-    },
+    example: { hand: parse('JH JS 3H 2D AH'), highCard: 11 },
   },
 
   high_card: {
     name: 'High Card',
-    description: 'Highest value card.',
     value: 0,
     evaluator: hand => {
       const noneOfAKind = Object.keys(valueSets(hand)).length === 0
@@ -300,10 +265,7 @@ const ranks: { [key: string]: RankDefinition } = {
         ? highestValue(hand)
         : 0
     },
-    example: {
-      hand: parse('JH QS 3H 2D AH'),
-      highCard: 14,
-    },
+    example: { hand: parse('JH QS 3H 2D AH'), highCard: 14 },
   },
 }
 {
@@ -313,6 +275,8 @@ const ranks: { [key: string]: RankDefinition } = {
       const { hand, highCard } = ranks[exampleKey].example
       const result = ranks[testKey].evaluator(hand)
       const expected = testKey === exampleKey ? highCard : 0
+      if (result !== expected)
+        console.log({ hand, testKey, exampleKey, result, expected })
       expect(result).toEqual(expected)
     }
 
@@ -322,47 +286,19 @@ const ranks: { [key: string]: RankDefinition } = {
 }
 
 const handScore = (hand: Hand) => {
+  const pad = (n: number) => n.toString().padStart(3, '0')
   for (const key in ranks) {
     const rank = ranks[key]
     const highCardValue = rank.evaluator(hand)
-    if (highCardValue > 0) return rank.value + highCardValue
+    if (highCardValue > 0)
+      return [rank.value, highCardValue, ...handValues(hand)].map(pad)
   }
   throw new Error('Every hand has a score')
 }
-{
-  expect(handScore(ranks.royal_flush.example.hand)).toBe(914)
-  expect(handScore(ranks.straight_flush.example.hand)).toBe(809)
-  expect(handScore(ranks.four_of_a_kind.example.hand)).toBe(707)
-  expect(handScore(ranks.full_house.example.hand)).toBe(604)
-  expect(handScore(ranks.flush.example.hand)).toBe(514)
-  expect(handScore(ranks.straight.example.hand)).toBe(408)
-  expect(handScore(ranks.three_of_a_kind.example.hand)).toBe(312)
-  expect(handScore(ranks.two_pairs.example.hand)).toBe(212)
-  expect(handScore(ranks.one_pair.example.hand)).toBe(111)
-  expect(handScore(ranks.high_card.example.hand)).toBe(14)
-}
 
-const last = (arr: number[]) => arr[arr.length - 1]
 /** returns true if the first hand beats the second */
-const p1Wins = ([p1, p2]: [Hand, Hand]) => {
-  const s1 = handScore(p1)
-  const s2 = handScore(p2)
-  // do we need a tiebreaker?
-  if (s1 === s2) {
-    // create sorted clones
-    const h1 = p1.map(card => score[card.value]).sort(ascending)
-    const h2 = p2.map(card => score[card.value]).sort(ascending)
-
-    // compare the highest (last) values until we find two that are different
-    while (last(h1) === last(h2)) {
-      h1.pop()
-      h2.pop()
-    }
-    const result = last(h1) > last(h2)
-    // console.log('tiebreaker', { p1, p2, s1, s2, h1, h2, result })
-    return result
-  } else return s1 > s2
-}
+const p1Wins = ([hand1, hand2]: [Hand, Hand]) =>
+  handScore(hand1) > handScore(hand2)
 
 {
   // test provided examples
