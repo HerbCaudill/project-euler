@@ -23,31 +23,38 @@ import { range } from 'lib/range'
 
 type Fraction = [bigint, bigint]
 
+// add a whole number and a fraction
 const add = (n: bigint, [num, den]: Fraction) =>
   [n * den + num, den] as Fraction
+
+// invert a fraction
 const invert = ([num, den]: Fraction) => [den, num] as Fraction
 
-const sqrt2 = (iterations: number) => {
+// returns an array of N fractions, each one a further iteration of the approximation of sqrt(2)
+const precalcSqrt2 = (N: number) => {
   let f: Fraction = [1n, 2n]
-  let i = 1
-  while (i++ < iterations) f = invert(add(2n, f)) // 1 / (2 + 1/f)
-  return add(1n, f) // 1 + ...
-}
 
-expect(sqrt2(1)).toEqual([3n, 2n])
-expect(sqrt2(2)).toEqual([7n, 5n])
-expect(sqrt2(8)).toEqual([1393n, 985n])
-
-const precalcSqrt2 = (iterations: number) => {
-  const result = [[1n, 1n]] as Fraction[]
-  let i = 1
-  let f: Fraction = [1n, 2n]
-  while (i++ < iterations) {
-    f = invert(add(2n, f))
-    result.push(add(1n, f))
+  // In each iteration we add 2, invert the result, and then add 1
+  const iterate = (result: Fraction[], i: number) => {
+    if (i > 1) f = invert(add(2n, f)) // 1/(2+f)
+    return result.concat([add(1n, f)]) // + 1,
   }
-  return result
+
+  const initialValue = [f]
+  return range(N).reduce(iterate, initialValue)
 }
+
+expect(precalcSqrt2(8)).toEqual([
+  [1n, 2n],
+  [3n, 2n],
+  [7n, 5n],
+  [17n, 12n],
+  [41n, 29n],
+  [99n, 70n],
+  [239n, 169n],
+  [577n, 408n],
+  [1393n, 985n],
+])
 
 const isTopHeavy = ([num, den]: Fraction) =>
   num.toString().length > den.toString().length
