@@ -38,8 +38,18 @@ expect(sqrt2(1)).toEqual([3n, 2n])
 expect(sqrt2(2)).toEqual([7n, 5n])
 expect(sqrt2(8)).toEqual([1393n, 985n])
 
+const precalcSqrt2 = (iterations: number) => {
+  const result = [[1n, 1n]] as Fraction[]
+  let i = 1
+  let f: Fraction = [1n, 2n]
+  while (i++ < iterations) {
+    f = invert(add(2n, f))
+    result.push(add(1n, f))
+  }
+  return result
+}
+
 const isTopHeavy = ([num, den]: Fraction) =>
   num.toString().length > den.toString().length
 
-export const solution057 = () =>
-  range(1, 1000).filter(i => isTopHeavy(sqrt2(i))).length
+export const solution057 = () => precalcSqrt2(1000).filter(isTopHeavy).length
