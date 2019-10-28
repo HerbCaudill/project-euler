@@ -40,7 +40,7 @@ const precalcSqrt2 = (N: number) => {
     return result.concat([add(1n, f)]) // + 1,
   }
 
-  const initialValue = [f]
+  const initialValue = [f] // ? doesn't matter for this - not sure what the first item in the array should be
   return range(N).reduce(iterate, initialValue)
 }
 
