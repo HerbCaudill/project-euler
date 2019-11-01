@@ -10,8 +10,6 @@ import { range } from 'lib/range'
 // Considering natural numbers of the form, a^b, where a, b < 100, what is
 // the maximum digital sum?
 
-expect(digitSum(10n ** 10n)).toBe(1)
-expect(digitSum(10n ** 100n)).toBe(1)
 expect(digitSum(100n ** 100n)).toBe(1)
 
 export const solution056 = () => {

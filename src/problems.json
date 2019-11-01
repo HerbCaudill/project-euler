@@ -410,7 +410,7 @@
   },
   {
     "description": "Each character on a computer is assigned a unique code and the preferred\nstandard is ASCII (American Standard Code for Information Interchange).\nFor example, uppercase A = 65, asterisk (*) = 42, and lowercase k = 107.\n\nA modern encryption method is to take a text file, convert the bytes to\nASCII, then XOR each byte with a given value, taken from a secret key. The\nadvantage with the XOR function is that using the same encryption key on\nthe cipher text, restores the plain text; for example, 65 XOR 42 = 107,\nthen 107 XOR 42 = 65.\n\nFor unbreakable encryption, the key is the same length as the plain text\nmessage, and the key is made up of random bytes. The user would keep the\nencrypted message and the encryption key in different locations, and\nwithout both \"halves\", it is impossible to decrypt the message.\n\nUnfortunately, this method is impractical for most users, so the modified\nmethod is to use a password as a key. If the password is shorter than the\nmessage, which is likely, the key is repeated cyclically throughout the\nmessage. The balance for this method is using a sufficiently long password\nkey for security, but short enough to be memorable.\n\nYour task has been made easy, as the encryption key consists of three\nlower case characters. Using cipher1.txt, a file containing the encrypted\nASCII codes, and the knowledge that the plain text must contain common\nEnglish words, decrypt the message and find the sum of the ASCII values\nin the original text.",
-    "answer": "107359",
+    "answer": "129448",
     "resources": ["cipher1.txt"],
     "difficulty": 5,
     "name": "XOR decryption",

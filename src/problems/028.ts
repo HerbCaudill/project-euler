@@ -77,7 +77,7 @@ Now that we have the outer diagonals for any given N×N spiral, we have all the 
 
 const oddNumbersUpTo = (n: number) => range(0, n / 2).map(d => d * 2 + 1)
 
-const spiralDiagonals = (N: any) => {
+const spiralDiagonals = (N: number) => {
   if (isEven(N)) throw new Error('N must be odd')
   const allOuterDiagonals = oddNumbersUpTo(N).map(outerDiagonals)
   return allOuterDiagonals.flat()
