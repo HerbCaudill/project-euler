@@ -1,6 +1,7 @@
 import { codes } from '../resources/059'
 import { range } from 'lib/range'
 import { sum } from 'lib/sum'
+import { getFrequency } from './getFrequency'
 
 // XOR decryption
 // ==============
@@ -36,21 +37,6 @@ const toggleEncryption = (msg: Buffer, key: Buffer) => {
   return msg.map((d, i) => d ^ key[i % len])
 }
 
-// expect(toggleEncryption('A', '*')).toBe('k')
-// expect(toggleEncryption('AkAk', '*')).toBe('kAkA')
-// expect(toggleEncryption('enchiridion', '123')).toBe(`T\\PY[AXVZ^\\`)
-
-type FrequencyTable = { [key: number]: number }
-const frequencyReducer = (r: any, d: number) => ({ ...r, [d]: (r[d] || 0) + 1 })
-
-const sortByValue = (obj: { [k: string]: number }) =>
-  Object.entries(obj)
-    .sort((b, a) => a[1] - b[1])
-    .map(e => +e[0])
-
-const getFrequency = (b: Buffer) =>
-  sortByValue(b.reduce(frequencyReducer, {} as FrequencyTable))
-
 const encryptedMessage = Buffer.from(codes)
 
 const partition = (b: Buffer, n: number) =>
@@ -65,11 +51,9 @@ const partition = (b: Buffer, n: number) =>
   ])
 }
 
-const messageFrequencies = partition(encryptedMessage, 3).map(getFrequency)
-
-const key = Buffer.from(messageFrequencies.map(arr => arr[0] ^ 32))
-
 export const solution059 = () => {
+  const messageFrequencies = partition(encryptedMessage, 3).map(getFrequency)
+  const key = Buffer.from(messageFrequencies.map(arr => arr[0] ^ 32)) // assume space is the most common character
   const decrypted = Array.from(toggleEncryption(encryptedMessage, key))
   return sum(decrypted)
 }
