@@ -1,3 +1,6 @@
+const bn = require('bn.js')
+const mr = require('miller-rabin').create()
+
 // export const knownPrimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 
 // returns an array of primes lower than `max`
@@ -29,9 +32,8 @@ export const nextPrime = (n: number): number => {
   let candidates = candidateGenerator(n)
   let candidate
 
-  do {
-    candidate = candidates.next().value
-  } while (!isPrime(candidate))
+  do candidate = candidates.next().value
+  while (!isPrime(candidate))
 
   return candidate
 }
@@ -103,34 +105,3 @@ const sieveMax = 10 ** 7
 const sieve = eSieve(sieveMax)
 const knownPrimes = getPrimesFromSieve(sieve)
 export const highestKnownPrime = () => knownPrimes[knownPrimes.length - 1]
-
-// miller-rabin primality test
-export const probablyPrime = (n: number, k: number) => {
-  if (n === 2 || n === 3) return true
-  if (n % 2 === 0 || n < 2) return false
-
-  // Write (n - 1) as 2^s * d
-  let s = 0
-  let d = n - 1
-  while (d % 2 === 0) {
-    d /= 2
-    ++s
-  }
-
-  WitnessLoop: do {
-    // A base between 2 and n - 2
-    var x = Math.pow(2 + Math.floor(Math.random() * (n - 3)), d) % n
-
-    if (x === 1 || x === n - 1) continue
-
-    for (var i = s - 1; i--; ) {
-      x = (x * x) % n
-      if (x === 1) return false
-      if (x === n - 1) continue WitnessLoop
-    }
-
-    return false
-  } while (--k)
-
-  return true
-}
