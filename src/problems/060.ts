@@ -13,14 +13,25 @@ import { isPrime } from 'lib/miller-rabin'
 // Find the lowest sum for a set of five primes for which any two primes
 // concatenate to produce another prime.
 
-type Pair = [number, number]
+const ascending = (a: number, b: number) => a - b
+
+const arrayAscending = (a: number[], b: number[]) => {
+  let i = 0
+  while (a.length - i) {
+    if (b[i] === undefined) return 1
+    const result = a[i] - b[i]
+    if (result !== 0) return result
+    i++
+  }
+  return 0
+}
 
 const concat = (a: number, b: number) =>
   a * 10 ** Math.floor(Math.log10(b) + 1) + b
 
 /** Tests whether a pair of numbers a & b concatenate both ways (a & b, b & a) to form prime
  * numbers. Doesn't test a or b for primality. */
-const isPrimePair = ([a, b]: Pair) =>
+const isPrimePair = ([a, b]: number[]) =>
   isPrime(concat(a, b)) && isPrime(concat(b, a))
 {
   expect(isPrimePair([3, 7])).toBe(true)
@@ -30,10 +41,10 @@ const isPrimePair = ([a, b]: Pair) =>
   expect(isPrimePair([113, 673])).toBe(false)
 }
 
-const isntPrimePair = (p: Pair) => !isPrimePair(p)
+const isntPrimePair = (p: number[]) => !isPrimePair(p)
 
-const findPrimePairs = (max: number): Pair[] => {
-  const allPairs = combinations(primesUpTo(max), 2) as Pair[]
+const findPrimePairs = (max: number): number[][] => {
+  const allPairs = combinations(primesUpTo(max), 2) as number[][]
   return allPairs.filter(isPrimePair)
 }
 {
@@ -47,41 +58,78 @@ const findPrimePairs = (max: number): Pair[] => {
   ])
 }
 
-const mergeAll = (...pairs: Pair[]) =>
-  pairs.reduce(
-    (result, pair, i) => [...new Set(result.concat(pair))],
-    [] as number[]
-  )
+// const mergeAll = (...pairs: number[][]) =>
+//   pairs.reduce(
+//     (result, pair, i) => [...new Set(result.concat(pair))],
+//     [] as number[]
+//   )
 
-const mergePairs = (pair1: Pair, pair2: Pair): number[] =>
-  [...new Set(pair1.concat(pair2))] as Pair
+const mergeSets = (set1: number[], set2: number[]): number[] =>
+  [...new Set(set1.concat(set2))].sort(ascending)
 
-const areOverlapping = (pair1: Pair, pair2: Pair) =>
-  mergePairs(pair1, pair2).length === 3 // 2 means they're the same pair; 4 means there's no overlap
+const areOverlapping = (set1: number[], set2: number[]) =>
+  mergeSets(set1, set2).length === set1.length + set2.length - 1
 
-const isLinked = (pair1: Pair) => (pair2: Pair) =>
-  areOverlapping(pair1, pair2) && isPrimePairSet(mergePairs(pair1, pair2))
+const areLinked = (set1: number[]) => (set2: number[]) =>
+  areOverlapping(set1, set2) && isPrimePairSet(mergeSets(set1, set2))
 
 const isPrimePairSet = (arr: number[]) => {
-  const pairs = combinations(arr, 2) as Pair[]
+  const pairs = combinations(arr, 2) as number[][]
   return !pairs.some(isntPrimePair)
 }
 
-type PairSets = Map<Pair, Set<Pair>>
+type LinkedSetMap = Map<number[], Set<number[]>>
 
-/** Given an array of pairs of numbers, maps each pair to all pairs that combine to make a set  */
-const findLinkedPairs = (max: number) => {
-  const pairSets = new Map() as PairSets
-  const pairs = findPrimePairs(max)
-  for (const pair of pairs) {
-    const linkedPairs = pairs.filter(isLinked(pair))
-    if (linkedPairs.length) pairSets.set(pair, new Set(linkedPairs))
+const mergeOverlappingSets = (sets: number[][]) => {
+  const links = new Map() as LinkedSetMap
+  for (const pair of sets) {
+    const linkedPairs = sets.filter(areLinked(pair))
+    if (linkedPairs.length) links.set(pair, new Set(linkedPairs))
   }
-  return pairSets
+  // create a deduplicated set of n+1 sized sets
+  const result = new Set<string>()
+  for (const [pair, linkedPairs] of links)
+    for (const linkedPair of linkedPairs)
+      result.add(JSON.stringify(mergeSets(pair, linkedPair)))
+  return [...result]
+    .map(s => JSON.parse(s).sort(ascending))
+    .sort(arrayAscending)
 }
 
-const lp = findLinkedPairs(700)
-console.log('lp', lp)
+/** Given an array of sets of numbers, maps each set to all other sets that combine with it to make a prime pair set  */
+const findLinkedSets = (max: number) => {
+  const pairs = findPrimePairs(max)
+  return mergeOverlappingSets(pairs)
+}
+
+// const candidates = (max: number) =>
+//   [...findLinkedSets(max).entries()].map(([pair, linkedPairs]) => [
+//     pair,
+//     ...linkedPairs,
+//   ])
+
+const setsOfThree = (max: number) => {
+  const allSets = new Set<string>()
+  for (const [pair, linkedPairs] of findLinkedSets(max))
+    for (const linkedPair of linkedPairs)
+      allSets.add(JSON.stringify(mergeSets(pair, linkedPair)))
+  return [...allSets]
+    .map(s => JSON.parse(s).sort(ascending))
+    .sort(arrayAscending)
+}
+
+const findSets = (max: number, size: number) => {
+  let sets = findPrimePairs(max)
+  let i = 2
+  while (i++ < size) sets = mergeOverlappingSets(sets)
+  return sets
+}
+
+console.time('findSets')
+const s = findSets(700, 3)
+console.timeEnd('findSets')
+
+console.log(s)
 
 export const solution060 = () => {
   return -1
