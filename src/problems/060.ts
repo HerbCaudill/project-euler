@@ -1,5 +1,6 @@
 import { combinations } from 'lib/combinations'
-import { isPrime, primesUpTo } from 'lib/primes'
+import { primesUpTo } from 'lib/primes'
+import { isPrime } from 'lib/miller-rabin'
 
 // Prime pair sets
 // ===============
@@ -12,23 +13,76 @@ import { isPrime, primesUpTo } from 'lib/primes'
 // Find the lowest sum for a set of five primes for which any two primes
 // concatenate to produce another prime.
 
-// const concat = (a: number, b: number) => +`${a}${b}`
+type Pair = [number, number]
+
 const concat = (a: number, b: number) =>
   a * 10 ** Math.floor(Math.log10(b) + 1) + b
 
-const isPrimePairSet = (arr: number[]) => {
-  const pairs = combinations(arr, 2)
-  return !pairs.some(
-    ([a, b]) => !isPrime(concat(a, b)) || !isPrime(concat(b, a))
-  )
+/** Tests whether a pair of numbers a & b concatenate both ways (a & b, b & a) to form prime
+ * numbers. Doesn't test a or b for primality. */
+const isPrimePair = ([a, b]: Pair) =>
+  isPrime(concat(a, b)) && isPrime(concat(b, a))
+{
+  expect(isPrimePair([3, 7])).toBe(true)
+  expect(isPrimePair([7, 109])).toBe(true)
+  expect(isPrimePair([3, 109])).toBe(true)
+  expect(isPrimePair([109, 673])).toBe(true)
+  expect(isPrimePair([113, 673])).toBe(false)
 }
 
-expect(isPrimePairSet([3, 7, 109, 673])).toBe(true)
-expect(isPrimePairSet([3, 7, 109, 123])).toBe(false)
+const isntPrimePair = (p: Pair) => !isPrimePair(p)
 
-const solutions = (max: number, setSize: number = 5) =>
-  combinations(primesUpTo(max), setSize).filter(isPrimePairSet)
+const findPrimePairs = (max: number): Pair[] => {
+  const allPairs = combinations(primesUpTo(max), 2) as Pair[]
+  return allPairs.filter(isPrimePair)
+}
+{
+  expect(findPrimePairs(30)).toEqual([
+    [3, 7],
+    [3, 11],
+    [3, 17],
+    [7, 19],
+    [11, 23],
+    [13, 19],
+  ])
+}
 
-console.log(solutions(674, 4))
+const mergeAll = (...pairs: Pair[]) =>
+  pairs.reduce(
+    (result, pair, i) => [...new Set(result.concat(pair))],
+    [] as number[]
+  )
 
-export const solution060 = () => -1
+const mergePairs = (pair1: Pair, pair2: Pair): number[] =>
+  [...new Set(pair1.concat(pair2))] as Pair
+
+const areOverlapping = (pair1: Pair, pair2: Pair) =>
+  mergePairs(pair1, pair2).length === 3 // 2 means they're the same pair; 4 means there's no overlap
+
+const isLinked = (pair1: Pair) => (pair2: Pair) =>
+  areOverlapping(pair1, pair2) && isPrimePairSet(mergePairs(pair1, pair2))
+
+const isPrimePairSet = (arr: number[]) => {
+  const pairs = combinations(arr, 2) as Pair[]
+  return !pairs.some(isntPrimePair)
+}
+
+type PairSets = Map<Pair, Set<Pair>>
+
+/** Given an array of pairs of numbers, maps each pair to all pairs that combine to make a set  */
+const findLinkedPairs = (max: number) => {
+  const pairSets = new Map() as PairSets
+  const pairs = findPrimePairs(max)
+  for (const pair of pairs) {
+    const linkedPairs = pairs.filter(isLinked(pair))
+    if (linkedPairs.length) pairSets.set(pair, new Set(linkedPairs))
+  }
+  return pairSets
+}
+
+const lp = findLinkedPairs(700)
+console.log('lp', lp)
+
+export const solution060 = () => {
+  return -1
+}
