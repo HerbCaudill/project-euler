@@ -1,4 +1,3 @@
-import { flatten } from './flatten'
 import { factorial } from './factorial'
 
 const cache: { [k: string]: any[][] } = {}
@@ -9,23 +8,17 @@ export const permutations = <T>(arr: T[], sorted = false): T[][] => {
     cache[key] ||
     (arr.length === 1
       ? [arr]
-      : flatten(
-          (sorted ? arr : arr.sort()) // sort on first pass
-            .map((first, i, arr) => {
-              sorted = true
-              const rest = removeElementByIndex(arr, i)
-              // return this element followed by all permutations of remaining elements
-              const restPermutations = permutations(rest, sorted)
-              return restPermutations.map(p => [first, ...p])
-            })
-        ))
+      : (sorted ? arr : arr.sort()) // sort on first pass
+          .flatMap((first, i, arr) => {
+            sorted = true
+            const rest = removeElementByIndex(arr, i)
+            // return this element followed by all permutations of remaining elements
+            const restPermutations = permutations(rest, sorted)
+            return restPermutations.map(p => [first, ...p])
+          }))
   if (arr.length < 7) cache[key] = result // so we don't run out of memory
   return result
 }
-
-
-
-
 
 /**
  * Returns the nth permutation (in lexicographic order) of the given array.
