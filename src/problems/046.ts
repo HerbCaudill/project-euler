@@ -23,6 +23,8 @@ const doubleSquares = new Sequence(n => 2 * n ** 2)
 expect(doubleSquares.includes(2)).toBe(true)
 expect(doubleSquares.includes(18)).toBe(true)
 
+const primes = primesUpTo(10 ** 6)
+
 /**
  * For an odd number `n`, tries to find a pair of numbers - a prime number `p` and an integer `x` - such
  * that `n = p + 2 * x^2`. If there is no such pair, returns `undefined`.
@@ -30,7 +32,8 @@ expect(doubleSquares.includes(18)).toBe(true)
  */
 const goldbach = (n: number): { p: number; x: number } | undefined => {
   if (n % 2 === 0) throw new Error(`\`n\` must be odd; ${n} is an even number`)
-  for (const p of primesUpTo(n)) {
+  for (const p of primes) {
+    if (p > n) break
     const diff = n - p
     if (doubleSquares.includes(n - p)) {
       const x = Math.sqrt(diff / 2)
