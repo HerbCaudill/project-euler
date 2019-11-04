@@ -14,7 +14,7 @@ const bases = {
   '2047': [2],
 } as { [k: string]: number[] }
 
-const lookupBases = (n: bigint): number[] => {
+const lookupBases = (n: number | bigint): number[] => {
   const keys = Object.keys(bases)
     .map(d => BigInt(d))
     .sort((a, b) => (a > b ? 1 : a < b ? -1 : 0))
@@ -32,7 +32,33 @@ const lookupBases = (n: bigint): number[] => {
   expect(lookupBases(2047n - 1n)).toHaveLength(1)
 }
 
-export function isPrime(_n: number | bigint) {
+export function isPrime(n: number) {
+  if ([2, 3, 5, 7, 11, 13, 17, 19, 23].includes(n)) return true
+  if (n < 24) return false
+  if (n % 2 === 0) return false
+  if (n % 3 === 0) return false
+  if (n % 5 === 0) return false
+
+  const bases = lookupBases(n)
+  if (bases.includes(n)) return true
+
+  let d = (n - 1) / 2
+  while (d % 2 === 0) d /= 2
+  const r = Math.log2(Number((n - 1) / d))
+
+  WitnessLoop: for (const a of bases) {
+    let x = Number(modularExp(a, d, n))
+    if (x === 1 || x === n - 1) continue WitnessLoop
+    for (var i = 0; i < r - 1; i++) {
+      x = Number(modularExp(x, 2, n))
+      if (x === n - 1) continue WitnessLoop
+    }
+    return false
+  }
+  return true
+}
+
+export function isBigPrime(_n: number | bigint) {
   const n = BigInt(_n)
   _n = Number(n)
   if ([2, 3, 5, 7, 11, 13, 17, 19, 23].includes(_n)) return true

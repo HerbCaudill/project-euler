@@ -1,7 +1,7 @@
-﻿import { isPrime } from '../../src/lib/miller-rabin'
+﻿import { isPrime, isBigPrime } from '../../src/lib/miller-rabin'
 
-describe('Miller-Rabin primality test', () => {
-  const testCase = (n: number | bigint, expected: boolean) =>
+describe('isPrime', () => {
+  const testCase = (n: number, expected: boolean) =>
     expect(isPrime(n)).toEqual(expected)
 
   test('0', () => testCase(0, false))
@@ -25,6 +25,9 @@ describe('Miller-Rabin primality test', () => {
   test('9007199254740880', () => testCase(9007199254740880, false))
   test('9007199254740881', () => testCase(9007199254740881, true)) // largest prime in js integer space
   test('9007199254740991', () => testCase(9007199254740991, false))
+})
+
+describe('isBigPrime', () => {
   test('26257349148876557867', () =>
-    testCase(BigInt('26257349148876557867'), true))
+    expect(isBigPrime(BigInt('26257349148876557867'))).toBe(true))
 })
