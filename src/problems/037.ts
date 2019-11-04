@@ -1,4 +1,4 @@
-import { isPrime, nextPrime } from 'lib/primes'
+import { isPrime, nextPrime, primesUpTo } from 'lib/primes'
 import { sum } from 'lib/sum'
 
 // Truncatable primes
@@ -38,12 +38,14 @@ expect(rtlTruncatable(967)).toBe(false) // 967, 96*, 9*
 expect(rtlTruncatable(3797)).toBe(true)
 
 export const solution037 = () => {
+  const knownPrimes = primesUpTo(10 ** 6).filter(p => p > 10)
+
   let p = 7 // smallest 1-digit prime
   const knownCount = 11 // given
   const result = []
-  while (result.length < knownCount) {
-    p = nextPrime(p)
+  for (p of knownPrimes) {
     if (ltrTruncatable(p) && rtlTruncatable(p)) result.push(p)
+    if (result.length === knownCount) break
   }
   return sum(result)
 }
