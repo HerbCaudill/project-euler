@@ -1,4 +1,4 @@
-import { permutations } from '../lib/permutations'
+import { nthPermutation } from '../lib/permutations'
 
 // Lexicographic permutations
 // ==========================
@@ -13,4 +13,4 @@ import { permutations } from '../lib/permutations'
 // 4, 5, 6, 7, 8 and 9?
 
 const arr = '0123456789'.split('')
-export const solution024 = () => permutations(arr)[1000000 - 1].join('')
+export const solution024 = () => nthPermutation(arr, 1000000 - 1).join('')
