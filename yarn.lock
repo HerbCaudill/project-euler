@@ -604,6 +604,11 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+bitset@^5.0.5:
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/bitset/-/bitset-5.0.5.tgz#3551c3a6e48579cb00353a11a534307e8fdd15b9"
+  integrity sha512-d5Vu2PMD8BJ5KDBo8dbppo5git4dLhOenm2Sv3pbzDSKjoLOb2D6N9B4325d6KDmuMs+PNS5ZuHPvAwGO5O//w==
+
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
@@ -2317,7 +2322,7 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-nan@^2.12.1:
+nan@^2.12.1, nan@^2.14.0:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
   integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
@@ -2388,6 +2393,22 @@ node-pre-gyp@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.12.0.tgz#39ba4bb1439da030295f899e3b520b7785766149"
   integrity sha512-4KghwV8vH5k+g2ylT+sLTjy5wmUOb9vPhnM8NHvRf9dHmnW/CndrFXy2aRPaPST6dugXSdHXfeaHQm77PIz/1A==
+  dependencies:
+    detect-libc "^1.0.2"
+    mkdirp "^0.5.1"
+    needle "^2.2.1"
+    nopt "^4.0.1"
+    npm-packlist "^1.1.6"
+    npmlog "^4.0.2"
+    rc "^1.2.7"
+    rimraf "^2.6.1"
+    semver "^5.3.0"
+    tar "^4"
+
+node-pre-gyp@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.13.0.tgz#df9ab7b68dd6498137717838e4f92a33fc9daa42"
+  integrity sha512-Md1D3xnEne8b/HGVQkZZwV27WUi1ZRuZBij24TNaZwUPU3ZAFtvT6xxJGaUVillfmMKnn5oD1HoGsp2Ftik7SQ==
   dependencies:
     detect-libc "^1.0.2"
     mkdirp "^0.5.1"
@@ -3448,6 +3469,14 @@ uuid@^3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
   integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
 
+v8-profiler-node8@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/v8-profiler-node8/-/v8-profiler-node8-6.1.1.tgz#2046dd46d80744784f9e94bce1411717435c1f76"
+  integrity sha512-mKS7TXRRYi70hvbv5c1tk9AbuqNrtbLc+jFLlsZ2TpaC1l5lWryBlDLZKJ1JP6hjSbMEjW1ucjWLSaKsaPnGXg==
+  dependencies:
+    nan "^2.14.0"
+    node-pre-gyp "^0.13.0"
+
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.4.tgz#fc91f6b9c7ba15c857f4cb2c5defeec39d4f410a"
@@ -3572,11 +3601,6 @@ ws@^5.2.0:
   integrity sha512-jaHFD6PFv6UgoIVda6qZllptQsMlDEJkTQcybzzXDYM1XO9Y8em691FGMPmM46WGyLU4z9KMgQN+qrux/nhlHA==
   dependencies:
     async-limiter "~1.0.0"
-
-wu@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/wu/-/wu-2.1.0.tgz#7e72e3fba23e0ff669ddd537e1c857d3d4b1614f"
-  integrity sha1-fnLj+6I+D/Zp3dU34chX09SxYU8=
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
