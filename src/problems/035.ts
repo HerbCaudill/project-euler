@@ -1,4 +1,4 @@
-import { isPrime, nextPrime } from 'lib/primes'
+import { isPrime, nextPrime, primesUpTo } from 'lib/primes'
 
 // Circular primes
 // ===============
@@ -49,12 +49,5 @@ expect(isCircularPrime(2)).toBe(true)
 expect(isCircularPrime(37)).toBe(true)
 expect(isCircularPrime(10007)).toBe(false)
 
-export const solution035 = () => {
-  let p = 2
-  let count = 0
-  while (p < 1000000) {
-    if (isCircularPrime(p)) count++
-    p = nextPrime(p)
-  }
-  return count
-}
+export const solution035 = () =>
+  primesUpTo(10 ** 6).filter(isCircularPrime).length
