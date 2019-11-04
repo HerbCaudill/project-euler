@@ -1,9 +1,9 @@
-﻿import { isPrime } from '../../src/lib/miller-rabin'
-import { primesUpTo } from '../../src/lib/primes'
+﻿import { isPrime } from '../../src/lib/primes'
+import { isPrime as isPrimeMR } from '../../src/lib/miller-rabin'
 
 describe('Miller-Rabin primality test', () => {
   const testCase = (n: number, expected: boolean) =>
-    expect(isPrime(n)).toEqual(expected)
+    expect(isPrimeMR(n)).toEqual(expected)
 
   test('0', () => testCase(0, false))
   test('1', () => testCase(1, false))
@@ -19,18 +19,24 @@ describe('Miller-Rabin primality test', () => {
   test('62710573', () => testCase(62710573, true))
   test('71234567', () => testCase(71234567, true))
   test('71234569', () => testCase(71234569, false))
-  // test('10000000019', () => testCase(10000000019, true))
+  test('94945537', () => testCase(94945537, true))
+  test('10000000019', () => testCase(10000000019, true))
   test('100000000000', () => testCase(100000000000, false))
   test('100000000019', () => testCase(100000000019, true))
   test('9007199254740880', () => testCase(9007199254740880, false))
   test('9007199254740881', () => testCase(9007199254740881, true)) // largest prime in js integer space
 
-  test('finds the same number of primes as `primes.isPrime`', () => {
-    const max = 10 ** 7
-    const knownPrimes = primesUpTo(max)
+  test('finds the same primes as `primes.isPrime`', () => {
+    const min = 0
+    const max = 10 ** 6
     let i = 0
-    let count = 0
-    while (max - i++) if (isPrime(i)) count++
-    expect(knownPrimes.length).toEqual(count)
+    while (max - i++) {
+      const result = isPrime(i)
+      const resultMR = isPrimeMR(i)
+      if (result !== resultMR)
+        throw new Error(
+          `isPrime error: i=${i}, result=${result}, resultMR=${resultMR}`
+        )
+    }
   })
 })
