@@ -5,20 +5,21 @@
   "license": "MIT",
   "scripts": {
     "next": "node scripts/next.js",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "dependencies": {
     "@jest/test-sequencer": "24",
     "@types/jest": "24",
     "@types/node": "12",
     "@types/wu": "^2.1.39",
+    "bitset": "^5.0.5",
     "fast-memoize": "^2.5.1",
     "jest": "24",
     "prettier": "1",
     "ts-jest": "24",
     "tslib": "1",
     "typescript": "3",
-    "wu": "^2.1.0"
+    "v8-profiler-node8": "^6.1.1"
   },
   "prettier": {
     "printWidth": 80,
