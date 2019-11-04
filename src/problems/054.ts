@@ -211,12 +211,14 @@ const ranks: { [key: string]: RankDefinition } = {
   expect(ranks.straight.evaluate(parse('6S 7S 8H 9S TS'))).toBe(10)
 }
 
+
+/* we pad the array's values with zeroes because arrays are compared lexically.  */
 const pad = (n: number) => n.toString().padStart(3, '0')
 
 /** Each hand gets a score in array form. The first element is the rank of the hand (royal flush = 14,
  * straight flush = 13, etc.); the second is the value of the hand (e.g. 5 for a pair of fives,
  * etc.) Then we append all of the hand's values in descending order to use as tiebreakers. Finally
- * we pad the array's values with zeroes because arrays are compared lexically.  */
+ */
 const handScore = (hand: Hand) => {
   // we start with the highest possible rankValue, which is equal to the number of ranks we have
   let rankValue = Object.keys(ranks).length // we're counting on map keys being ordered, which they're not...
@@ -229,21 +231,21 @@ const handScore = (hand: Hand) => {
 }
 
 /** Returns true if the first hand beats the second. */
-const wins = ([h1, h2]: [Hand, Hand]) => handScore(h1) > handScore(h2)
+const playerOneWins = ([h1, h2]: [Hand, Hand]) => handScore(h1) > handScore(h2)
 
 {
   // test provided examples
-  expect(wins([parse('5H 5C 6S 7S KD'), parse('2C 3S 8S 8D TD')])).toBe(false) // pair of eights > pair of fives
-  expect(wins([parse('5D 8C 9S JS AC'), parse('2C 5C 7D 8S QH')])).toBe(true) //  high card ace > high card queen
-  expect(wins([parse('2D 9C AS AH AC'), parse('3D 6D 7D TD QD')])).toBe(false) // flush > three of a kind
-  expect(wins([parse('4D 6S 9H QH QC'), parse('3D 6D 7H QD QS')])).toBe(true) //  pair of queens, tiebreaker: nine > seven
-  expect(wins([parse('2H 2D 4C 4D 4S'), parse('3C 3D 3S 9S 9D')])).toBe(true) //  full house, four > full house, three
+  expect(playerOneWins([parse('5H 5C 6S 7S KD'), parse('2C 3S 8S 8D TD')])).toBe(false) // pair of eights > pair of fives
+  expect(playerOneWins([parse('5D 8C 9S JS AC'), parse('2C 5C 7D 8S QH')])).toBe(true) //  high card ace > high card queen
+  expect(playerOneWins([parse('2D 9C AS AH AC'), parse('3D 6D 7D TD QD')])).toBe(false) // flush > three of a kind
+  expect(playerOneWins([parse('4D 6S 9H QH QC'), parse('3D 6D 7H QD QS')])).toBe(true) //  pair of queens, tiebreaker: nine > seven
+  expect(playerOneWins([parse('2H 2D 4C 4D 4S'), parse('3C 3D 3S 9S 9D')])).toBe(true) //  full house, four > full house, three
 
   // other examples
-  expect(wins([parse('2H 2D 9H 8D 3S'), parse('2C 2S 9C 9D 3C')])).toBe(false) // tiebreaker: 9C 9D > 9H 8D
-  expect(wins([parse('2H 2D JH 4D 3S'), parse('2C 2S TH 4C 3D')])).toBe(true) //  tiebreaker: jack > ten
-  expect(wins([parse('6S 7S 8H 9S TS'), parse('3C 7H 8C QH AH')])).toBe(true) //  straight (ten) > queen
-  expect(wins([parse('3S 5D 5H 6D 7C'), parse('2H 3D 5C 5S JC')])).toBe(false) // pair of five, tiebreaker: jack > seven
+  expect(playerOneWins([parse('2H 2D 9H 8D 3S'), parse('2C 2S 9C 9D 3C')])).toBe(false) // tiebreaker: 9C 9D > 9H 8D
+  expect(playerOneWins([parse('2H 2D JH 4D 3S'), parse('2C 2S TH 4C 3D')])).toBe(true) //  tiebreaker: jack > ten
+  expect(playerOneWins([parse('6S 7S 8H 9S TS'), parse('3C 7H 8C QH AH')])).toBe(true) //  straight (ten) > queen
+  expect(playerOneWins([parse('3S 5D 5H 6D 7C'), parse('2H 3D 5C 5S JC')])).toBe(false) // pair of five, tiebreaker: jack > seven
 }
 
 const games = games_raw
@@ -253,4 +255,4 @@ const games = games_raw
   .map(arr => [arr.slice(0, 5), arr.slice(5)]) // cut into two hands
   .map(r => r.map(p => p.map(parseCard)) as [Hand, Hand]) // parse cards
 
-export const solution054 = () => games.filter(wins).length
+export const solution054 = () => games.filter(playerOneWins).length
