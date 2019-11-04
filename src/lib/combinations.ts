@@ -22,15 +22,13 @@ export const combinations = <T>(set: T[], r: number = -1): T[][] => {
     default:
       // take r out of n items
       let remaining = [...set]
-      return flatten(
-        // for each item, return that item,
-        // plus all combinations of (r - 1) items from the remaining items
-        set.map(() => {
-          let [first, ...rest] = remaining
-          remaining = rest
-          const restCombinations = combinations(rest, r - 1)
-          return restCombinations.map(c => [first, ...c])
-        })
-      )
+      // for each item, return that item,
+      // plus all combinations of (r - 1) items from the remaining items
+      return set.flatMap(() => {
+        let [first, ...rest] = remaining
+        remaining = rest
+        const restCombinations = combinations(rest, r - 1)
+        return restCombinations.map(c => [first, ...c])
+      })
   }
 }
