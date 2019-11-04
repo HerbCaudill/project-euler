@@ -1,5 +1,6 @@
-import { isPrime } from 'lib/primes'
+import { isPrime } from 'lib/miller-rabin'
 import { range } from 'lib/range'
+
 //  Spiral primes
 // =============
 // Starting with 1 and spiralling anticlockwise in the following way, a
@@ -24,7 +25,7 @@ import { range } from 'lib/range'
 
 // ------------------
 
-// Same reasoning (and code) from 028:
+// We get the diagonal values same way as 028
 const isEven = (n: number) => n % 2 === 0
 
 const outerDiagonals = (N: number) => {
@@ -52,6 +53,5 @@ export const solution058 = () => {
     primes += diagonals.filter(isPrime).length
     total += 4
   } while (primes / total >= 0.1)
-  console.log({ primes, total, i, d: outerDiagonals(i) })
   return i
 }
