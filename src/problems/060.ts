@@ -1,7 +1,10 @@
+import memoize from 'fast-memoize'
+import fs from 'fs'
 import { combinations } from 'lib/combinations'
-import { primesUpTo } from 'lib/primes'
 import { isPrime } from 'lib/miller-rabin'
-import { ascending, arrayAscending } from 'lib/sort'
+import { primesUpTo } from 'lib/primes'
+import { arrayAscending } from 'lib/sort'
+const profiler = require('v8-profiler-node8')
 
 // Prime pair sets
 // ===============
@@ -15,60 +18,76 @@ import { ascending, arrayAscending } from 'lib/sort'
 // concatenate to produce another prime.
 
 // ---------------------------------------------------------------------------------------------------
-
 const concat = (a: number, b: number) =>
   a * 10 ** Math.floor(Math.log10(b) + 1) + b
 
 /** Tests whether a pair of numbers a & b concatenate both ways (a & b, b & a) to form prime
  * numbers. Doesn't test a or b for primality. */
-const isPrimePair = ([a, b]: number[]) =>
+const _isPrimePair = ([a, b]: number[]) =>
   isPrime(concat(a, b)) && isPrime(concat(b, a))
-
-expect(isPrimePair([3, 7])).toBe(true)
-expect(isPrimePair([7, 109])).toBe(true)
-expect(isPrimePair([3, 109])).toBe(true)
-expect(isPrimePair([109, 673])).toBe(true)
-expect(isPrimePair([113, 673])).toBe(false)
-
+const isPrimePair = memoize(_isPrimePair)
 const isntPrimePair = (p: number[]) => !isPrimePair(p)
+{
+  expect(isPrimePair([3, 7])).toBe(true)
+  expect(isPrimePair([7, 109])).toBe(true)
+  expect(isPrimePair([3, 109])).toBe(true)
+  expect(isPrimePair([109, 673])).toBe(true)
+  expect(isPrimePair([113, 673])).toBe(false)
 
-const merge = ([a, b]: [number[], number[]]) =>
-  [...new Set(a.concat(b))].sort(ascending)
+  expect(isntPrimePair([113, 673])).toBe(true)
+}
 
 const isPrimePairSet = (arr: number[]) =>
   !combinations(arr, 2).some(isntPrimePair)
 
 function distinct(sets: number[][]) {
-  const stringify = (s: any) => JSON.stringify(s)
-  const parse = (s: string) => JSON.parse(s)
+  const stringify = (s: any) => s.sort().join(',')
+  const parse = (s: string) => s.split(',').map(d => +d)
   return [...new Set(sets.map(stringify))].map(parse)
 }
 
-const mergeOverlappingSets = (sets: number[][]) => {
-  const len = sets[0].length
-  const allCombinations = combinations(sets, 2) as [number[], number[]][]
-  const overlappingCombinations = allCombinations
-    .map(merge)
-    .filter(arr => arr.length === len + 1) // only where two sets overlap by all but one
-  const primeSets = overlappingCombinations.filter(isPrimePairSet)
-  const distinctPrimeSets = distinct(primeSets)
-  return distinctPrimeSets.sort(arrayAscending)
+const mergeOverlappingSets1 = (sets: number[][]) => {
+  const result = []
+
+  for (let i = 0; i < sets.length; i++) {
+    const set1 = sets[i]
+    for (let j = i + 1; j < sets.length; j++) {
+      const set2 = sets[j]
+      const additionalItems = getAdditionalItems(set2, set1)
+      if (additionalItems.length === 1)
+        result.push(set1.concat(additionalItems))
+    }
+  }
+  return distinct(result)
+    .filter(isPrimePairSet)
+    .sort(arrayAscending)
 }
 
 const findSets = (max: number, size: number) => {
-  let sets = primesUpTo(max).map(p => [p])
+  let sets = primesUpTo(max).map(p => [p]) // start out with 'sets' of one
   let i = 1
-  while (i++ < size) {
-    sets = mergeOverlappingSets(sets)
-  }
+  while (i++ < size) sets = mergeOverlappingSets1(sets)
   return sets
 }
 
-console.time('findSets')
-const s = findSets(700, 4)
-console.timeEnd('findSets')
+profiler.startProfiling('1')
+console.time(`findSets`)
+const s = findSets(3000, 4)
+console.timeEnd(`findSets`)
 
-expect(s[0]).toEqual([3, 7, 109, 673])
+const profile = profiler.stopProfiling()
+profile.export((err: any, result: any) => {
+  fs.writeFileSync('profile.cpuprofile', result)
+  profile.delete()
+})
+
+console.log(s)
+// expect(s[0]).toEqual([3, 7, 109, 673])
+
 export const solution060 = () => {
   return -1
+  // return sum(findSets(2000, 5)[0])
+}
+function getAdditionalItems(set2: number[], set1: number[]) {
+  return set2.filter(d => !set1.includes(d))
 }
