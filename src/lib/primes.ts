@@ -1,4 +1,4 @@
-import { isPrime } from './miller-rabin'
+import { isPrime as isPrime_MillerRabin } from './miller-rabin'
 // export const knownPrimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 
 // returns an array of primes lower than `max`
@@ -62,7 +62,13 @@ export const candidateGenerator = function*(n: number) {
   }
 }
 
-export { isPrime } from './miller-rabin'
+// returns true if a number is prime, false if it is composite
+export const isPrime = (n: number) => {
+  // negative numbers, zero, and one are not prime
+  if (n <= 1) return false
+  if (n < sieveMax) return sieve[n]
+  return isPrime_MillerRabin(n)
+}
 
 export const eSieve = (max: number): boolean[] => {
   const isPrime = new Array(max).fill(true)
