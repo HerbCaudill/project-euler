@@ -1,5 +1,3 @@
-import { flatten } from './flatten'
-
 // returns all combinations of r items (without repeating) from `set`
 export const combinations = <T>(set: T[], r: number = -1): T[][] => {
   // base cases
