@@ -101,12 +101,12 @@ const findLongestFamilies = (digitCount: number) => {
     p => p > 10 ** (digitCount - 1) && p < 10 ** digitCount
   ) // e.g. 3 digits -> 100..999
 
-  console.time(`${digitCount}`)
+  // console.time(`${digitCount}`)
   const patterns = new Set<string>()
   for (const p of candidates)
     for (const pattern of allPatterns(p)) patterns.add(pattern)
-  console.timeEnd(`${digitCount}`)
-  console.log(patterns.size)
+  // console.timeEnd(`${digitCount}`)
+  // console.log(patterns.size)
 
   // generate prime digit replacement families & record their length
   const families = [] as Family[]
