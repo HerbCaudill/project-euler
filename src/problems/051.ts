@@ -59,7 +59,7 @@ const primeDigitReplacements = (pattern: string) =>
 
 /**
  * Returns all possible combinations of character positions in a string of a given length (excluding
- * the combination that consists of all character positions, because `****` isn't an interest
+ * the combination that consists of all character positions, because `****` isn't an interesting
  * pattern). For example, `getPositionCombinations(4)` would return the following:
  * ```ts
  *   0,1,2  0,1,3  0,2,3  1,2,3
@@ -94,14 +94,19 @@ const allPatterns = (n: number) => {
     expect.arrayContaining(['**7', '*57', '1*7'])
   )
 }
+const primes = primesUpTo(10 ** 7)
 
 const findLongestFamilies = (digitCount: number) => {
-  const candidates = range(10 ** (digitCount - 1), 10 ** digitCount - 1) // e.g. 3 digits -> 100..999
-    .filter(isPrime)
+  const candidates = primes.filter(
+    p => p > 10 ** (digitCount - 1) && p < 10 ** digitCount
+  ) // e.g. 3 digits -> 100..999
 
+  console.time(`${digitCount}`)
   const patterns = new Set<string>()
   for (const p of candidates)
     for (const pattern of allPatterns(p)) patterns.add(pattern)
+  console.timeEnd(`${digitCount}`)
+  console.log(patterns.size)
 
   // generate prime digit replacement families & record their length
   const families = [] as Family[]
@@ -117,14 +122,13 @@ const findLongestFamilies = (digitCount: number) => {
 
   return families.filter(f => f.length === maxLength)
 }
-
 {
-  const testLength = (digitCount: number, expectedLength: number) => {
-    const label = `${digitCount} digits`
-    console.time(label)
-    expect(findLongestFamilies(digitCount)[0].length).toEqual(expectedLength)
-    console.timeEnd(label)
-  }
+  // const testLength = (digitCount: number, expectedLength: number) => {
+  //   const label = `${digitCount} digits`
+  //   console.time(label)
+  //   expect(findLongestFamilies(digitCount)[0].length).toEqual(expectedLength)
+  //   console.timeEnd(label)
+  // }
   // testLength(3, 6)
   // testLength(4, 6)
   // testLength(5, 7)
@@ -142,7 +146,6 @@ expect(findSmallestFamilyMember(findLongestFamilies(3))).toBe(107)
 
 // TODO still ~3 sec
 export const solution051 = () => {
-  // return -1
   let digitCount = 3
   let bestLength = 0
   let families: Family[] = []
