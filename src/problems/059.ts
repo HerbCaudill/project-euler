@@ -1,7 +1,7 @@
-import { codes } from '../resources/059'
+import { codes } from 'resources/059'
 import { range } from 'lib/range'
 import { sum } from 'lib/sum'
-import { getFrequency } from './getFrequency'
+import { getFrequency } from 'lib/frequency'
 
 // XOR decryption
 // ==============

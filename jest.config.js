@@ -7,5 +7,6 @@ module.exports = {
   testRegex: '/tests/',
   moduleNameMapper: {
     '^lib/(.*)': '<rootDir>/src/lib/$1',
+    '^resources/(.*)': '<rootDir>/src/resources/$1',
   },
 }
