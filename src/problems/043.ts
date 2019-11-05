@@ -2,7 +2,7 @@ import { panDigitals, allDigits } from 'lib/panDigital'
 import { sum } from 'lib/sum'
 import { range } from 'lib/range'
 import { noDuplicates } from '../lib/noDuplicates'
-import { noOverlap } from '../lib/noOverlap'
+import { noOverlap } from '../lib/no-overlap'
 
 // Sub-string divisibility
 // =======================
