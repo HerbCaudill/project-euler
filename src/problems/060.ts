@@ -4,6 +4,7 @@ import { combinations } from 'lib/combinations'
 import { isPrime } from 'lib/miller-rabin'
 import { primesUpTo } from 'lib/primes'
 import { arrayAscending } from 'lib/sort'
+import { sum } from 'lib/sum'
 const profiler = require('v8-profiler-node8')
 
 // Prime pair sets
@@ -70,24 +71,20 @@ const findSets = (max: number, size: number) => {
   return sets
 }
 
-profiler.startProfiling('1')
-console.time(`findSets`)
-const s = findSets(3000, 4)
-console.timeEnd(`findSets`)
-
-const profile = profiler.stopProfiling()
-profile.export((err: any, result: any) => {
-  fs.writeFileSync('profile.cpuprofile', result)
-  profile.delete()
-})
-
-console.log(s)
-// expect(s[0]).toEqual([3, 7, 109, 673])
-
-export const solution060 = () => {
-  return -1
-  // return sum(findSets(2000, 5)[0])
-}
 function getAdditionalItems(set2: number[], set1: number[]) {
   return set2.filter(d => !set1.includes(d))
+}
+
+export const solution060 = () => {
+  profiler.startProfiling('1')
+  console.time(`findSets`)
+  const s = findSets(10000, 5)
+  console.timeEnd(`findSets`)
+  const profile = profiler.stopProfiling()
+
+  profile.export((err: any, result: any) => {
+    fs.writeFileSync('profile.cpuprofile', result)
+    profile.delete()
+  })
+  return sum(s[0])
 }
