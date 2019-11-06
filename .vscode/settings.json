@@ -22,5 +22,10 @@
   "peacock.color": "#3f2160",
   "testFileMagic.sourceDirectory": "src",
   "testFileMagic.testDirectory": "src/tests",
-  "testFileMagic.testDirectoryLocation": "root"
+  "testFileMagic.testDirectoryLocation": "root",
+  "todo-tree.general.tags": [
+    "TODO",
+    "FIXME",
+    "SLOW"
+  ]
 }
