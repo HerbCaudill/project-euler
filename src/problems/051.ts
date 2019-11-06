@@ -144,7 +144,7 @@ const findSmallestFamilyMember = (families: Family[]) => {
 
 expect(findSmallestFamilyMember(findLongestFamilies(3))).toBe(107)
 
-// TODO still ~3 sec
+// SLOW: ~3s
 export const solution051 = () => {
   let digitCount = 3
   let bestLength = 0
