@@ -1,7 +1,12 @@
+const sourceFiles = 'src/**/*.ts'
+const jsonFiles = 'src/**/*.json'
+const testFiles = 'src/tests/**/*.test.ts'
+const not = s => `!${s}`
+
 module.exports = function(wallaby) {
   return {
-    files: ['src/**/*.ts', 'src/**/*.json'],
-    tests: ['tests/**/*.test.ts'],
+    files: [sourceFiles, jsonFiles, not(testFiles)],
+    tests: [testFiles],
     filesWithNoCoverageCalculated: [
       '**/problems/*',
       '**/resources/**/*',
