@@ -1,4 +1,4 @@
-import { FactorMap, factorMap } from './factor-maps'
+import { FactorMap, factorMap } from './factorMaps'
 
 // Takes an array of FactorMaps, and returns a single FactorMap
 // that contains the *highest* exponent for each factor in all of the maps.

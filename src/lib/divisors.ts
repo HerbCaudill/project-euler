@@ -1,8 +1,8 @@
-import { primeFactors } from './prime-factors'
-import { combinations } from './combinations';
-import { product } from './product';
-import { sort, unique, allButLast } from './arrays';
-import { factorMap } from './factor-maps';
+import { primeFactors } from './primeFactors'
+import { combinations } from './combinations'
+import { product } from './product'
+import { sort, unique, allButLast } from './arrays'
+import { factorMap } from './factorMaps'
 
 export const divisors = (n: number): number[] => {
   if (n === 1) return [1]

@@ -1,4 +1,4 @@
-import { NumberGrid, wordsFromSeries } from 'lib/number-grid'
+import { NumberGrid, wordsFromSeries } from 'lib/numberGrid'
 
 describe('NumberGrid', () => {
   const gridSource = `

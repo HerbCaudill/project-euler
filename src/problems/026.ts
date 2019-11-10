@@ -1,4 +1,4 @@
-import { largestReciprocalCycle } from '../lib/reciprocal-cycle'
+import { largestReciprocalCycle } from '../lib/reciprocalCycle'
 
 // Reciprocal cycles
 // =================

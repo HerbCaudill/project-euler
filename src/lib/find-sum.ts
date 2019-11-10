@@ -1,4 +1,4 @@
-import { fastIncludes } from './fast-includes'
+import { fastIncludes } from './fastIncludes'
 
 /**
  * Finds the first two numbers from `arr` that add up to `n`. For example, this might be used to see

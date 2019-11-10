@@ -1,5 +1,5 @@
 import { range } from './range'
-import { deepEquals } from './deep-equals'
+import { deepEquals } from './deepEquals'
 
 export const reciprocalCycle = (n: number) => {
   if (n < 2) throw new Error('n must be 2 or larger')

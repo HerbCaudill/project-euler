@@ -1,5 +1,5 @@
 import { product } from '../lib/product'
-import { NumberGrid } from '../lib/number-grid'
+import { NumberGrid } from '../lib/numberGrid'
 
 // Largest product in a grid
 // =========================

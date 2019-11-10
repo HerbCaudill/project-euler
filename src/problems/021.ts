@@ -1,4 +1,4 @@
-import { allAmicables } from '../lib/aliquot-sums'
+import { allAmicables } from '../lib/aliquotSums'
 import { sum } from '../lib/sum'
 
 // Amicable numbers

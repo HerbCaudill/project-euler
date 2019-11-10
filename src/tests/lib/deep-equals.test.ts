@@ -1,4 +1,4 @@
-import { deepEquals } from 'lib/deep-equals'
+import { deepEquals } from 'lib/deepEquals'
 
 describe('deepEquals', () => {
   test.each`

@@ -1,4 +1,4 @@
-import { factorArrayToFactorMap, FactorMap, factorMap } from 'lib/factor-maps'
+import { factorArrayToFactorMap, FactorMap, factorMap } from 'lib/factorMaps'
 
 describe('factorArrayToFactorMap', () => {
   const testCase = (n: number[], result: FactorMap) =>

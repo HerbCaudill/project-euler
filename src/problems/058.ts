@@ -1,4 +1,4 @@
-import { isPrime } from 'lib/miller-rabin'
+import { isPrime } from 'lib/millerRabin'
 import { range } from 'lib/range'
 
 //  Spiral primes

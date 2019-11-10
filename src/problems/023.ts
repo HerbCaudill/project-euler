@@ -1,4 +1,4 @@
-import { allAbundants } from '../lib/aliquot-sums'
+import { allAbundants } from '../lib/aliquotSums'
 import { range } from '../lib/range'
 import { findSum } from '../lib/find-sum'
 import { sum } from '../lib/sum'

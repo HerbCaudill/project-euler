@@ -1,4 +1,4 @@
-import { powerDigitSum } from '../lib/digit-sum'
+import { powerDigitSum } from '../lib/digitSum'
 
 // Power digit sum
 // ===============

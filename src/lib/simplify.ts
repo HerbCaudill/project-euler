@@ -1,4 +1,4 @@
-﻿import { primeFactors } from './prime-factors'
+﻿import { primeFactors } from './primeFactors'
 import { product } from './product'
 
 export const eliminateCommon = (a: number[], b: number[]) => {

@@ -1,4 +1,4 @@
-import { isPrime as isPrime_MillerRabin } from './miller-rabin'
+import { isPrime as isPrime_MillerRabin } from './millerRabin'
 // export const knownPrimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 
 // returns an array of primes lower than `max`

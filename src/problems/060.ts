@@ -1,6 +1,6 @@
-import { arraysEqual } from 'lib/arrays-equal'
+import { arraysEqual } from 'lib/arraysEqual'
 import { combinations } from 'lib/combinations'
-import { isPrimePair } from 'lib/prime-pairs'
+import { isPrimePair } from 'lib/primePairs'
 import { primesUpTo } from 'lib/primes'
 import { profile } from 'lib/profile'
 import { arrayAscending, ascending } from 'lib/sort'

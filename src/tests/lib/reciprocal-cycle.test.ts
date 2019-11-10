@@ -1,4 +1,4 @@
-import { reciprocalCycle } from 'lib/reciprocal-cycle'
+import { reciprocalCycle } from 'lib/reciprocalCycle'
 
 describe('repeatingDecimals', () => {
   test.each`

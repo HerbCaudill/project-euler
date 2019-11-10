@@ -1,4 +1,4 @@
-import { wordsFromSeries } from '../lib/number-grid'
+import { wordsFromSeries } from '../lib/numberGrid'
 import { product } from '../lib/product'
 
 // Largest product in a series

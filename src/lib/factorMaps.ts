@@ -1,4 +1,4 @@
-import { primeFactors } from './prime-factors'
+import { primeFactors } from './primeFactors'
 
 // A FactorMap expresses a number's factors by mapping its unique factors with the exponent for each.
 export type FactorMap = {

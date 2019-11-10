@@ -8,7 +8,7 @@ import {
   Deficient,
   friend,
   Perfect,
-} from 'lib/aliquot-sums'
+} from 'lib/aliquotSums'
 
 describe('perfect numbers', () => {
   test.each`

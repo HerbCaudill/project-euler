@@ -11,7 +11,7 @@
 //
 // What is the total of all the name scores in the file?
 
-import { nameScore } from '../lib/name-score'
+import { nameScore } from '../lib/nameScore'
 import { names } from '../resources/022'
 import { sum } from '../lib/sum'
 

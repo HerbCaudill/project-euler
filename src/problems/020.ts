@@ -1,5 +1,5 @@
 import { factorial } from '../lib/factorial'
-import { digitSum } from '../lib/digit-sum'
+import { digitSum } from '../lib/digitSum'
 
 // Factorial digit sum
 // ===================

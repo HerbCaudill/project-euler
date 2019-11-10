@@ -1,4 +1,4 @@
-﻿import { isPrime, isBigPrime } from 'lib/miller-rabin'
+﻿import { isPrime, isBigPrime } from 'lib/millerRabin'
 
 describe('isPrime', () => {
   const testCase = (n: number, expected: boolean) =>

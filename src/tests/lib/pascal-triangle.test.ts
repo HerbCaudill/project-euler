@@ -1,4 +1,4 @@
-import { pascalTriangle } from 'lib/pascal-triangle'
+import { pascalTriangle } from 'lib/pascalTriangle'
 import { range } from 'lib/range'
 
 describe("Pascal's triangle", () => {

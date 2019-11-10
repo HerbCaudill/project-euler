@@ -1,4 +1,4 @@
-import { digitSum } from 'lib/digit-sum'
+import { digitSum } from 'lib/digitSum'
 import { range } from 'lib/range'
 
 // Powerful digit sum

@@ -1,4 +1,4 @@
-import { factorMap } from 'lib/factor-maps'
+import { factorMap } from 'lib/factorMaps'
 
 // Distinct primes factors
 // =======================

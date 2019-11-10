@@ -1,4 +1,4 @@
-import { nameScore, letterScore } from 'lib/name-score'
+import { nameScore, letterScore } from 'lib/nameScore'
 
 describe('nameScore', () => {
   test('COLIN ', () => expect(nameScore('COLIN')).toBe(3 + 15 + 12 + 9 + 14))

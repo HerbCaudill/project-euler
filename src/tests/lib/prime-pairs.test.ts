@@ -1,4 +1,4 @@
-import { isPrimePair } from 'lib/prime-pairs'
+import { isPrimePair } from 'lib/primePairs'
 
 describe('isPrimePair', () => {
   test('3, 7', () => expect(isPrimePair([3, 7])).toBe(true))
