@@ -1,4 +1,5 @@
 ﻿import { isInteger } from './integer'
+import { Sequence } from './Sequence'
 
 // Triangle     P[3,n]=n(n+1)/2    1, 3, 6, 10, 15, ...    ½(n² + n)
 // Square       P[4,n]=n^2         1, 4, 9, 16, 25, ...
@@ -15,3 +16,10 @@ export const isPolygonal = (s: number) => (n: number) =>
 export const isTriangleNumber = isPolygonal(3)
 export const isSquare = isPolygonal(4)
 export const isPentagonal = isPolygonal(5)
+
+export class PolygonalSequence extends Sequence<number> {
+  constructor(s: number) {
+    const fn = (n: number) => (n ** 2 * (s - 2) - n * (s - 4)) / 2
+    super(fn)
+  }
+}
