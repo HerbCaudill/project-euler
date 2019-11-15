@@ -1,3 +1,9 @@
+import { range } from 'lib/range'
+import { PolygonalSequence, isPolygonal } from 'lib/polygonalNumbers'
+import { get2ndHalf, get1stHalf } from 'lib/cyclicSet'
+import { ascending } from 'lib/sort'
+import { sum } from 'lib/sum'
+
 // Cyclical figurate numbers
 // =========================
 // Triangle, square, pentagonal, hexagonal, heptagonal, and octagonal numbers
@@ -27,4 +33,90 @@
 // heptagonal, and octagonal, is represented by a different number in the
 // set.
 
-export const solution061 = () => -1
+export const solution061 = () => {
+  const min = 3 // triangle numbers
+  const max = 8 // octagonal numbers
+
+  // generate arrays containing each triangular number in range, each square number in range, etc.
+  // [
+  //   [ 1035, 1081, 1128, ..., 9870 ], // triangle numbers
+  //   [ 1024, 1089, 1156, ..., 9801 ], // square numbers
+  //   ...,
+  //   [ 1045, 1160, 1281, ..., 9976]
+  // ]
+  const sequences = range({ start: max, stop: min, step: -1 }).map(s =>
+    new PolygonalSequence(s).valuesUpTo(9999).filter(n => n > 999)
+  )
+
+  const allNumbers = sequences.flat()
+
+  const numberLookup = sequences.reduce(
+    (lookup, arr, s) => {
+      arr.forEach(d => {
+        if (!lookup[d]) {
+          // first time seeing this number; look up all matches
+          lookup[d] = {
+            matches: findMatchesForNumber(d, allNumbers),
+            memberOf: [s],
+          }
+        } else {
+          // entry already exists - just add this set to the memberOf list
+          lookup[d].memberOf.push(s)
+        }
+      })
+      return lookup
+    },
+    {} as { [key: number]: { matches: number[]; memberOf: number[] } }
+  )
+
+  console.log(numberLookup)
+
+  const findMatchesForNumber = (n: number, s: number[]) => {
+    const secondHalf = get2ndHalf(n)
+    return s.filter(c => get1stHalf(c) === secondHalf)
+  }
+
+  const findAllMatchesForSet = (s1: number[], s2: number[]) =>
+    s1.reduce(
+      (result, n) => {
+        const m = findMatchesForNumber(n, s2)
+        if (m.length) result[n] = m
+        return result
+      },
+      {} as { [key: number]: number[] }
+    )
+
+  const linkedMatches = sequences.map((_, i) =>
+    findAllMatchesForSet(
+      sequences[i],
+      sequences[i === sequences.length - 1 ? 0 : i + 1]
+    )
+  )
+
+  console.log(linkedMatches[5])
+
+  const findCycles = (n: number, i: number = 0): number[] =>
+    (linkedMatches[i][n] || []).flatMap(m =>
+      [n].concat(i === max - min ? [m] : findCycles(m, i + 1))
+    )
+
+  const result = Object.keys(linkedMatches[0])
+    .map(Number)
+    .map(n => findCycles(n))
+    .filter(Boolean)
+    .filter(arr => arr.length === 6)
+
+  //1281, 8128, 2882, 8256, 5625, 2512
+  console.log(result)
+  console.log(result.map(sum))
+  console.log(
+    result.map(arr =>
+      arr.map((d, i) => ({
+        d,
+        [`isPolygonal${8 - i}`]: isPolygonal(8 - i)(d),
+      }))
+    )
+  )
+
+  return -1
+}
