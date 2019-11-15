@@ -1,5 +1,6 @@
 import { fibonacci } from '../lib/fibonacci'
 import { sum } from '../lib/sum'
+import { isEven } from '../lib/isEven'
 
 // Problem 2
 // =========
@@ -9,7 +10,6 @@ import { sum } from '../lib/sum'
 // Find the sum of all the even-valued terms in the sequence which do not
 // exceed four million.
 
-const isEven = (n: number) => n % 2 === 0
 const evenOnly = (arr: number[]) => arr.filter(isEven)
 
 const max = 4000000
