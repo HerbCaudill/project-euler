@@ -65,20 +65,52 @@ export const solution061 = () => {
           // first time seeing this number; look up all matches
           lookup[d] = {
             matches: findMatchesForNumber(d, allNumbers),
-            memberOf: [s],
+            sequences: [s],
           }
         } else {
-          // entry already exists - just add this set to the memberOf list
-          lookup[d].memberOf.push(s)
+          // entry already exists - just add this sequence's index to the sequences list
+          lookup[d].sequences.push(s)
         }
       })
       return lookup
     },
-    {} as { [key: number]: { matches: number[]; memberOf: number[] } }
+    {} as { [key: number]: { matches: number[]; sequences: number[] } }
   )
 
-  for (let n of allNumbers) {
+  const oneOfEach = (arr: number[]) => {
+    return (
+      new Set(
+        arr.map(d => numberLookup[d].sequences.filter(s => s < arr.length)[0])
+      ).size === arr.length
+    )
   }
 
+  const foo = (arr: number[][]) => {}
+
+  expect(foo([[0], [1], [2]])).toBe(true)
+
+  const findChains = (length: number, chain: number[] = []) => {
+    let next: number[]
+    if (chain.length) {
+      const last = chain[chain.length - 1]
+      next = numberLookup[last].matches
+    } else {
+      next = allNumbers
+    }
+    let chains = next
+      .filter(n => !chain.includes(n))
+      .map(n => chain.concat([n]))
+
+    if (chain.length < length - 1) {
+      chains = chains.map(c => findChains(length, c)).flat()
+    }
+    return chains.filter(oneOfEach)
+  }
+
+  const chains = findChains(4)
+  console.log(chains.length)
+  console.log(chains[0])
+  console.log(chains[0].map(n => numberLookup[n].sequences))
+  console.log(oneOfEach(chains[0]))
   return -1
 }
