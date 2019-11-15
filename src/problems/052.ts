@@ -1,4 +1,4 @@
-import { range } from 'lib/range'
+import { nDigitNumbers } from '../lib/nDigitNumbers'
 
 // Permuted multiples
 // ==================
@@ -33,7 +33,7 @@ function solutionsGenerator(digitCount: number, maxMultiple: number = 6) {
   const smallEnoughToMultiply = (n: number) =>
     n < (10 ** digitCount - 1) / maxMultiple
 
-  let result = range(10 ** (digitCount - 1), 10 ** digitCount - 1)
+  let result = nDigitNumbers(digitCount)
     .filter(smallEnoughToMultiply)
     .map(toDigits)
     .filter(noRepeatedElements)
