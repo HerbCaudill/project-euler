@@ -17,6 +17,7 @@ function* cubes() {
   while (true) yield (i++) ** 3
 }
 
+// we'll use the smallest permutation of any given number as the key for all its permutations
 const smallestPermutation = (n: number) => {
   const allDigits = digits(n)
   const zeroes = allDigits.filter(d => d === 0)
@@ -24,6 +25,8 @@ const smallestPermutation = (n: number) => {
   return +[first, ...zeroes, ...rest].join('')
 }
 
+// we iterate through each cube, calculate its smallest permutation, and record the number of
+// cubes we find for each.
 const findSmallestPermutableCube = (permutationCount: number) => {
   const counts = {} as {
     [key: number]: { count: number; smallestCube: number }
@@ -37,8 +40,8 @@ const findSmallestPermutableCube = (permutationCount: number) => {
   return undefined
 }
 
+expect(findSmallestPermutableCube(3)).toBe(41063625)
+
 export function solution062() {
   return findSmallestPermutableCube(5)
 }
-
-// profile(solution062)
