@@ -1,5 +1,4 @@
 import { digits } from 'lib/digits'
-import { profile } from 'lib/profile'
 import { ascending } from 'lib/sort'
 
 // Cubic permutations
