@@ -12,7 +12,7 @@ export class Sequence<T extends bigint | number> {
   private knownValues: T[] = []
   private highestKnownValue: number = -1
   private knownValueMap: { [value: string]: boolean } = {}
-  private generator: IterableIterator<T>
+  public generator: IterableIterator<T>
 
   constructor(fn: SequenceFn<T>) {
     this.fn = fn
