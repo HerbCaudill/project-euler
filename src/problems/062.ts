@@ -24,14 +24,14 @@ const smallestPermutation = (n: number) => {
   return +[first, ...zeroes, ...rest].join('')
 }
 
-const findSmallestPermutableCube = (targetCount: number) => {
+const findSmallestPermutableCube = (permutationCount: number) => {
   const counts = {} as {
     [key: number]: { count: number; smallestCube: number }
   }
   for (const cube of cubes()) {
     const key = smallestPermutation(cube)
     let { count = 0, smallestCube = cube } = counts[key] || {}
-    if (++count === targetCount) return smallestCube
+    if (++count === permutationCount) return smallestCube
     counts[key] = { count, smallestCube }
   }
   return undefined
