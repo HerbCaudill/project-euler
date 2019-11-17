@@ -6,7 +6,8 @@ export const profile = (fn: Function) => {
   fn()
   const profile = profiler.stopProfiling()
   profile.export((err: any, result: any) => {
-    fs.writeFileSync('profile.cpuprofile', result)
+    const name = fn.name || 'anonymous'
+    fs.writeFileSync(`./profiles/${name}.cpuprofile`, result)
     profile.delete()
   })
 }
