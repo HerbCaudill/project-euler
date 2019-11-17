@@ -3,6 +3,7 @@ import { digits } from 'lib/digits'
 import { permutations } from 'lib/permutations'
 import { isPrime, primesUpTo } from 'lib/primes'
 import { areEvenlySpaced } from '../lib/areEvenlySpaced'
+import { distinctArrays } from '../lib/distinctArrays'
 
 // Prime permutations
 // ==================
@@ -35,14 +36,6 @@ const repeatedIn = (a: any[]) => (i: any) => a.filter(j => j === i).length > 1
 const noRepeatedElements: arrFilter = nums => !nums.some(repeatedIn(nums))
 
 const notKnownSolution: arrFilter = nums => !nums.includes(1487)
-
-// We'll end up with a lot of arrays that are the same. Since `Set` deduplicates based on identity,
-// we serialize them before deduplicating, then deserialize the deduplicated set.
-const distinctArrays = (arr: number[][]) => {
-  const stringify = (arr: number[]) => JSON.stringify(arr)
-  const parse = (s: string) => JSON.parse(s) as number[]
-  return Array.from(new Set(arr.map(stringify))).map(parse)
-}
 
 export const solution049 = () => {
   // get all sets of 4-digit prime numbers that are permutations of each other
