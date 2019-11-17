@@ -1,3 +1,4 @@
+/*ignore file coverage*/
 import { isPrime as isPrime_MillerRabin } from './millerRabin'
 // export const knownPrimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 
@@ -51,6 +52,7 @@ export const candidateGenerator = function*(n: number) {
   const D = [-13, -11, -7, -1, 1, 7, 11, 13]
   let i = 0
   let base = Math.trunc(n / B) * B
+  /* ignore coverage */
   while (true) {
     let candidate = base + D[i]
     if (candidate > n) yield candidate
@@ -73,6 +75,7 @@ export const isPrime = (n: number) => {
 export const eSieve = (max: number): boolean[] => {
   const isPrime = new Array(max).fill(true)
   isPrime[0] = isPrime[1] = false
+  /* ignore coverage */
   for (let i = 2; i < Math.sqrt(max); i++)
     // if i is prime, start at i² and mark every multiple of i from there as NOT a prime
     if (isPrime[i])

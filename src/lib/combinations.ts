@@ -1,4 +1,4 @@
-// returns all combinations of r items (without repeating) from `set`
+/** Returns all combinations of `r` items (without repeating) from `set`. */
 export const combinations = <T>(set: T[], r: number = -1): T[][] => {
   // base cases
   if (set.length === 0 || r === 0 || r > set.length) return []

@@ -25,6 +25,7 @@ expect(P.includes(P.value(7) - P.value(4))).toBe(false)
 export const solution044 = () => {
   let n = 2
   let solution: { pk: number; pj: number } | undefined
+  /* ignore coverage */
   while (solution === undefined) {
     const pk = P.value(n++)
     const valuesBelow = P.valuesUpTo(pk - 1)

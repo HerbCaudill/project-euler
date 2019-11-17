@@ -27,4 +27,5 @@ expect(sumOfPowers(8208, 4)).toBe(8208)
 expect(sumOfPowers(9474, 4)).toBe(9474)
 
 export const solution030 = () =>
+  /* ignore coverage */
   sum(range({ start: 2, stop: 999999 }).filter(d => sumOfPowers(d, 5) === d))

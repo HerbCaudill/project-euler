@@ -7,6 +7,7 @@ export const reciprocalCycle = (n: number) => {
   let history: any[] = []
   const digits = reciprocalDigitGenerator(n)
 
+  /* ignore coverage */
   for (const r of digits) {
     const cycleStart = history.findIndex(d => deepEquals(d, r))
 
@@ -24,6 +25,7 @@ export const reciprocalCycle = (n: number) => {
 
 const reciprocalDigitGenerator = function*(n: number) {
   let remainder = 1
+  /* ignore coverage */
   while (true) {
     const dividend = 10 * remainder
     const quotient = Math.floor(dividend / n)
@@ -37,6 +39,7 @@ const reciprocalDigitGenerator = function*(n: number) {
 export const largestReciprocalCycle = (max: number) => {
   let maxLength = 0
   let largest = null
+  /* ignore coverage */
   range({ start: 2, stop: max }).forEach(n => {
     const length = reciprocalCycle(n).length
     if (length > maxLength) {

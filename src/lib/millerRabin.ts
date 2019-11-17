@@ -46,6 +46,7 @@ export function isPrime(n: number) {
   while (d % 2 === 0) d /= 2
   const r = Math.log2(Number((n - 1) / d))
 
+  /* ignore coverage */
   WitnessLoop: for (const a of bases) {
     let x = Number(modularExp(a, d, n))
     if (x === 1 || x === n - 1) continue WitnessLoop
@@ -74,6 +75,7 @@ export function isBigPrime(_n: number | bigint) {
   while (d % 2n === 0n) d /= 2n
   const r = BigInt(Math.log2(Number((n - 1n) / d)))
 
+  /* ignore coverage */
   WitnessLoop: for (const a of bases) {
     let x = modularExp(a, d, n)
     if (x === 1n || x === n - 1n) continue WitnessLoop
@@ -97,7 +99,9 @@ function modularExp(
 
   let d = 1n
   let k = 0n
+  /* ignore coverage */
   while (b >> k > 0) k++
+  /* ignore coverage */
   while (k--) {
     d = (d * d) % n
     if (((b >> k) & 1n) > 0) d = (d * a) % n

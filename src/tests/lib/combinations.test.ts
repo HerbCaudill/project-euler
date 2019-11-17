@@ -1,5 +1,4 @@
 import { combinations } from 'lib/combinations'
-// import { ok } from 'assert'
 
 const treatAsSet = (arr: number[][]) =>
   expect.arrayContaining(arr.map(a => expect.arrayContaining(a)))

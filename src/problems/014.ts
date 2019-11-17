@@ -23,6 +23,7 @@ import { range } from '../lib/range'
 
 const largestChain = (n: number) => {
   const r = range({ start: n, stop: 1, step: -1 })
+  /* ignore coverage */
   return r.reduce(
     (max, n) => {
       const candidate = { n, length: collatzLength(n) }

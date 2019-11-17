@@ -7,6 +7,8 @@ import {
 
 // Returns an array containing all prime factors of `n`.
 // If `n` is prime, just returns `[n]`.
+
+/* ignore coverage */
 export const primeFactors = (n: number): number[] => {
   if (n < 0)
     throw new RangeError(

@@ -29,6 +29,8 @@ const triangleNumber = (n: number) => (n * (n + 1)) / 2
 const firstTriangleNumberWithNDivisors = (maxDivisors: number) => {
   let i = 2
   let t = 3 // 2nd triangle number
+
+  /* ignore coverage */
   while (divisorCount(t) < maxDivisors) {
     t = t = triangleNumber(i)
     i++

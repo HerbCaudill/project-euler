@@ -48,6 +48,7 @@ const extendSets = (sets: number[][]) => {
   const extendedSets = []
   let initialValues = [] as number[]
   let finalValues = [] as number[]
+  /* ignore coverage */
   for (const set of sets) {
     const newInitialValues = set.slice(0, set.length - 1)
     const finalValue = set[set.length - 1]

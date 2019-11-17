@@ -26,6 +26,7 @@ import { isPrime } from '../lib/primes'
 // expression that produces the maximum number of primes for consecutive
 // values of n, starting with n = 0.
 
+/* ignore coverage */
 const primeCount = (a: number, b: number): number => {
   let n = 0
   while (isPrime(n ** 2 + a * n + b)) n += 1
@@ -37,6 +38,7 @@ expect(primeCount(-1, 41)).toEqual(41) // Slightly more remarkable than Euler's 
 expect(primeCount(-79, 1601)).toEqual(80)
 expect(primeCount(-61, 971)).toEqual(71)
 
+/* ignore coverage */
 const highestPrimeCount = (max: number) => {
   let highest = { count: 0, a: NaN, b: NaN }
   for (let a = -max; a <= max; a++) {

@@ -7,4 +7,5 @@ import { nthPrime } from '../lib/primes'
 //
 // What is the 10001st prime number?
 
+/* ignore coverage */
 export const solution007 = () => nthPrime(10001)
