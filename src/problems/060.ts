@@ -72,8 +72,8 @@ const extendSets = (sets: number[][]) => {
 }
 
 // SLOW: ~17s
-export const solution060 = () => {
-  let s = [] as number[][]
-  profile(() => (s = findSets(10000, 5)))
-  return sum(s[0])
+export function solution060() {
+  return sum(findSets(10000, 5)[0])
 }
+
+// profile(solution060)
