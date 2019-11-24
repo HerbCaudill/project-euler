@@ -1,5 +1,5 @@
 import { range } from 'lib/range'
-
+import { Fraction, invert, add } from '../lib/Fraction'
 // Square root convergents
 // =======================
 // It is possible to show that the square root of two can be expressed as an
@@ -20,15 +20,6 @@ import { range } from 'lib/range'
 //
 // In the first one-thousand expansions, how many fractions contain a
 // numerator with more digits than denominator?
-
-type Fraction = [bigint, bigint]
-
-// add a whole number and a fraction
-const add = (n: bigint, [num, den]: Fraction) =>
-  [n * den + num, den] as Fraction
-
-// invert a fraction
-const invert = ([num, den]: Fraction) => [den, num] as Fraction
 
 // returns an array of N fractions, each one a further iteration of the approximation of sqrt(2)
 const precalcSqrt2 = (N: number) => {
