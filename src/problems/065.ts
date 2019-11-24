@@ -68,7 +68,11 @@ import { range } from 'lib/range'
 // continued fraction for e.
 
 const ints = new Sequence<bigint>(i =>
-  i === 1 ? 2n : BigInt(i) % 3n === 0n ? ((BigInt(i) + 2n) / 3n) * 2n : 1n
+  i === 1
+    ? 2n //
+    : BigInt(i) % 3n === 0n
+    ? ((BigInt(i) + 2n) / 3n) * 2n
+    : 1n
 )
 
 expect(ints.values(10).map(Number)).toEqual([2, 1, 2, 1, 1, 4, 1, 1, 6, 1])
