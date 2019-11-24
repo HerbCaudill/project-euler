@@ -219,42 +219,37 @@ import { isSquare } from 'lib/polygonalNumbers'
  */
 
 const rootAsPeriodicFraction = (N: number) => {
-  let a = Math.trunc(Math.sqrt(N))
+  const a0 = Math.trunc(Math.sqrt(N))
+  let a = a0
   let b = -a
   let c = 1
-  let match = -1
-  let history = []
-  while (match === -1) {
-    history.push({ a, b, c })
-    a = Math.trunc((c * (Math.sqrt(N) - b)) / (N - b ** 2))
+  let periodic = [] as number[]
+  do {
+    a = Math.trunc((c * (a0 - b)) / (N - b ** 2))
     c = (N - b ** 2) / c
     b = -b - a * c
-    match = history.findIndex(h => h.a === a && h.b === b && h.c === c)
-  }
-  const integers = history.map(h => h.a)
-  return {
-    initial: integers.slice(0, match),
-    periodic: integers.slice(match),
-  }
+    periodic.push(a)
+  } while (periodic[periodic.length - 1] !== 2 * a0)
+  return { initial: a0, periodic }
 }
 
 expect(rootAsPeriodicFraction(2)).toEqual({
-  initial: [1],
+  initial: 1,
   periodic: [2],
 })
 
 expect(rootAsPeriodicFraction(3)).toEqual({
-  initial: [1],
+  initial: 1,
   periodic: [1, 2],
 })
 
 expect(rootAsPeriodicFraction(13)).toEqual({
-  initial: [3],
+  initial: 3,
   periodic: [1, 1, 1, 1, 6],
 })
 
 expect(rootAsPeriodicFraction(23)).toEqual({
-  initial: [4],
+  initial: 4,
   periodic: [1, 3, 1, 8],
 })
 
@@ -262,8 +257,8 @@ const oddPeriodCount = (max: number) =>
   range(max).filter(d => {
     if (isSquare(d)) return false
     const { periodic } = rootAsPeriodicFraction(d)
-    // console.log({ d, periodic })
-    return !isEven(periodic.length)
+    const period = periodic.length
+    return !isEven(period)
   }).length
 
 expect(oddPeriodCount(13)).toBe(4)
