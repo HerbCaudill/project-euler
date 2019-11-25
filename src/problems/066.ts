@@ -28,16 +28,30 @@ import { range } from 'lib/range'
 // Find the value of D<=1000 in minimal solutions of x for which the largest
 // value of x is obtained.
 
-/*
-
-x² - Dy² = 1
-- Dy² = 1 - x² 
-Dy² = x² - 1
-y² = (x² - 1)/D
-y = √((x² - 1)/D)
-
-*/
-
+/**
+ * We can brute-force it like this:
+ * ```
+ *   x² - Dy² = 1
+ *   - Dy² = 1 - x²
+ *   Dy² = x² - 1
+ *   y² = (x² - 1)/D
+ *   y = √((x² - 1)/D)
+ * ```
+ * But some solutions are very large; for D over 60, this doesn't complete before a couple of
+ * minutes.
+ *
+ * From Wikipedia:
+ *
+ * > Let hₗ/kₗ denote the sequence of convergents to the regular continued fraction for √n. This
+ * > sequence is unique. Then the pair (x1,y1) solving Pell's equation and minimizing x satisfies
+ * > x₁ = hₗ and yₗ = kₗ for some i. This pair is called the fundamental solution. Thus, the
+ * > fundamental solution may be found by performing the continued fraction expansion and testing
+ * > each successive convergent until a solution to Pell's equation is found.
+ *
+ * So we need:
+ * - The code from 064 for generating the integers
+ * - The code from 065 for calculating the convergents
+ */
 const minimalSolution = (D: number) => {
   if (isSquare(D)) return -1
   let x = 1
@@ -47,6 +61,7 @@ const minimalSolution = (D: number) => {
     x += 1
   }
 }
+
 {
   expect(minimalSolution(2)).toBe(3)
   expect(minimalSolution(3)).toBe(2)
@@ -55,8 +70,8 @@ const minimalSolution = (D: number) => {
   expect(minimalSolution(7)).toBe(8)
 }
 
-const largestMinimalSolution = (max: number) => {
-  const solutions = range(1, max)
+const largestMinimalSolution = (maxD: number) => {
+  const solutions = range(1, maxD)
     .map(d => ({ d, solution: minimalSolution(d) }))
     .filter(d => d.solution !== -1)
   return solutions.reduce(
