@@ -113,13 +113,13 @@ const buildTree = (strTree: string): Node => {
 }
 
 export const solution018 = () => {
-  const _node = buildTree(SOURCE)
+  const tree = buildTree(SOURCE)
 
-  expect(_node.value).toEqual(75)
-  expect(_node.child_L!.value).toEqual(95)
-  expect(_node.child_R!.child_L!.value).toEqual(47)
-  expect(_node.child_L!.child_R!.value).toEqual(47)
-  expect(_node.child_L!.child_L!.child_R!.value).toEqual(35)
+  expect(tree.value).toEqual(75)
+  expect(tree.child_L!.value).toEqual(95)
+  expect(tree.child_R!.child_L!.value).toEqual(47)
+  expect(tree.child_L!.child_R!.value).toEqual(47)
+  expect(tree.child_L!.child_L!.child_R!.value).toEqual(35)
 
-  return _node.maxSum!
+  return tree.maxSum!
 }
