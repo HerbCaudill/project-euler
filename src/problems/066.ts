@@ -37,20 +37,6 @@ import { range } from 'lib/range'
  *   y² = (x² - 1)/D
  *   y = √((x² - 1)/D)
  * ```
- * But some solutions are very large; for D over 60, this doesn't complete before a couple of
- * minutes.
- *
- * From Wikipedia:
- *
- * > Let hₗ/kₗ denote the sequence of convergents to the regular continued fraction for √n. This
- * > sequence is unique. Then the pair (x1,y1) solving Pell's equation and minimizing x satisfies
- * > x₁ = hₗ and yₗ = kₗ for some i. This pair is called the fundamental solution. Thus, the
- * > fundamental solution may be found by performing the continued fraction expansion and testing
- * > each successive convergent until a solution to Pell's equation is found.
- *
- * So we need:
- * - The code from 064 for generating the integers
- * - The code from 065 for calculating the convergents
  */
 const minimalSolution = (D: number) => {
   if (isSquare(D)) return -1
@@ -80,6 +66,21 @@ const largestMinimalSolution = (maxD: number) => {
   ).d
 }
 
-expect(largestMinimalSolution(7)).toBe(5)
+/**
+ * But some solutions are very large; for D over 60, this doesn't complete before a couple of
+ * minutes.
+ *
+ * From Wikipedia:
+ *
+ * > Let hₗ/kₗ denote the sequence of convergents to the regular continued fraction for √n. This
+ * > sequence is unique. Then the pair (x1,y1) solving Pell's equation and minimizing x satisfies
+ * > x₁ = hₗ and yₗ = kₗ for some i. This pair is called the fundamental solution. Thus, the
+ * > fundamental solution may be found by performing the continued fraction expansion and testing
+ * > each successive convergent until a solution to Pell's equation is found.
+ *
+ * So we need:
+ * - The code from 064 for generating the integers
+ * - The code from 065 for calculating the convergentsexpect(largestMinimalSolution(7)).toBe(5)
+ */
 
 export const solution066 = () => largestMinimalSolution(70)

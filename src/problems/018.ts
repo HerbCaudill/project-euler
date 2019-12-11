@@ -1,3 +1,5 @@
+import { buildTree } from 'lib/trees'
+
 // Maximum path sum I
 // ==================
 // By starting at the top of the triangle below and moving to adjacent
@@ -62,64 +64,8 @@ const SOURCE = `
 // The `maxSum` value for the root node will be the solution, and we can easily
 // populate at the same time that we build the tree.
 
-interface Node {
-  value: number
-  child_L?: Node // left child
-  child_R?: Node // right child
-  child_maxPath?: Node // child leading to optimal path
-  maxSum?: number // sum of values in optimal path
-}
-
-// Convert the tree from its representation as a single string
-// to an array of arrays of numbers.
-const parseTree = (strTree: string): number[][] =>
-  strTree
-    .trim()
-    .split(/\n/)
-    .map(strRow =>
-      strRow
-        .trim()
-        .split(/\s/)
-        .map(value => +value)
-    )
-
-const _rows = parseTree(SOURCE)
-
-expect(_rows[0]).toEqual([75])
-expect(_rows[6]).toEqual([88, 2, 77, 73, 7, 63, 67])
-
-const buildTree = (strTree: string): Node => {
-  const rows = parseTree(strTree)
-  const buildNode = (row: number, col: number): Node => {
-    const node: Node = { value: rows[row][col] }
-    if (row === rows.length - 1) {
-      // last row - set node value as max
-      node.maxSum = node.value
-    } else {
-      // not last row - identify the left and right children
-      node.child_L = buildNode(row + 1, col)
-      node.child_R = buildNode(row + 1, col + 1)
-      // choose the one with the biggest sum
-      node.child_maxPath =
-        node.child_L.maxSum! > node.child_R.maxSum!
-          ? node.child_L
-          : node.child_R
-      // that max plus our value is our node's max
-      node.maxSum = node.child_maxPath.maxSum! + node.value
-    }
-    return node
-  }
-  return buildNode(0, 0)
-}
-
 export const solution018 = () => {
   const tree = buildTree(SOURCE)
-
-  expect(tree.value).toEqual(75)
-  expect(tree.child_L!.value).toEqual(95)
-  expect(tree.child_R!.child_L!.value).toEqual(47)
-  expect(tree.child_L!.child_R!.value).toEqual(47)
-  expect(tree.child_L!.child_L!.child_R!.value).toEqual(35)
 
   return tree.maxSum!
 }
