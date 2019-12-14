@@ -133,7 +133,6 @@ const allMagicNgonRings = (N: number) => {
         (outer, i) =>
           [outer, innerRing[i], innerRing[i === N - 1 ? 0 : i + 1]] as Triad
       )
-
     return outerRingCandidates.map(joinWithInnerRing)
   })
   return candidates.filter(isMagicNgonRing)
