@@ -11,7 +11,6 @@
     "@jest/test-sequencer": "24",
     "@types/jest": "24",
     "@types/node": "12",
-    "@types/wu": "^2.1.39",
     "bitset": "^5.0.5",
     "fast-memoize": "^2.5.1",
     "jest": "24",
