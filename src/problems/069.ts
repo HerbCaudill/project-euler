@@ -1,5 +1,4 @@
-import { range } from 'lib/range'
-import { phi } from 'lib/phi'
+import { nextPrime } from 'lib/primes'
 
 // Totient maximum
 // ===============
@@ -34,11 +33,26 @@ import { phi } from 'lib/phi'
 //
 // Find the value of n≤1,000,000 for which n/φ(n) is a maximum.
 
-export const solution069 = () =>
-  range(2, 10 ** 6).reduce(
-    (best, n, i) => {
-      const totientRatio = n / phi(n)
-      return totientRatio > best.totientRatio ? { n, totientRatio } : best
-    },
-    { n: 0, totientRatio: 0 }
-  ).n
+const max = 10 ** 6
+export const solution069 = () => {
+  let p = 1
+  let next = 1
+  let result = 1
+  do {
+    result = next
+    p = nextPrime(p)
+    next *= p
+  } while (next < max)
+  return result
+}
+
+// Slower solution that actually uses phi
+
+// export const solution069 = () => {
+// range(2, 10 ** 6).reduce(
+//   (best, n, i) => {
+//     const totientRatio = n / phi(n)
+//     return totientRatio > best.totientRatio ? { n, totientRatio } : best
+//   },
+//   { n: 0, totientRatio: 0 }
+// ).n
