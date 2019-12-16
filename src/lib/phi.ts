@@ -6,4 +6,6 @@ import { product } from 'lib/product'
 const distinctPrimeFactors = memoize(n => distinct(_primeFactors(n)))
 
 export const phi = (n: number): number =>
-  Math.round(n * product(distinctPrimeFactors(n).map(p => 1 - 1 / p)))
+  n === 1
+    ? 1
+    : Math.round(n * product(distinctPrimeFactors(n).map(p => 1 - 1 / p)))
