@@ -1,4 +1,6 @@
 import { nDigitNumbers } from '../lib/nDigitNumbers'
+import { isPermutation } from '../lib/isPermutation'
+import { toDigits } from '../lib/toDigits'
 
 // Permuted multiples
 // ==================
@@ -10,19 +12,9 @@ import { nDigitNumbers } from '../lib/nDigitNumbers'
 
 type arrFilter = <T>(nums: T[]) => boolean
 
-const toDigits = (n: number | string) => n.toString().split('')
 const join = (arr: string[]) => +arr.join('')
 const repeatedIn = <T>(a: T[]) => (i: T) => a.filter(j => j == i).length > 1
 const noRepeatedElements: arrFilter = nums => !nums.some(repeatedIn(nums))
-
-const isPermutation = (n1: number | string) => (n2: number | string) => {
-  const d1 = toDigits(n1).sort()
-  const d2 = toDigits(n2).sort()
-  return !d1.some((d, i) => d !== d2[i])
-}
-
-expect(isPermutation(1234)(4321)).toBe(true)
-expect(isPermutation(4723)(3274)).toBe(true)
 
 /**
  * These are candidates for the first number.
